@@ -9,7 +9,8 @@ import {
   Switch,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { ReactNativeAsyncStorage } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const LoginScreen = ({ navigation }) => {
@@ -37,11 +38,9 @@ const LoginScreen = ({ navigation }) => {
       .then((response) => {
         setIsLoading(false); // Hide loading indicator
         if (selectedOption === "admin") {
-          // navigation.navigate("AdminDashboard");
-          console.log("Admin successfully logged in");
+          navigation.navigate("Dashboard");
         } else if (selectedOption === "student") {
-          console.log("Student successfully logged in");
-          // navigation.navigate("ViewNotice");
+          navigation.navigate("Dashboard");
         }
         console.log(`${selectedOption} successfully logged in`);
       })
@@ -56,9 +55,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.pinDiv}>
-       
-      </View>
+      <View style={styles.pinDiv}></View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={[
@@ -101,12 +98,12 @@ const LoginScreen = ({ navigation }) => {
       {selectedOption && (
         <View style={styles.inputContainer}>
           <View style={styles.inputRow}>
-            {/* <FontAwesome
+            <FontAwesome5
               name="envelope"
               size={24}
               color="gray"
               style={styles.icon}
-            /> */}
+            />
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -115,12 +112,12 @@ const LoginScreen = ({ navigation }) => {
             />
           </View>
           <View style={styles.passwordContainer}>
-            {/* <FontAwesome
+            <FontAwesome5
               name="lock"
               size={24}
               color="gray"
               style={styles.icon}
-            /> */}
+            />
             <TextInput
               style={styles.passwordInput}
               placeholder="Password"
@@ -132,11 +129,11 @@ const LoginScreen = ({ navigation }) => {
               style={styles.showPasswordButton}
               onPress={() => setShowPassword(!showPassword)}
             >
-              {/* <FontAwesome
+              <FontAwesome5
                 name={showPassword ? "eye-slash" : "eye"}
                 size={24}
                 color="gray"
-              /> */}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.rememberMeContainer}>
@@ -166,13 +163,13 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   pinDiv: {
-    flex: 1, 
-    justifyContent: 'center',
+    flex: 1,
+    justifyContent: "center",
     marginTop: 80,
     // backgroundColor: '#000',
   },
@@ -180,53 +177,52 @@ const styles = StyleSheet.create({
     // padding: 10,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    // flex: 1, 
-    justifyContent: 'center',
-    width: '70%',
+    flexDirection: "row",
+    // flex: 1,
+    justifyContent: "center",
+    width: "70%",
     marginBottom: 40,
   },
   button: {
     flex: 1,
     height: 60,
     // borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderBottomWidth: 2,
-    borderColor: '#A3ACBA'
+    borderColor: "#A3ACBA",
     // marginBottom: 20,
   },
   selectedButton: {
     // backgroundColor: '#444',
     borderBottomWidth: 2, // Add underline
-    borderColor: '#635BFF', // Color of underline
+    borderColor: "#635BFF", // Color of underline
   },
   unselectedText: {
-    color: '#A3ACBA',
+    color: "#A3ACBA",
     borderBottomWidth: 2,
-    borderColor: '#000',
+    borderColor: "#000",
     // backgroundColor: '#000',
   },
-  unselectedButton :{
-      // backgroundColor: '#000',
-      borderBottomWidth: 2, // Add underline
-       borderColor: '#dddddd',
-
+  unselectedButton: {
+    // backgroundColor: '#000',
+    borderBottomWidth: 2, // Add underline
+    borderColor: "#dddddd",
   },
   buttonText: {
     fontSize: 24,
     // fontWeight: 'bold',
-    color: '#000',
+    color: "#000",
   },
   inputContainer: {
     flex: 3,
-    width: '80%',
+    width: "80%",
   },
   inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -239,10 +235,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -255,25 +251,25 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   rememberMeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   loginButton: {
-    backgroundColor: '#635BFF',
+    backgroundColor: "#635BFF",
     height: 60,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 10,
   },
   loginButtonText: {
     fontSize: 24,
     // fontWeight: 'bold',
-    color: '#fff',
+    color: "#fff",
   },
-  spinnerText : {
-    color: '#FFF',
-  }
+  spinnerText: {
+    color: "#FFF",
+  },
 });
 
 export default LoginScreen;
