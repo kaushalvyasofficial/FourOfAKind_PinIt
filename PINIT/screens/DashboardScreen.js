@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 const DashboardScreen = ({ navigation }) => {   
-
+ console.log("DashboardScreen");
   return (
     <View style={styles.container}>
       <Text>hello , Welcome to Dashboard</Text>

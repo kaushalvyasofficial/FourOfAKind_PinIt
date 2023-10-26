@@ -1,30 +1,24 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  TextInput,
-  Switch,
-} from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { ReactNativeAsyncStorage } from "firebase/auth";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import Spinner from "react-native-loading-spinner-overlay";
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, Switch} from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Logo from "../assets/images/logo";
+// import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
-const LoginScreen = ({ navigation }) => {
-  const [selectedOption, setSelectedOption] = useState("admin"); // Default to 'admin'
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const LoginPage = ({navigation}) => {
+  // const navigation = useNavigation();
+  const [selectedOption, setSelectedOption] = useState('admin'); // Default to 'admin'
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); 
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
-    setEmail("");
-    setPassword("");
+    setEmail('');
+    setPassword('');
     setShowPassword(false);
     setRememberMe(false);
   };
@@ -37,10 +31,10 @@ const LoginScreen = ({ navigation }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((response) => {
         setIsLoading(false); // Hide loading indicator
-        if (selectedOption === "admin") {
-          navigation.navigate("Dashboard");
-        } else if (selectedOption === "student") {
-          navigation.navigate("Dashboard");
+        if (selectedOption === 'admin') {
+          navigation.navigate('Dashboard');
+        } else if (selectedOption === 'student') {
+          navigation.navigate('Dashboard');
         }
         console.log(`${selectedOption} successfully logged in`);
       })
@@ -55,55 +49,28 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.pinDiv}></View>
+      <View style={styles.pinDiv}>
+         <Logo />
+      </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={[
-            styles.button,
-            styles.adminButton,
-            selectedOption === "admin" && styles.selectedButton,
-            selectedOption === "student" && styles.unselectedButton,
-          ]}
-          onPress={() => handleOptionSelect("admin")}
+          style={[styles.button, styles.adminButton, selectedOption === 'admin' && styles.selectedButton , selectedOption === 'student' && styles.unselectedButton]}
+          onPress={() => handleOptionSelect('admin')}
         >
-          <Text
-            style={[
-              styles.buttonText,
-              selectedOption === "student" && styles.unselectedText,
-            ]}
-          >
-            Admin
-          </Text>
+          <Text style={[styles.buttonText , selectedOption=== 'student' && styles.unselectedText]}>Admin</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[
-            styles.button,
-            styles.studentButton,
-            selectedOption === "student" && styles.selectedButton,
-            selectedOption === "admin" && styles.unselectedButton,
-          ]}
-          onPress={() => handleOptionSelect("student")}
+          style={[styles.button, styles.studentButton, selectedOption === 'student' && styles.selectedButton , selectedOption === 'admin' && styles.unselectedButton]}
+          onPress={() => handleOptionSelect('student')}
         >
-          <Text
-            style={[
-              styles.buttonText,
-              selectedOption === "admin" && styles.unselectedText,
-            ]}
-          >
-            Student
-          </Text>
+          <Text style={[styles.buttonText , selectedOption==='admin' && styles.unselectedText]}>Student</Text>
         </TouchableOpacity>
       </View>
 
       {selectedOption && (
         <View style={styles.inputContainer}>
           <View style={styles.inputRow}>
-            <FontAwesome5
-              name="envelope"
-              size={24}
-              color="gray"
-              style={styles.icon}
-            />
+            <FontAwesome name="envelope" size={24} color="gray" style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -112,12 +79,7 @@ const LoginScreen = ({ navigation }) => {
             />
           </View>
           <View style={styles.passwordContainer}>
-            <FontAwesome5
-              name="lock"
-              size={24}
-              color="gray"
-              style={styles.icon}
-            />
+            <FontAwesome name="lock" size={24} color="gray" style={styles.icon} />
             <TextInput
               style={styles.passwordInput}
               placeholder="Password"
@@ -129,11 +91,7 @@ const LoginScreen = ({ navigation }) => {
               style={styles.showPasswordButton}
               onPress={() => setShowPassword(!showPassword)}
             >
-              <FontAwesome5
-                name={showPassword ? "eye-slash" : "eye"}
-                size={24}
-                color="gray"
-              />
+              <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={24} color="gray" />
             </TouchableOpacity>
           </View>
           <View style={styles.rememberMeContainer}>
@@ -143,18 +101,20 @@ const LoginScreen = ({ navigation }) => {
               onValueChange={(value) => setRememberMe(value)}
             />
           </View>
-          <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={handleSignIn}
+          >
             <Text style={styles.loginButtonText}>SIGN IN</Text>
           </TouchableOpacity>
         </View>
       )}
 
       {isLoading && (
-        <Spinner
+          <Spinner
           visible={isLoading}
-          textContent={"Signing In..."}
-          textStyle={styles.spinnerText}
-        />
+          textContent={'Signing In...'}
+          textStyle={styles.spinnerText} />
       )}
     </View>
   );
@@ -163,13 +123,13 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
   pinDiv: {
-    flex: 1,
-    justifyContent: "center",
+    flex: 1, 
+    justifyContent: 'center',
     marginTop: 80,
     // backgroundColor: '#000',
   },
@@ -177,52 +137,53 @@ const styles = StyleSheet.create({
     // padding: 10,
   },
   buttonContainer: {
-    flexDirection: "row",
-    // flex: 1,
-    justifyContent: "center",
-    width: "70%",
+    flexDirection: 'row',
+    // flex: 1, 
+    justifyContent: 'center',
+    width: '70%',
     marginBottom: 40,
   },
   button: {
     flex: 1,
     height: 60,
     // borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderBottomWidth: 2,
-    borderColor: "#A3ACBA",
+    borderColor: '#A3ACBA'
     // marginBottom: 20,
   },
   selectedButton: {
     // backgroundColor: '#444',
     borderBottomWidth: 2, // Add underline
-    borderColor: "#635BFF", // Color of underline
+    borderColor: '#635BFF', // Color of underline
   },
   unselectedText: {
-    color: "#A3ACBA",
+    color: '#A3ACBA',
     borderBottomWidth: 2,
-    borderColor: "#000",
+    borderColor: '#000',
     // backgroundColor: '#000',
   },
-  unselectedButton: {
-    // backgroundColor: '#000',
-    borderBottomWidth: 2, // Add underline
-    borderColor: "#dddddd",
+  unselectedButton :{
+      // backgroundColor: '#000',
+      borderBottomWidth: 2, // Add underline
+       borderColor: '#dddddd',
+
   },
   buttonText: {
     fontSize: 24,
     // fontWeight: 'bold',
-    color: "#000",
+    color: '#000',
   },
   inputContainer: {
     flex: 3,
-    width: "80%",
+    width: '80%',
   },
   inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -235,10 +196,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -251,25 +212,25 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   rememberMeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   loginButton: {
-    backgroundColor: "#635BFF",
+    backgroundColor: '#635BFF',
     height: 60,
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 10,
   },
   loginButtonText: {
     fontSize: 24,
     // fontWeight: 'bold',
-    color: "#fff",
+    color: '#fff',
   },
-  spinnerText: {
-    color: "#FFF",
-  },
+  spinnerText : {
+    color: '#FFF',
+  }
 });
 
-export default LoginScreen;
+export default LoginPage;

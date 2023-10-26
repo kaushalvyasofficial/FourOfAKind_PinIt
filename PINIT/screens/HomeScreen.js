@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import Logo from "../assets/images/logo";
 
 const HomeScreen = ({ navigation }) => {
-  setInterval(() => {
+  // useEffect(() => {
+  setTimeout(() => {
     navigation.navigate("Login");
   }, 1500);
 

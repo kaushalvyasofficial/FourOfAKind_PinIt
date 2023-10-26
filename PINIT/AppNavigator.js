@@ -3,7 +3,6 @@ import HomeScreen from './screens/HomeScreen';
 import LoginPage from './screens/LoginPage';
 import DashboardScreen from './screens/DashboardScreen';
 
-
 const Stack = createNativeStackNavigator();
 
 export const AppNavigator = () => {
@@ -19,7 +18,7 @@ export const AppNavigator = () => {
             component={LoginPage}
             options={{headerShown: false}}
       />
-      <Stack.Screen
+      <Stack.Screen 
             name="Dashboard"
             component={DashboardScreen}
       />
