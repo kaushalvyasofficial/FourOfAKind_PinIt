@@ -84,20 +84,21 @@ useBackHandler(() => {
       {selectedOption && (
         <View style={styles.inputContainer}>
           <View style={styles.inputRow}>
-            <FontAwesome name="envelope" size={24} color="gray" style={styles.icon} />
+            <FontAwesome name="envelope" size={24} color="#807A7A99" style={styles.icon} />
             <TextInput
               style={styles.input}
-              placeholder="Email"
+              placeholder="email@gmail.com"
+              placeholderTextColor="#74768890"
               onChangeText={(text) => setEmail(text)}
               value={email}
             />
           </View>
           <View style={styles.passwordContainer}>
-            <FontAwesome name="lock" size={24} color="gray" style={styles.icon} />
+            <FontAwesome name="lock" size={28} color="#807A7A99" style={styles.icon} />
             <TextInput
               style={styles.passwordInput}
-              placeholder="Password"
-              placeholderTextColor="#747688"
+              placeholder="password"
+              placeholderTextColor="#74768890"
               secureTextEntry={!showPassword}
               onChangeText={(text) => setPassword(text)}
               value={password}
@@ -106,7 +107,7 @@ useBackHandler(() => {
               style={styles.showPasswordButton}
               onPress={() => setShowPassword(!showPassword)}
             >
-              <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={24} color="gray" />
+              <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={24} color="#807A7A99" paddingHorizontal={10} />
             </TouchableOpacity>
           </View>
           <View style={styles.rememberMeContainer}>
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   icon: {
-    padding: 10,
+    padding: 20,
   },
   passwordContainer: {
     flexDirection: 'row',
