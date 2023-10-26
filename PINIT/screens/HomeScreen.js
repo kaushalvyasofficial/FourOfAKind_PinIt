@@ -3,9 +3,13 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import Logo from "../assets/images/logo";
 
 const HomeScreen = ({ navigation }) => {
-  setTimeout(() => {
-    navigation.navigate("Login");
-  }, 1500);
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.navigate("Login");
+    }, 1500);
+  });
 
   return (
     <View style={styles.container}>

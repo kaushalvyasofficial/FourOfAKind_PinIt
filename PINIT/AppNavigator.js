@@ -21,6 +21,7 @@ export const AppNavigator = () => {
       <Stack.Screen 
             name="Dashboard"
             component={DashboardScreen}
+            options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
