@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
 import LoginPage from './screens/LoginPage';
 import DashboardScreen from './screens/DashboardScreen';
+import AddDataScreen from './screens/AddDataScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,10 @@ export const AppNavigator = () => {
             name="Dashboard"
             component={DashboardScreen}
             options={{headerShown: false}}
+      />
+      <Stack.Screen
+            name="AddData"
+            component={AddDataScreen}
       />
     </Stack.Navigator>
   );

@@ -52,6 +52,11 @@ const ProfileScreen = () => {
 };
 
 const DashboardScreen = ({ navigation }) => {
+
+
+    function onClick() {
+        navigation.navigate("AddData");
+    }
   //   console.log("DashboardScreen");
   return (
     <Tab.Navigator
@@ -85,7 +90,7 @@ const DashboardScreen = ({ navigation }) => {
           tabBarButton: () => (
             <View style={{ flex: 1, alignItems: "center" }}>
               <FloatingButton
-                onPress={() => navigation.navigate("AddItem")} // Navigate to your desired page
+                onPress={onClick}
               />
             </View>
           ),
