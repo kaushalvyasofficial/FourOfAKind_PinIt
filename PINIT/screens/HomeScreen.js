@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import Logo from "../assets/images/logo";
 
 const HomeScreen = ({ navigation }) => {
-  setInterval(() => {
+  setTimeout(() => {
     navigation.navigate("Login");
   }, 1500);
 
