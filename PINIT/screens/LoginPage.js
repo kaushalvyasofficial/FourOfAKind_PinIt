@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, Switch } fr
 import { FontAwesome } from '@expo/vector-icons';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Logo from "../assets/images/logo";
+import LoginLogo from '../assets/images/loginlogo';
 // import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const LoginPage = ({ navigation }) => {
@@ -50,7 +50,7 @@ const LoginPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.pinDiv}>
-        <Logo />
+        <LoginLogo />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   unselectedText: {
     color: '#A3ACBA',
-    borderBottomWidth: 2,
+    // borderBottomWidth: 2,
     borderColor: '#000',
     // backgroundColor: '#000',
   },
