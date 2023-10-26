@@ -1,16 +1,31 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button , StyleSheet } from 'react-native';
+import Logo from "../assets/images/logo"
 
 const HomeScreen = ({ navigation }) => {
+
+
+  setInterval(() => {
+    navigation.navigate('Login');
+  }, 1500);
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Welcome to the Home Screen!</Text>
-      <Button
-        title="Home Screen"
-        onPress={() => navigation.navigate('Details')}
-      />
+    <View style={styles.container}>
+      <Logo/>
+      <Text>Pin It</Text>
     </View>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+});
 
 export default HomeScreen;
