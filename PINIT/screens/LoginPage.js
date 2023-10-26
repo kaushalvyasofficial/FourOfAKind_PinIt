@@ -1,13 +1,164 @@
-import React from 'react';
-import { View, Text, Button , StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  TextInput,
+  Switch,
+} from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import Spinner from "react-native-loading-spinner-overlay";
 
-const HomeScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
+  const [selectedOption, setSelectedOption] = useState("admin"); // Default to 'admin'
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setEmail("");
+    setPassword("");
+    setShowPassword(false);
+    setRememberMe(false);
+  };
+
+  const handleSignIn = () => {
+    setIsLoading(true); // Show loading indicator
+
+    const auth = getAuth();
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((response) => {
+        setIsLoading(false); // Hide loading indicator
+        if (selectedOption === "admin") {
+          // navigation.navigate("AdminDashboard");
+          console.log("Admin successfully logged in");
+        } else if (selectedOption === "student") {
+          console.log("Student successfully logged in");
+          // navigation.navigate("ViewNotice");
+        }
+        console.log(`${selectedOption} successfully logged in`);
+      })
+      .catch((error) => {
+        setIsLoading(false); // Hide loading indicator
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+        console.log(error);
+      });
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Welcome to the Login Screen!</Text>
-      <Button
-        title="Login Page"
-      />
+      <View style={styles.pinDiv}>
+       
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            styles.adminButton,
+            selectedOption === "admin" && styles.selectedButton,
+            selectedOption === "student" && styles.unselectedButton,
+          ]}
+          onPress={() => handleOptionSelect("admin")}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              selectedOption === "student" && styles.unselectedText,
+            ]}
+          >
+            Admin
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            styles.studentButton,
+            selectedOption === "student" && styles.selectedButton,
+            selectedOption === "admin" && styles.unselectedButton,
+          ]}
+          onPress={() => handleOptionSelect("student")}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              selectedOption === "admin" && styles.unselectedText,
+            ]}
+          >
+            Student
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {selectedOption && (
+        <View style={styles.inputContainer}>
+          <View style={styles.inputRow}>
+            {/* <FontAwesome
+              name="envelope"
+              size={24}
+              color="gray"
+              style={styles.icon}
+            /> */}
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+            />
+          </View>
+          <View style={styles.passwordContainer}>
+            {/* <FontAwesome
+              name="lock"
+              size={24}
+              color="gray"
+              style={styles.icon}
+            /> */}
+            <TextInput
+              style={styles.passwordInput}
+              placeholder="Password"
+              secureTextEntry={!showPassword}
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+            />
+            <TouchableOpacity
+              style={styles.showPasswordButton}
+              onPress={() => setShowPassword(!showPassword)}
+            >
+              {/* <FontAwesome
+                name={showPassword ? "eye-slash" : "eye"}
+                size={24}
+                color="gray"
+              /> */}
+            </TouchableOpacity>
+          </View>
+          <View style={styles.rememberMeContainer}>
+            <Text>Remember Me</Text>
+            <Switch
+              value={rememberMe}
+              onValueChange={(value) => setRememberMe(value)}
+            />
+          </View>
+          <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
+            <Text style={styles.loginButtonText}>SIGN IN</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {isLoading && (
+        <Spinner
+          visible={isLoading}
+          textContent={"Signing In..."}
+          textStyle={styles.spinnerText}
+        />
+      )}
     </View>
   );
 };
@@ -15,11 +166,114 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center', 
-    alignContent: 'center', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
+  pinDiv: {
+    flex: 1, 
+    justifyContent: 'center',
+    marginTop: 80,
+    // backgroundColor: '#000',
+  },
+  pinImage: {
+    // padding: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    // flex: 1, 
+    justifyContent: 'center',
+    width: '70%',
+    marginBottom: 40,
+  },
+  button: {
+    flex: 1,
+    height: 60,
+    // borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    borderColor: '#A3ACBA'
+    // marginBottom: 20,
+  },
+  selectedButton: {
+    // backgroundColor: '#444',
+    borderBottomWidth: 2, // Add underline
+    borderColor: '#635BFF', // Color of underline
+  },
+  unselectedText: {
+    color: '#A3ACBA',
+    borderBottomWidth: 2,
+    borderColor: '#000',
+    // backgroundColor: '#000',
+  },
+  unselectedButton :{
+      // backgroundColor: '#000',
+      borderBottomWidth: 2, // Add underline
+       borderColor: '#dddddd',
+
+  },
+  buttonText: {
+    fontSize: 24,
+    // fontWeight: 'bold',
+    color: '#000',
+  },
+  inputContainer: {
+    flex: 3,
+    width: '80%',
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    paddingHorizontal: 10,
+  },
+  icon: {
+    padding: 10,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    height: 40,
+    paddingHorizontal: 10,
+  },
+  showPasswordButton: {
+    padding: 10,
+  },
+  rememberMeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loginButton: {
+    backgroundColor: '#635BFF',
+    height: 60,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  loginButtonText: {
+    fontSize: 24,
+    // fontWeight: 'bold',
+    color: '#fff',
+  },
+  spinnerText : {
+    color: '#FFF',
+  }
 });
 
-export default HomeScreen;
+export default LoginScreen;
