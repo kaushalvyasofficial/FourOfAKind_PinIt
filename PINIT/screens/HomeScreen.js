@@ -1,32 +1,24 @@
 import React, { useEffect } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import Logo from "../assets/images/logo";
+import OnBoardlogoo from "../assets/images/onboardlogo";
 
 const HomeScreen = ({ navigation }) => {
-
-
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate("Login");
-    }, 1500);
-  });
+  setTimeout(() => {
+    navigation.navigate("Login");
+  }, 1500);
 
   return (
-    <View style={styles.container}>
-      <Logo />
-      <Text>Pin It</Text>
+    <View style={styles.logo}>
+      <OnBoardlogoo />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
-  container: {
+  logo: {
     flex: 1,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignContent: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
-
 export default HomeScreen;

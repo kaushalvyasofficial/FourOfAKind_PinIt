@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, Switch } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Spinner from 'react-native-loading-spinner-overlay';
 import LoginLogo from '../assets/images/loginlogo';
+import {useBackHandler} from '@react-native-community/hooks'
+import {useRoute } from '@react-navigation/native';
 // import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const LoginPage = ({ navigation }) => {
+  const route = useRoute();
+  
+
+useBackHandler(() => {
+  if (route.name == "Login" || route.name == "Dashboard") {
+    // handle it
+    return true
+  }
+  // let the default thing happen
+  return false
+})
+
   // const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('admin'); // Default to 'admin'
   const [email, setEmail] = useState('');
@@ -185,15 +199,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 10,
-    marginBottom: 10,
+    borderColor: '#E4DFDF',
+    borderRadius: 16,
+    marginBottom: 20,
   },
   input: {
     flex: 1,
     height: 60,
     paddingHorizontal: 10,
-    borderRadius: 66,
   },
   icon: {
     padding: 10,
@@ -202,8 +215,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 10,
+    borderColor: '#E4DFDF',
+    borderRadius: 16,
     marginBottom: 10,
   },
   passwordInput: {
