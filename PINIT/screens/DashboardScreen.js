@@ -51,11 +51,11 @@ const ProfileScreen = () => {
 };
 
 const DashboardScreen = ({ navigation }) => {
-  console.log("DashboardScreen");
+  // console.log("DashboardScreen");
   return (
     <Tab.Navigator>
       <Tab.Screen 
-            name="Home" 
+            name="Home"
             component={HomeScreen}
             options={{
                 tabBarIcon: ({ color, size }) => (
