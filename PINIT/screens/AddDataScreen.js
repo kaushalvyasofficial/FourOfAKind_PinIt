@@ -288,12 +288,12 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
-    borderRadius: 10,
-    height: 50,
+    borderRadius: 16,
   },
   dropdownContainer: {
-    height: 40,
+    height: 60,
     marginBottom: 20,
+    borderRadius: 16,
   },
   dropdown: {
     backgroundColor: "#fafafa",
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   dropdownMenu: {
-    backgroundColor: "#fafafa",
+    backgroundColor: "#000",
     zIndex: 5000,
   },
   uploadedFileContainer: {
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
-    borderRadius: 10,
+    borderRadius: 16,
     // elevation:10,
   },
   buttonText: {
@@ -359,10 +359,10 @@ const styles = StyleSheet.create({
   },
   datePickerButton: {
     backgroundColor: "#635BFF",
-    height: 50,
+    height: 60,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 16,
     marginTop: 10,
   },
   datePickerButtonText: {
