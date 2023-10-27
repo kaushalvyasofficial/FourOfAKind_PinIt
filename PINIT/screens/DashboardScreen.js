@@ -19,13 +19,13 @@ import Logoutbtn from "../assets/images/log-in-outline";
 import { useRoute } from "@react-navigation/native";
 import { useBackHandler } from '@react-native-community/hooks'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
-
 
   return (
     <View style={styles.container}>
@@ -51,12 +51,18 @@ const SearchScreen = () => {
 };
 
 const ProfileScreen = ({ navigation }) => {
+
+  async function handleClick () {
+    await AsyncStorage.clear();
+    navigation.navigate("Login");
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Gourav</Text>
 
       <View>
-        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Login")}>
+        <TouchableOpacity style={styles.btn} onPress={handleClick}>
           <Logoutbtn
             width={40}
             height={40}

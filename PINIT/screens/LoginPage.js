@@ -27,7 +27,11 @@ const LoginPage = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false); // New state for "Remember Me"
   const [isLoading, setIsLoading] = useState(false);
+  const [currentUser , setCurrentUser] = useState("");
 
+
+
+  
   useEffect(() => {
     // Load "Remember Me" settings from AsyncStorage on component mount
     loadRememberMeSettings();
@@ -39,7 +43,10 @@ const LoginPage = ({ navigation }) => {
       if (rememberMeValue !== null) {
         // Set the "Remember Me" state based on the value from AsyncStorage
         setRememberMe(rememberMeValue === "true");
-        console.log('Loaded "Remember Me" settings from AsyncStorage');
+        setCurrentUser(email)
+        navigation.navigate("Dashboard");
+        console.log('Loaded "Remember Me" settings from AsyncStorage' , rememberMeValue);
+        console.log('Loaded "Remember Me" settings from AsyncStorage' , currentUser);
       }
     } catch (error) {
       console.error('Error loading "Remember Me" settings:', error);
