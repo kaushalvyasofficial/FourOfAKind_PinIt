@@ -250,19 +250,30 @@ function AddDataScreen({ navigation }) {
             </View>
             {/* Authorize by */}
             <SelectList
-              style={styles.input}
-              setSelected={(val) =>
-                setNoticeData({ ...noticeData, authorizedBy: val })
-              }
+              style={{
+                placeholder: {
+                  color: '#E4DFDF',
+                },
+              }}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
+              setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
               data={data}
               placeholder="Authorized By"
               save="value"
             />
             <SelectList
-              style={styles.input}
-              setSelected={(val) =>
-                setNoticeData({ ...noticeData, concernedFaculty: val })
-              }
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
+
+              setSelected={(val) => setNoticeData({ ...noticeData, concernedFaculty: val })}
               data={data}
               placeholder="Concerned Faculty"
               save="value"
@@ -291,20 +302,26 @@ function AddDataScreen({ navigation }) {
             )}
 
             <SelectList
-              style={styles.input}
-              setSelected={(val) =>
-                setNoticeData({ ...noticeData, issuedFor: val })
-              }
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
+              setSelected={(val) => setNoticeData({ ...noticeData, issuedFor: val })}
               data={data}
               placeholder="Issued For"
               save="value"
             />
 
             <SelectList
-              style={styles.input}
-              setSelected={(val) =>
-                setNoticeData({ ...noticeData, viewedBy: val })
-              }
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
+              setSelected={(val) => setNoticeData({ ...noticeData, viewedBy: val })}
               data={data}
               placeholder="Viewed By"
               save="value"
@@ -362,10 +379,13 @@ function AddDataScreen({ navigation }) {
             </View>
             {/* Authorize by */}
             <SelectList
-              style={styles.input}
-              setSelected={(val) =>
-                setEventData({ ...eventData, eventauthorizedBy: val })
-              }
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
+              setSelected={(val) => setEventData({ ...eventData, eventauthorizedBy: val })}
               data={data}
               placeholder="Authorized By"
               save="value"
@@ -394,12 +414,16 @@ function AddDataScreen({ navigation }) {
             )}
 
             <SelectList
-              style={styles.input}
-              setSelected={(val) =>
-                setEventData({ ...eventData, eventIssuedFor: val })
-              }
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownTextStyles={styles.dropdownItemText}
+              inputStyles={styles.input}
+              // dropdownItemStyles={styles.dropdownItem}
+              dropdownStyles={styles.dropdown}
+              setSelected={(val) => setEventData({ ...eventData, eventIssuedFor: val })}
               data={data}
               placeholder="Issued For"
+              placeholderTextColor="#E4DFDF"
               save="value"
             />
 
@@ -505,21 +529,25 @@ const styles = StyleSheet.create({
     // backgroundColor: '#04500030',
   },
   input: {
+    fontFamily: "Inter300",
     flex: 1,
-    // height: 60,
+    color: "#000",
     paddingHorizontal: 10,
-    // backgroundColor: '#00000030',
+    width:100,
+    
   },
   inputdd: {
     flex: 1,
-    width: 100,
+    width: "100%",
     paddingHorizontal: 40,
-    // height: 60,
+    // height: 60,  
+    marginBottom: 10,
     paddingHorizontal: 10,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    borderWidth: 0,
-    borderColor: "#fff",
+    borderWidth: 1,
+    borderColor: '#E4DFDF',
+    // backgroundColor: '#00000030',
   },
   title: {
     fontSize: 24,
@@ -539,10 +567,25 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   dropdown: {
-    backgroundColor: "#fafafa",
+    borderWidth: 1,
+    borderColor: "#E4DFDF",
+    marginTop:-10,
+    marginBottom: 10,
+    // borderRadiusBottomLeft: 0,
+
+    
   },
   dropdownItem: {
     justifyContent: "flex-start",
+    // borderWidth:5,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    // borderWidth:1,
+  },
+  dropdownItemText: {
+    fontFamily: "Inter400",
+    fontSize: 14,
+    color: "#212121",
   },
   dropdownMenu: {
     backgroundColor: "#000",
@@ -558,8 +601,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   uploadedFileText: {
+    fontFamily: "Inter300",
     fontSize: 12,
-    fontWeight: "medium",
     color: "#212121",
   },
   uploadedFileNameContainer: {
@@ -568,8 +611,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   uploadedFileName: {
+    fontFamily: "Inter400",
     fontSize: 14,
-    color: "#000000",
+    color: "#212121",
   },
   spinnerText: {
     color: "#FFF",
@@ -617,10 +661,12 @@ const styles = StyleSheet.create({
     // borderRadius: 16,
   },
   btnText: {
+    fontFamily: "Inter400",
     color: "#fff",
     fontSize: 20,
   },
   btnsText: {
+    fontFamily: "Inter400",
     color: "#747688",
     fontSize: 16,
     paddingHorizontal: 10,
@@ -671,9 +717,10 @@ const styles = StyleSheet.create({
     borderColor: "#dddddd",
   },
   buttonText: {
-    fontSize: 24,
+    fontFamily: "Inter400",
+    fontSize: 20,
     // fontWeight: 'bold',
-    color: "#000",
+    color: "#30313D",
   },
   inputContainer: {
     flex: 3,

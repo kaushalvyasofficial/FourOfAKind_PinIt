@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator();
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text style={styles.h1}>Home Screen</Text>
     </View>
   );
 };
@@ -93,7 +93,8 @@ const DashboardScreen = ({ navigation }) => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <HomeLogo color="#635bff" size="50" />
+            <HomeLogo color="#635bff" size="50"
+            />
           ),
         }}
       />
@@ -150,8 +151,8 @@ const styles = StyleSheet.create({
   },
   h1: {
     color: "#30313D",
-    fontSize: 48,
-    fontWeight: "medium",
+    fontSize: 32,
+    fontFamily: "Inter500",
   },
   txt: {
     color: "#30313D",
