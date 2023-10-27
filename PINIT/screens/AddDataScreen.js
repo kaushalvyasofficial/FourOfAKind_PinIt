@@ -87,6 +87,7 @@ function AddDataScreen({ navigation }) {
     const file = await DocumentPicker.getDocumentAsync();
 
     if (file.assets) {
+      
       setUploadedFile(file);
     } else {
       console.log("file not selected");
@@ -355,7 +356,7 @@ function AddDataScreen({ navigation }) {
                 <Text style={styles.uploadedFileText}>Uploaded File:</Text>
                 <View style={styles.uploadedFileNameContainer}>
                   <Text style={styles.uploadedFileName}>
-                    {uploadedFile.assets[0].name}
+                    {uploadedFile.assets[0].name.slice(0, 25)+"..."}
                   </Text>
                 </View>
               </View>
@@ -455,7 +456,7 @@ function AddDataScreen({ navigation }) {
                 <Text style={styles.uploadedFileText}>Uploaded File:</Text>
                 <View style={styles.uploadedFileNameContainer}>
                   <Text style={styles.uploadedFileName}>
-                    {uploadedFile.assets[0].name}
+                    {uploadedFile.assets[0].name.slice(0, 25)+"..."}
                   </Text>
                 </View>
               </View>
