@@ -246,15 +246,6 @@ const EventScreen = () => {
                 />
                 <Text style={styleEvent.eventName}>{item.eventName}</Text>
                 <Text style={styleEvent.eventDescription}>
-                  {item.eventStartDate} to {item.eventEndDate}
-                </Text>
-                <Text style={styleEvent.eventDescription}>
-                  from {item.eventStartTime} to {item.eventEndTime}
-                </Text>
-                <Text style={styleEvent.eventDescription}>
-                  At {item.eventLocation}
-                </Text>
-                <Text style={styleEvent.eventDescription}>
                   {item.eventDescription}
                 </Text>
                 <View style={styleEvent.flex}>
@@ -274,9 +265,10 @@ const EventScreen = () => {
                     </TouchableOpacity>
                   )}
                   <Text style={styleEvent.eventTime}>
-                    {item.eventStartTime}
+                    {item.eventTime}
                   </Text>
-                </View></View>
+                </View>
+              </View>
             </TouchableOpacity>
           )}
         />
@@ -325,7 +317,6 @@ const styleEvent = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Inter500",
     color: "#30313D",
-    marginBottom: 10,
   },
   eventDate: {
     fontSize: 12,
@@ -344,7 +335,7 @@ const styleEvent = StyleSheet.create({
     flexDirection: "row",
     // justifyContent: "center",
     alignItems: "center",
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "Inter300",
     color: "#606060",
     marginBottom: 10,
