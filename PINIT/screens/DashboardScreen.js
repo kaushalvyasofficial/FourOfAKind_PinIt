@@ -28,7 +28,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { db } from "../FirebaseConfig";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query , where } from "firebase/firestore";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from '@react-navigation/native';
 
@@ -365,17 +365,132 @@ const styleEvent = StyleSheet.create({
 });
 
 const SearchScreen = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedTag, setSelectedTag] = useState(null);
+
+  // Function to fetch data from Firestore based on search query and selected tag
+  const fetchData = async () => {
+    const dataRef = collection(db, selectedTag || 'data'); // Replace 'YourCollection' with your Firestore collection name
+
+    let baseQuery = query(dataRef);
+
+    if (searchQuery) {
+      baseQuery = query(dataRef, where('noticeName', '>=', searchQuery));
+    }
+
+    const querySnapshot = await getDocs(baseQuery);
+    const data = querySnapshot.docs.map((doc) => doc.data());
+    setFilteredData(data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [searchQuery, selectedTag]);
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={{
-          uri: "https://firebasestorage.googleapis.com/v0/b/nexus-e61fe.appspot.com/o/notices%2F1698431643227-IMG-20231027-WA0002.jpg?alt=media&token=0a2de394-0ec4-40c1-9418-cbfd949d17d8",
-        }}
-        style={{ width: 200, height: 200 }}
+    <View style={stylesSearch.container}>
+      <TextInput
+        style={stylesSearch.searchInput}
+        placeholder="Search..."
+        value={searchQuery}
+        onChangeText={(text) => setSearchQuery(text)}
       />
+      <View style={stylesSearch.tagsContainer}>
+        <Button title="All" onPress={() => setSelectedTag(null)} />
+        <Button title="Notices" onPress={() => setSelectedTag('Notices')} />
+        <Button title="Events" onPress={() => setSelectedTag('Events')} />
+      </View>
+      <Text style={stylesSearch.sectionTitle}>Filtered Data:</Text>
+      <FlatList
+  data={filteredData}
+  keyExtractor={(item) => item.noticeID || item.eventName}
+  renderItem={({ item }) => (
+    <TouchableOpacity
+      style={stylesSearch.card}
+      onPress={() => handlePress(item)}
+    >
+      <View style={stylesSearch.cardContent}>
+        <Image
+          source={{ uri: item.uploadedFileURI }
+          }
+          style={stylesSearch.cardImage}
+        />
+        <View style={stylesSearch.cardText}>
+          <Text style={styles.eventName}>{item.eventName || item.noticeName}</Text>
+          <Text style={stylesSearch.eventDescription}>
+            {item.eventStartDate} to {item.eventEndDate}
+          </Text>
+          <Text style={stylesSearch.eventDescription}>
+            from {item.eventStartTime} to {item.eventEndTime}
+          </Text>
+          <Text style={styles.eventDescription}>At {item.eventLocation}</Text>
+          <Text style={stylesSearch.eventDescription}>
+            {item.eventDescription || item.description}
+          </Text>
+          {item.uploadedFileURI && (
+            <TouchableOpacity
+              onPress={() => Linking.openURL(item.uploadedFileURI)}
+            >
+              <Text style={stylesSearch.fileLink}>Download File</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+    </TouchableOpacity>
+  )}
+/>
+
     </View>
   );
 };
+
+const stylesSearch = StyleSheet.create({
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    elevation: 6,
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: 'black',
+    shadowOpacity: 0.3,
+    marginVertical: 10,
+    margin: '2%',
+    padding: '3%',
+  },
+  cardContent: {
+    flexDirection: 'row',
+  },
+  cardImage: {
+    width: 100,
+    height: 100,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+    resizeMode: 'cover',
+  },
+  cardText: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  eventName: {
+    fontSize: 20,
+    fontFamily: 'Inter500',
+    color: '#30313D',
+    marginBottom: 10,
+  },
+  eventDescription: {
+    fontSize: 16,
+    fontFamily: 'Inter300',
+    color: '#30313D',
+    marginBottom: 10,
+  },
+  fileLink: {
+    fontSize: 12,
+    fontFamily: 'Inter500',
+    paddingHorizontal: 5,
+    color: '#30313D',
+    textDecorationLine: 'underline',
+  },
+});
 
 const ProfileScreen = ({ navigation }) => {
   async function handleClick() {
