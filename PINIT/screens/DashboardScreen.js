@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import * as React from 'react';
 import {
   View,
   Text,
@@ -8,6 +9,8 @@ import {
   Image,
   TextInput,
   Switch,
+  Alert,
+  BackHandler,
 } from "react-native";
 
 import HomeLogo from "../assets/images/home";
@@ -16,17 +19,31 @@ import SearchLogo from "../assets/images/search";
 import ProfileLogo from "../assets/images/profile";
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
-import { useRoute } from "@react-navigation/native";
 import { useBackHandler } from "@react-native-community/hooks";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import CarouselCards from "./component/CarouselComponent";
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
+  useBackHandler(() => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to Exit?',
+      [
+        { text: 'No', style: 'cancel' },
+        {
+          text: 'Yes',
+          onPress: () => BackHandler.exitApp(),
+        },
+      ],
+      { cancelable: true }
+    );
+  })
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
+      <CarouselCards />
     </View>
   );
 };
