@@ -12,9 +12,9 @@ import {
   Alert,
   BackHandler,
   SafeAreaView,
-  FlatList
+  FlatList,
 } from "react-native";
-import { Linking } from 'react-native';
+import { Linking } from "react-native";
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
 import { useBackHandler } from "@react-native-community/hooks";
@@ -32,22 +32,23 @@ const Tab = createBottomTabNavigator();
 const HomeScreen = () => {
   const [backCount, setBackCount] = useState(0);
   useBackHandler(() => {
-    setBackCount(backCount + 1);  
-    if(backCount >= 1){
+    setBackCount(backCount + 1);
+    if (backCount >= 1) {
       setBackCount(0);
       Alert.alert(
-        'Logout',
-        'Are you sure you want to Exit?',
+        "Logout",
+        "Are you sure you want to Exit?",
         [
-          { text: 'No', style: 'cancel' },
+          { text: "No", style: "cancel" },
           {
-            text: 'Yes',
+            text: "Yes",
             onPress: () => BackHandler.exitApp(),
           },
         ],
         { cancelable: true }
       );
-  }})
+    }
+  });
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
@@ -83,39 +84,46 @@ const EventScreen = () => {
   }, []);
 
   // console.log("File Download Link : ", eventData.fileDownloadURL);
-  function handlePress (item){
-      console.log(item.id);
+  function handlePress(item) {
+    console.log(item.id);
   }
   return (
     <SafeAreaView style={stylesEvent.container}>
-
-      <FlatList 
+      <FlatList
         data={eventData}
         keyExtractor={(item) => item.id}
-        renderItem={({item}) =>(
+        renderItem={({ item }) => (
           <TouchableOpacity style={stylesEvent.card} onPress={(item) =>handlePress(item)}>
-            <View>
-              <Image
-                source={{ uri: item.fileDownloadURL }}
-                style={stylesEvent.image}
+          <View>
+            <Image
+                source={ null || { uri: item.fileDownloadURL }}
+                style={{ width: "100%", height: 200, borderTopLeftRadius: 8, borderTopRightRadius: 8, resizeMode: "cover" }}
               />
-              <Text style={stylesEvent.eventName}>{item.eventName}</Text>
-              <Text style={stylesEvent.eventDescription}>{item.eventStartDate} to {item.eventEndDate}</Text>
-              <Text style={stylesEvent.eventDescription}>from {item.eventStartTime} to {item.eventEndTime}</Text>
-              <Text style={stylesEvent.eventDescription}>At {item.eventLocation}</Text>
-              <Text style={stylesEvent.eventDescription}>
-                {item.eventDescription} 
-              </Text>
-              {item.fileDownloadURL && (
-                <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)}>
-                  <Text style={styles.fileLink}>Download File</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+            <Text style={stylesEvent.eventName}>{item.eventName}</Text>
+            <Text style={stylesEvent.eventDescription}>
+              {item.eventStartDate} to {item.eventEndDate}
+            </Text>
+            <Text style={stylesEvent.eventDescription}>
+              from {item.eventStartTime} to {item.eventEndTime}
+            </Text>
+            <Text style={stylesEvent.eventDescription}>
+              At {item.eventLocation}
+            </Text>
+            <Text style={stylesEvent.eventDescription}>
+              {item.eventDescription}
+            </Text>
+            {item.fileDownloadURL && (
+              <TouchableOpacity
+                onPress={() => Linking.openURL(item.fileDownloadURL)}
+              >
+                <Text style={styles.fileLink}>Download File</Text>
+              </TouchableOpacity>
+            )}
+          </View>
           </TouchableOpacity>
         )}
       />
-      </SafeAreaView>
+    </SafeAreaView>
   );
 };
 const stylesEvent = StyleSheet.create({
@@ -154,7 +162,12 @@ const stylesEvent = StyleSheet.create({
 const SearchScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Search Screen</Text>
+      <Image
+        source={{
+          uri: "https://firebasestorage.googleapis.com/v0/b/nexus-e61fe.appspot.com/o/notices%2F1698431643227-IMG-20231027-WA0002.jpg?alt=media&token=0a2de394-0ec4-40c1-9418-cbfd949d17d8",
+        }}
+        style={{ width: 200, height: 200 }}
+      />
     </View>
   );
 };
