@@ -61,7 +61,7 @@ function AddDataScreen({ navigation }) {
   };
 
   const handleFileUpload = async () => {
-    console.log("in file handler")
+    console.log("in file handler");
     const file = await DocumentPicker.getDocumentAsync();
 
     console.log(file);
@@ -357,13 +357,13 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 3,
-    width: '80%',
+    width: "80%",
   },
   noticeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#E4DFDF',
+    borderColor: "#E4DFDF",
     borderRadius: 16,
     marginBottom: 20,
     height: 60,
@@ -379,10 +379,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     // height: 60,
     paddingHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderWidth: 0,
-    borderColor: '#fff',
+    borderColor: "#fff",
   },
   title: {
     fontSize: 24,

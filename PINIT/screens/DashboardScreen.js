@@ -17,16 +17,13 @@ import ProfileLogo from "../assets/images/profile";
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
 import { useRoute } from "@react-navigation/native";
-import { useBackHandler } from '@react-native-community/hooks'
+import { useBackHandler } from "@react-native-community/hooks";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
 
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
-
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
@@ -51,8 +48,7 @@ const SearchScreen = () => {
 };
 
 const ProfileScreen = ({ navigation }) => {
-
-  async function handleClick () {
+  async function handleClick() {
     await AsyncStorage.clear();
     navigation.navigate("Login");
   }
@@ -63,13 +59,8 @@ const ProfileScreen = ({ navigation }) => {
 
       <View>
         <TouchableOpacity style={styles.btn} onPress={handleClick}>
-          <Logoutbtn
-            width={30}
-            height={30}
-          />
-          <Text style={styles.txt}>
-            Log Out
-          </Text>
+          <Logoutbtn width={30} height={30} />
+          <Text style={styles.txt}>Log Out</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -77,10 +68,9 @@ const ProfileScreen = ({ navigation }) => {
 };
 
 const DashboardScreen = ({ navigation }) => {
-
   useBackHandler(() => {
     navigation.navigate("Explore");
-  })
+  });
 
   function onClick() {
     navigation.navigate("AddData");
@@ -117,9 +107,7 @@ const DashboardScreen = ({ navigation }) => {
         options={{
           tabBarButton: () => (
             <View style={{ flex: 1, alignItems: "center" }}>
-              <FloatingButton
-                onPress={onClick}
-              />
+              <FloatingButton onPress={onClick} />
             </View>
           ),
         }}

@@ -27,11 +27,8 @@ const LoginPage = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false); // New state for "Remember Me"
   const [isLoading, setIsLoading] = useState(false);
-  const [currentUser , setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState("");
 
-
-
-  
   useEffect(() => {
     // Load "Remember Me" settings from AsyncStorage on component mount
     loadRememberMeSettings();
@@ -43,10 +40,16 @@ const LoginPage = ({ navigation }) => {
       if (rememberMeValue !== null) {
         // Set the "Remember Me" state based on the value from AsyncStorage
         setRememberMe(rememberMeValue === "true");
-        setCurrentUser(email)
+        setCurrentUser(email);
         navigation.navigate("Dashboard");
-        console.log('Loaded "Remember Me" settings from AsyncStorage' , rememberMeValue);
-        console.log('Loaded "Remember Me" settings from AsyncStorage' , currentUser);
+        console.log(
+          'Loaded "Remember Me" settings from AsyncStorage',
+          rememberMeValue
+        );
+        console.log(
+          'Loaded "Remember Me" settings from AsyncStorage',
+          currentUser
+        );
       }
     } catch (error) {
       console.error('Error loading "Remember Me" settings:', error);
@@ -148,7 +151,12 @@ const LoginPage = ({ navigation }) => {
       {selectedOption && (
         <View style={styles.inputContainer}>
           <View style={styles.mailContainer}>
-            <FontAwesome name="envelope" size={24} color="#807A7A99" style={styles.icon} />
+            <FontAwesome
+              name="envelope"
+              size={24}
+              color="#807A7A99"
+              style={styles.icon}
+            />
             <TextInput
               style={styles.mailInput}
               placeholder="email@gmail.com"
@@ -268,8 +276,8 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   mailContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: "#E4DFDF",
     borderRadius: 16,
