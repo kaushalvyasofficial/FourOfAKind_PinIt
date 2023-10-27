@@ -66,8 +66,11 @@ const HomeScreen = () => {
   );
 };
 
+
+
 const EventScreen = () => {
   const [eventData, setEventData] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("Ongoing"); // Default to 'Ongoing'
   const monthNames = [
     'Jan', 'Feb', 'Mar', 'Apr',
     'May', 'Jun', 'Jul', 'Aug',
@@ -110,13 +113,15 @@ const EventScreen = () => {
       const eventDate = new Date(year, month - 1, day); // Parse the event date
 
       if (selectedOption === "Ongoing") {
-        return eventDate >= new Date(); // Filter ongoing events
+        console.log(eventDate, new Date());
+        return eventDate === new Date(); // Filter ongoing events
       } else if (selectedOption === "Upcoming") {
-        return eventDate < new Date(); // Filter upcoming events
+        return eventDate > new Date(); // Filter upcoming events
       }
     }
     return false; // Exclude events with undefined or invalid date
   });
+  
 
   return (
     <View>
@@ -156,23 +161,46 @@ const EventScreen = () => {
       </View>
 
       <SafeAreaView style={styleEvent.container}>
-        <FlatList
-          data={filteredEvents}
-          keyExtractor={(item) => item.id} // Replace with the actual field name for the unique identifier
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styleEvent.card}
-              onPress={() => handlePress(item)}
-            >
-              <View>
-                {/* Render event details here */}
-                <Text>{item.eventName}</Text>
-                <Text>{item.eventDescription}</Text>
-                {/* ... other event details */}
+      <FlatList
+        data={filteredEvents}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styleEvent.card} onPress={(item) => handlePress(item)}>
+            <View>
+              <Image
+                source={null || { uri: item.fileDownloadURL }}
+                style={{ width: "100%", height: 200, borderTopLeftRadius: 8, borderTopRightRadius: 8, resizeMode: "cover" }}
+              />
+              <Text style={styleEvent.eventName}>{item.eventName}</Text>
+
+
+              <Text style={styleEvent.eventDescription}>
+                {item.eventDescription}
+              </Text>
+              <View style={styleEvent.flex}>
+                <View style={styleEvent.eventDescription}>
+                  <MapPin width={20} height={20} />
+                  <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
+                </View>
+                <Text style={styleEvent.eventDate}>
+                  {item.eventDate}
+                </Text>
               </View>
-            </TouchableOpacity>
-          )}
-        />
+              <View style={styleEvent.flex}>
+                {item.fileDownloadURL && (
+                  <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={styleEvent.dwn} >
+                    <DownLoad width={20} height={20} />
+                    <Text style={styleEvent.fileLink}>Download File </Text>
+                  </TouchableOpacity>
+                )}
+                <Text style={styleEvent.eventTime}>
+                  {item.eventStartTime}
+                </Text>
+              </View></View>
+          </TouchableOpacity>
+        )}
+      />
+
       </SafeAreaView>
     </View>
   );
@@ -256,7 +284,8 @@ const styleEvent = StyleSheet.create({
   dwn: {
     display: "flex",
     flexDirection: "row",
-  }
+  },
+  
 });
 
 const SearchScreen = () => {
