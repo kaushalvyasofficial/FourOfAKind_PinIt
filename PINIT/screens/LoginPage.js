@@ -12,6 +12,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Spinner from "react-native-loading-spinner-overlay";
 import LoginLogo from "../assets/images/loginlogo";
+import Right from "../assets/images/right";
 import { useBackHandler } from "@react-native-community/hooks";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 
@@ -161,6 +162,8 @@ const LoginPage = ({ navigation }) => {
               style={styles.mailInput}
               placeholder="email@gmail.com"
               placeholderTextColor="#74768890"
+              // placeholder font family
+              place
               onChangeText={(text) => setEmail(text)}
               value={email}
             />
@@ -193,7 +196,7 @@ const LoginPage = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.rememberMeContainer}>
-            <Text>Remember Me</Text>
+            <Text style={styles.p}>Remember Me</Text>
             <Switch
               trackColor={{ false: "#C0C8D2", true: "#635BFF" }}
               thumbColor={rememberMe ? "#fff" : "#fff"}
@@ -203,6 +206,7 @@ const LoginPage = ({ navigation }) => {
           </View>
           <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
             <Text style={styles.loginButtonText}>SIGN IN</Text>
+            <Right />
           </TouchableOpacity>
         </View>
       )}
@@ -268,6 +272,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 20,
+    fontFamily: "Inter300",
     // fontWeight: 'bold',
     color: "#000",
   },
@@ -285,6 +290,7 @@ const styles = StyleSheet.create({
   },
   mailInput: {
     flex: 1,
+    fontFamily: "Inter300",
     height: 60,
     paddingHorizontal: 10,
   },
@@ -302,6 +308,7 @@ const styles = StyleSheet.create({
   passwordInput: {
     flex: 1,
     height: 60,
+    fontFamily: "Inter300",
     paddingHorizontal: 10,
   },
   showPasswordButton: {
@@ -311,7 +318,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  p: {
+    fontFamily: "Inter300",
+    color: "#120D26",
+  },
   loginButton: {
+    display: "flex",
+    flexDirection: "row",
     backgroundColor: "#635BFF",
     height: 60,
     borderRadius: 10,
@@ -321,6 +334,8 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     fontSize: 20,
+    paddingHorizontal: 100,
+    fontFamily: "Inter400",
     // fontWeight: 'bold',
     color: "#fff",
   },
