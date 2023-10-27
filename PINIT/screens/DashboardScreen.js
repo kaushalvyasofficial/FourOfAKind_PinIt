@@ -11,10 +11,10 @@ import {
   Switch,
   Alert,
   BackHandler,
-  SafeAreaView,
+  SafeAreaView, ScrollView,
   FlatList
 } from "react-native";
-import { Linking } from 'react-native';
+import { Linking } from "react-native";
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
 import DownLoad from "../assets/images/download";
@@ -38,22 +38,25 @@ const HomeScreen = () => {
     if (backCount >= 1) {
       setBackCount(0);
       Alert.alert(
-        'Logout',
-        'Are you sure you want to Exit?',
+        "Logout",
+        "Are you sure you want to Exit?",
         [
-          { text: 'No', style: 'cancel' },
+          { text: "No", style: "cancel" },
           {
-            text: 'Yes',
+            text: "Yes",
             onPress: () => BackHandler.exitApp(),
           },
         ],
         { cancelable: true }
       );
     }
-  })
+  });
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
+      <ScrollView>
+        <CarouselCards />
+      </ScrollView>
       {/* <CarouselCards /> */}
     </View>
   );
@@ -91,7 +94,6 @@ const EventScreen = () => {
   }
   return (
     <SafeAreaView style={stylesEvent.container}>
-
       <FlatList
         data={eventData}
         keyExtractor={(item) => item.id}
@@ -99,13 +101,19 @@ const EventScreen = () => {
           <TouchableOpacity style={stylesEvent.card} onPress={(item) => handlePress(item)}>
             <View>
               <Image
-                source={{ uri: item.fileDownloadURL }}
-                style={stylesEvent.image}
+                source={null || { uri: item.fileDownloadURL }}
+                style={{ width: "100%", height: 200, borderTopLeftRadius: 8, borderTopRightRadius: 8, resizeMode: "cover" }}
               />
               <Text style={stylesEvent.eventName}>{item.eventName}</Text>
-              <Text style={stylesEvent.eventDescription}>{item.eventStartDate} to {item.eventEndDate}</Text>
-              <Text style={stylesEvent.eventDescription}>from {item.eventStartTime} to {item.eventEndTime}</Text>
-              <Text style={stylesEvent.eventDescription}>{item.eventDescription}</Text>
+              <Text style={stylesEvent.eventDescription}>
+                {item.eventStartDate} to {item.eventEndDate}
+              </Text>
+              <Text style={stylesEvent.eventDescription}>
+                from {item.eventStartTime} to {item.eventEndTime}
+              </Text>
+              <Text style={stylesEvent.eventDescription}>
+                {item.eventDescription}
+              </Text>
               <View style={stylesEvent.eventDescription}>
                 <MapPin width={20} height={20} />
                 <Text style={stylesEvent.eventLocation}> {item.eventLocation} </Text>
@@ -187,7 +195,12 @@ const stylesEvent = StyleSheet.create({
 const SearchScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Search Screen</Text>
+      <Image
+        source={{
+          uri: "https://firebasestorage.googleapis.com/v0/b/nexus-e61fe.appspot.com/o/notices%2F1698431643227-IMG-20231027-WA0002.jpg?alt=media&token=0a2de394-0ec4-40c1-9418-cbfd949d17d8",
+        }}
+        style={{ width: 200, height: 200 }}
+      />
     </View>
   );
 };
