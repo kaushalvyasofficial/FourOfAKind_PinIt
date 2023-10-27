@@ -12,7 +12,7 @@ import {
   Alert,
   BackHandler,
   SafeAreaView,
- 
+
   ScrollView,
   FlatList,
 } from "react-native";
@@ -36,7 +36,7 @@ import CarouselCardsEvent from "./component/Carousel-Event";
 import CarouselCardsNotice from "./component/Carousel-Notice";
 const Tab = createBottomTabNavigator();
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   // Default to 'admin'
   const [backCount, setBackCount] = useState(0);
   // const navigation = useNavigation();
@@ -185,7 +185,7 @@ const EventScreen = () => {
     }
     return false; // Exclude events with undefined or invalid date
   });
-  
+
 
   return (
     <View>
@@ -225,61 +225,61 @@ const EventScreen = () => {
       </View>
 
       <SafeAreaView style={styleEvent.container}>
-      <FlatList
-        data={filteredEvents}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styleEvent.card}
-            onPress={(item) => handlePress(item)}
-          >
-            <View>
-              <Image
-                source={null || { uri: item.fileDownloadURL }}
-                style={{
-                  width: "100%",
-                  height: 200,
-                  borderTopLeftRadius: 8,
-                  borderTopRightRadius: 8,
-                  resizeMode: "cover",
-                }}
-              />
-              <Text style={styleEvent.eventName}>{item.eventName}</Text>
-              <Text style={styleEvent.eventDescription}>
-                {item.eventStartDate} to {item.eventEndDate}
-              </Text>
-              <Text style={styleEvent.eventDescription}>
-                from {item.eventStartTime} to {item.eventEndTime}
-              </Text>
-              <Text style={styleEvent.eventDescription}>
-                At {item.eventLocation}
-              </Text>
-              <Text style={styleEvent.eventDescription}>
-                {item.eventDescription}
-              </Text>
-              <View style={styleEvent.flex}>
-                <View style={styleEvent.eventDescription}>
-                  <MapPin width={20} height={20} />
-                  <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
+        <FlatList
+          data={filteredEvents}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styleEvent.card}
+              onPress={(item) => handlePress(item)}
+            >
+              <View>
+                <Image
+                  source={null || { uri: item.fileDownloadURL }}
+                  style={{
+                    width: "100%",
+                    height: 200,
+                    borderTopLeftRadius: 8,
+                    borderTopRightRadius: 8,
+                    resizeMode: "cover",
+                  }}
+                />
+                <Text style={styleEvent.eventName}>{item.eventName}</Text>
+                <Text style={styleEvent.eventDescription}>
+                  {item.eventStartDate} to {item.eventEndDate}
+                </Text>
+                <Text style={styleEvent.eventDescription}>
+                  from {item.eventStartTime} to {item.eventEndTime}
+                </Text>
+                <Text style={styleEvent.eventDescription}>
+                  At {item.eventLocation}
+                </Text>
+                <Text style={styleEvent.eventDescription}>
+                  {item.eventDescription}
+                </Text>
+                <View style={styleEvent.flex}>
+                  <View style={styleEvent.eventDescription}>
+                    <MapPin width={20} height={20} />
+                    <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
+                  </View>
+                  <Text style={styleEvent.eventDate}>
+                    {item.eventDate}
+                  </Text>
                 </View>
-                <Text style={styleEvent.eventDate}>
-                  {item.eventDate}
-                </Text>
-              </View>
-              <View style={styleEvent.flex}>
-                {item.fileDownloadURL && (
-                  <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={styleEvent.dwn} >
-                    <DownLoad width={20} height={20} />
-                    <Text style={styleEvent.fileLink}>Download File </Text>
-                  </TouchableOpacity>
-                )}
-                <Text style={styleEvent.eventTime}>
-                  {item.eventStartTime}
-                </Text>
-              </View></View>
-          </TouchableOpacity>
-        )}
-      />
+                <View style={styleEvent.flex}>
+                  {item.fileDownloadURL && (
+                    <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={styleEvent.dwn} >
+                      <DownLoad width={20} height={20} />
+                      <Text style={styleEvent.fileLink}>Download File </Text>
+                    </TouchableOpacity>
+                  )}
+                  <Text style={styleEvent.eventTime}>
+                    {item.eventStartTime}
+                  </Text>
+                </View></View>
+            </TouchableOpacity>
+          )}
+        />
 
       </SafeAreaView>
     </View>
@@ -320,6 +320,12 @@ const styleEvent = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Inter500",
     color: "#30313D",
+  },
+  eventName: {
+    fontSize: 20,
+    fontFamily: "Inter500",
+    color: "#30313D",
+    marginBottom: 10,
   },
   eventDate: {
     fontSize: 12,
@@ -364,7 +370,7 @@ const styleEvent = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
   },
-  
+
 });
 
 const SearchScreen = () => {
@@ -460,7 +466,7 @@ const DashboardScreen = ({ navigation }) => {
           },
         }}
       />
-      
+
 
       <Tab.Screen
         name="FloatingButtonScreen"

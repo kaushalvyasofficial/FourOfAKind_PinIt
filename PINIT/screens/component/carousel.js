@@ -44,11 +44,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 8,
   },
   header: {
-    color: "#222",
-    fontSize: 28,
-    fontWeight: "bold",
-    paddingLeft: 20,
-    paddingTop: 20,
+    fontSize: 20,
+    fontFamily: "Inter500",
+    color: "#30313D",
+    marginBottom: 10,
   },
   body: {
     color: "#222",
