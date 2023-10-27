@@ -28,7 +28,8 @@ import { Feather } from "@expo/vector-icons";
 import { db } from "../FirebaseConfig";
 import { collection, getDocs, query } from "firebase/firestore";
 
-import CarouselCards from "./component/CarouselComponent";
+import CarouselCardsEvent from "./component/Carousel-Event";
+import CarouselCardsNotice from "./component/Carousel-Notice";
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
@@ -55,7 +56,8 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
       <ScrollView>
-        <CarouselCards />
+        <CarouselCardsNotice/>
+        <CarouselCardsEvent/>
       </ScrollView>
       {/* <CarouselCards /> */}
     </View>
