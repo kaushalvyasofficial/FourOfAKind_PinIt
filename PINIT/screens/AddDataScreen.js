@@ -75,9 +75,9 @@ function AddDataScreen({ navigation }) {
     } else if (option === "Event") {
       setEventData({
         eventName: "",
-        eventID: "",
         eventDate: "",
-        eventLocation: "",
+        eventauthorizedBy: "",
+        eventIssuedFor: "",
         eventDescription: "",
       });
     }
@@ -315,38 +315,23 @@ function AddDataScreen({ navigation }) {
                 style={styles.input}
                 placeholder="Event Name"
                 placeholderTextColor="#74768890"
-                value={noticeData.noticeName}
-                onChangeText={(text) => setNoticeData({ ...noticeData, noticeName: text })} />
-            </View>
-            {/* Notice id */}
-            <View style={styles.noticeContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Event ID"
-                placeholderTextColor="#74768890"
-                value={noticeData.noticeID}
-                onChangeText={(text) => setNoticeData({ ...noticeData, noticeID: text })} />
+                value={eventData.eventName}
+                onChangeText={(text) => setEventData({ ...eventData, eventName: text })} />
             </View>
             {/* Authorize by */}
             <SelectList
               style={styles.input}
-              setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
+              setSelected={(val) => setEventData({ ...eventData, eventauthorizedBy: val })}
               data={data}
               placeholder="Authorized By"
-              save="value" />
-            <SelectList
-              style={styles.input}
-              setSelected={(val) => setNoticeData({ ...noticeData, concernedFaculty: val })}
-              data={data}
-              placeholder="Concerned Faculty"
               save="value" />
             <View style={styles.noticeContainer}>
               <TextInput
                 style={styles.input}
                 placeholder="Event Date"
                 placeholderTextColor="#74768890"
-                value={noticeData.noticeDate}
-                onChangeText={(text) => setNoticeData({ ...noticeData, noticeData: text })}
+                value={eventData.eventDate}
+                onChangeText={(text) => setEventData({ ...eventData, eventDate: text })}
                 onFocus={showDatepicker} />
             </View>
             {showDatePicker && (
@@ -361,16 +346,9 @@ function AddDataScreen({ navigation }) {
 
             <SelectList
               style={styles.input}
-              setSelected={(val) => setNoticeData({ ...noticeData, issuedFor: val })}
+              setSelected={(val) => setEventData({ ...eventData, eventIssuedFor: val })}
               data={data}
               placeholder="Issued For"
-              save="value" />
-
-            <SelectList
-              style={styles.input}
-              setSelected={(val) => setNoticeData({ ...noticeData, viewedBy: val })}
-              data={data}
-              placeholder="Viewed By"
               save="value" />
 
             {/* Rest of the input fields and components */}
@@ -382,9 +360,9 @@ function AddDataScreen({ navigation }) {
                 multiline
                 placeholder="Description"
                 placeholderTextColor="#74768890"
-                value={noticeData.description}
+                value={eventData.eventDescription}
                 onChangeText={(text) =>
-                  setNoticeData({ ...noticeData, description: text })
+                  setEventData({ ...eventData, eventDescription: text })
                 }
               />
             </View>
