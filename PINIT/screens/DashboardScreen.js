@@ -1,5 +1,5 @@
-import { useState } from "react";
-import * as React from 'react';
+import { useState, useEffect } from "react";
+import * as React from "react";
 import {
   View,
   Text,
@@ -12,52 +12,124 @@ import {
   Alert,
   BackHandler,
 } from "react-native";
-import EventLogo from "../assets/images/Calendar";
-import SearchLogo from "../assets/images/search";
-import ProfileLogo from "../assets/images/profile";
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
 import { useBackHandler } from "@react-native-community/hooks";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MaterialIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons'; 
-
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { db } from "../FirebaseConfig";
+import { collection, getDocs, query } from "firebase/firestore";
 
 import CarouselCards from "./component/CarouselComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList } from "react-native-gesture-handler";
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
   useBackHandler(() => {
     Alert.alert(
-      'Logout',
-      'Are you sure you want to Exit?',
+      "Logout",
+      "Are you sure you want to Exit?",
       [
-        { text: 'No', style: 'cancel' },
+        { text: "No", style: "cancel" },
         {
-          text: 'Yes',
+          text: "Yes",
           onPress: () => BackHandler.exitApp(),
         },
       ],
       { cancelable: true }
     );
-  })
+  });
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
-      <CarouselCards />
+      {/* <CarouselCards /> */}
     </View>
   );
 };
 
 const EventScreen = () => {
+  const [eventData, setEventData] = useState([]);
+
+  useEffect(() => {
+    // Fetch events from Firestore
+    const fetchEvents = async () => {
+      try {
+        const q = collection(db, "Event"); // Use collection to reference the 'Event' collection
+        const querySnapshot = await getDocs(q);
+        const eventData = querySnapshot.docs.map((doc) => doc.data());
+        setEventData(eventData);
+        // console.log('Events from Firestore:', eventData);
+      } catch (error) {
+        console.error("Error fetching events from Firestore:", error);
+        // Handle the error as per your application's requirements
+      }
+    };
+
+    fetchEvents();
+
+    const interval = setInterval(() => {
+      fetchEvents();
+    }, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
+  console.log("File Download Link : ", eventData.fileDownloadURL);
+
   return (
     <View style={styles.container}>
-      <Text>Settings Screen</Text>
+      {eventData.map((event, index) => (
+        <View style={stylesEvent.card} key={index}>
+          <Image
+            source={{
+              uri: "https://firebasestorage.googleapis.com/v0/b/nexus-e61fe.appspot.com/o/notices%2F1698428236460-IMG-20231026-WA0007.jpg?alt=media&token=37fe9d0d-ed16-4a67-8c7c-7e3c9daebf8b",
+            }}
+            style={stylesEvent.image}
+          />
+          <Text style={stylesEvent.eventName}>{event.eventName}</Text>
+          <Text style={stylesEvent.eventDescription}>
+            {event.eventDescription}
+          </Text>
+        </View>
+      ))}
     </View>
   );
 };
+const stylesEvent = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  card: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    elevation: 3,
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    marginVertical: 10,
+  },
+  image: {
+    // width: "100%",
+    // height: 200,
+    // borderTopLeftRadius: 8,
+    // borderTopRightRadius: 8,
+    resizeMode: "cover",
+  },
+  eventName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 16,
+  },
+  eventDescription: {
+    fontSize: 16,
+    margin: 16,
+    marginBottom: 20,
+  },
+});
 
 const SearchScreen = () => {
   return (
@@ -97,48 +169,53 @@ const DashboardScreen = ({ navigation }) => {
   }
 
   const screenOptions = {
-    tabBarShowLabel : false,
+    tabBarShowLabel: false,
     // headerShown : false ,
-    tabBarStyle :{
-      position:'absolute',
-      bottom:0,
-      right:0,
-      left:0,
-      elevation:0,
+    tabBarStyle: {
+      position: "absolute",
+      bottom: 0,
+      right: 0,
+      left: 0,
+      elevation: 0,
       height: "8%",
-      backgroundColor: '#fff',
-    }
-
-  }
+      backgroundColor: "#fff",
+    },
+  };
   //   console.log("DashboardScreen");
   return (
-    <Tab.Navigator
-      screenOptions={screenOptions}
-    >
+    <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
         name="Explore"
         component={HomeScreen}
         options={{
-          tabBarIcon:({focused})=>{
-            return(
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <MaterialIcons name="explore" size={28} color={focused ? '#635bff' : '#bac3cc'} />
-            </View>
-            )
-          }
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <MaterialIcons
+                  name="explore"
+                  size={28}
+                  color={focused ? "#635bff" : "#bac3cc"}
+                />
+              </View>
+            );
+          },
         }}
       />
       <Tab.Screen
         name="Event"
         component={EventScreen}
         options={{
-          tabBarIcon:({focused})=>{
-            return(
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <AntDesign name="calendar" size={28} color={focused ? '#635bff' : '#bac3cc'} />
-            </View>
-            )
-          }
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <AntDesign
+                  name="calendar"
+                  size={28}
+                  color={focused ? "#635bff" : "#bac3cc"}
+                />
+              </View>
+            );
+          },
         }}
       />
 
@@ -147,7 +224,7 @@ const DashboardScreen = ({ navigation }) => {
         component={FloatingButton}
         options={{
           tabBarButton: () => (
-            <View style={{ flex: 1, alignItems: "center", marginBottom:"7%"  }}>
+            <View style={{ flex: 1, alignItems: "center", marginBottom: "7%" }}>
               <FloatingButton onPress={onClick} />
             </View>
           ),
@@ -157,26 +234,34 @@ const DashboardScreen = ({ navigation }) => {
         name="Search"
         component={SearchScreen}
         options={{
-          tabBarIcon:({focused})=>{
-            return(
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <Feather name="search" size={28} color={focused ? '#635bff' : '#bac3cc'} />
-            </View>
-            )
-          }
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Feather
+                  name="search"
+                  size={28}
+                  color={focused ? "#635bff" : "#bac3cc"}
+                />
+              </View>
+            );
+          },
         }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon:({focused})=>{
-            return(
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <Feather name="user" size={28} color={focused ? '#635bff' : '#bac3cc'} />
-            </View>
-            )
-          }
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Feather
+                  name="user"
+                  size={28}
+                  color={focused ? "#635bff" : "#bac3cc"}
+                />
+              </View>
+            );
+          },
         }}
       />
     </Tab.Navigator>

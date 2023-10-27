@@ -22,7 +22,7 @@ import Addicon from "../assets/images/add";
 import Upload from "../assets/images/upload";
 
 function AddDataScreen({ navigation }) {
-  const [selected, setSelected] = useState("");
+  // const [selected, setSelected] = useState("");
 
   useBackHandler(() => {
     navigation.navigate("Explore");
@@ -45,6 +45,7 @@ function AddDataScreen({ navigation }) {
     issuedFor: "",
     viewedBy: "",
     description: "",
+    uploadedFileURI: "",
   });
 
   const [eventData, setEventData] = useState({
@@ -53,6 +54,7 @@ function AddDataScreen({ navigation }) {
     eventDate: "",
     eventLocation: "",
     eventDescription: "",
+    uploadedFileURI: "",
   });
 
   const handleOptionSelect = (option) => {
@@ -71,6 +73,7 @@ function AddDataScreen({ navigation }) {
         issuedFor: "",
         viewedBy: "",
         description: "",
+        uploadedFileURI: "",
       });
     } else if (option === "Event") {
       setEventData({
@@ -79,6 +82,7 @@ function AddDataScreen({ navigation }) {
         eventauthorizedBy: "",
         eventIssuedFor: "",
         eventDescription: "",
+        uploadedFileURI: "",
       });
     }
   };
@@ -129,13 +133,23 @@ function AddDataScreen({ navigation }) {
 
         // Get the download URL of the uploaded file
         downloadUrl = await getDownloadURL(storageRef);
+
+        // Update the uploadedFileURI in the correct object based on the selected option
+        if (selectedOption === "Notices") {
+          setNoticeData({ ...noticeData, uploadedFileURI: downloadUrl });
+        } else {
+          setEventData({ ...eventData, uploadedFileURI: downloadUrl });
+        }
+        console.log("File download URL:", downloadUrl);
       }
+      console.log(noticeData);
+      console.log(eventData);
 
       // Add notice to Firestore with the download URL (if available)
-      await addDoc(collection(db, "data"), {
+      await addDoc(collection(db, selectedOption), {
         ...(selectedOption === "Notices" ? noticeData : eventData),
         fileDownloadURL: downloadUrl,
-        selectedOption: selectedOption,
+        // selectedOption: selectedOption,
       });
 
       // Reset notice data and other fields
@@ -148,6 +162,7 @@ function AddDataScreen({ navigation }) {
         issuedFor: "",
         viewedBy: "",
         description: "",
+        uploadedFileURI: "",
       });
       setEventData({
         eventName: "",
@@ -155,6 +170,7 @@ function AddDataScreen({ navigation }) {
         eventDate: "",
         eventLocation: "",
         eventDescription: "",
+        uploadedFileURI: "",
       });
 
       setUploadedFile(null);
@@ -252,7 +268,7 @@ function AddDataScreen({ navigation }) {
             <SelectList
               style={{
                 placeholder: {
-                  color: '#E4DFDF',
+                  color: "#E4DFDF",
                 },
               }}
               boxStyles={styles.inputdd}
@@ -260,7 +276,9 @@ function AddDataScreen({ navigation }) {
               dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
-              setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, authorizedBy: val })
+              }
               data={data}
               placeholder="Authorized By"
               save="value"
@@ -272,8 +290,9 @@ function AddDataScreen({ navigation }) {
               dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
-
-              setSelected={(val) => setNoticeData({ ...noticeData, concernedFaculty: val })}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, concernedFaculty: val })
+              }
               data={data}
               placeholder="Concerned Faculty"
               save="value"
@@ -308,7 +327,9 @@ function AddDataScreen({ navigation }) {
               dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
-              setSelected={(val) => setNoticeData({ ...noticeData, issuedFor: val })}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, issuedFor: val })
+              }
               data={data}
               placeholder="Issued For"
               save="value"
@@ -321,7 +342,9 @@ function AddDataScreen({ navigation }) {
               dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
-              setSelected={(val) => setNoticeData({ ...noticeData, viewedBy: val })}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, viewedBy: val })
+              }
               data={data}
               placeholder="Viewed By"
               save="value"
@@ -385,7 +408,9 @@ function AddDataScreen({ navigation }) {
               dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
-              setSelected={(val) => setEventData({ ...eventData, eventauthorizedBy: val })}
+              setSelected={(val) =>
+                setEventData({ ...eventData, eventauthorizedBy: val })
+              }
               data={data}
               placeholder="Authorized By"
               save="value"
@@ -420,7 +445,9 @@ function AddDataScreen({ navigation }) {
               inputStyles={styles.input}
               // dropdownItemStyles={styles.dropdownItem}
               dropdownStyles={styles.dropdown}
-              setSelected={(val) => setEventData({ ...eventData, eventIssuedFor: val })}
+              setSelected={(val) =>
+                setEventData({ ...eventData, eventIssuedFor: val })
+              }
               data={data}
               placeholder="Issued For"
               placeholderTextColor="#E4DFDF"
@@ -534,20 +561,19 @@ const styles = StyleSheet.create({
     color: "#000",
     paddingHorizontal: 10,
     width: 100,
-
   },
   inputdd: {
     fontFamily: "Inter700",
     // color: "red",
     flex: 1,
     width: "100%",
-    // height: 60,  
+    // height: 60,
     marginBottom: 10,
     paddingHorizontal: 10,
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: '#E4DFDF',
+    borderColor: "#E4DFDF",
     // backgroundColor: '#00000030',
   },
   title: {
@@ -574,8 +600,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 16,
     // borderRadiusBottomLeft: 0,
-
-
   },
   dropdownItem: {
     justifyContent: "flex-start",
