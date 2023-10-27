@@ -27,7 +27,7 @@ export default function CarouselCardsNotice(uid) {
           imgUrl: obj.fileDownloadURL,
         }));
         // console.log(newArray);
-        setEventData(newArray);
+        setEventData(newArray.slice(0,5));
       }
       catch (error) {
         console.error("Error fetching events from Firestore:", error);
