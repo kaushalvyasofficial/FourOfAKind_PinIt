@@ -33,6 +33,7 @@ function AddDataScreen({ navigation }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDataType , setselectedDataType] = useState("notices");
 
   const [noticeData, setNoticeData] = useState({
     noticeName: "",
@@ -87,7 +88,7 @@ function AddDataScreen({ navigation }) {
       }
 
       // Add notice to Firestore with the download URL (if available)
-      await addDoc(collection(db, "notices"), {
+      await addDoc(collection(db,"notices"), {
         ...noticeData,
         fileDownloadURL: downloadUrl,
       });
@@ -106,6 +107,7 @@ function AddDataScreen({ navigation }) {
 
       setUploadedFile(null);
       setToastMessage("Notice was successfully created");
+      console.log("Notice added successfully");
     } catch (error) {
       console.error("Error adding notice to Firestore:", error);
       // Handle the error as per your application's requirements
@@ -127,6 +129,12 @@ function AddDataScreen({ navigation }) {
     { key: "6", value: "Sec3" },
     { key: "7", value: "Admin" },
   ];
+
+  const DataForSelectedType = [
+    { key: "1", value: "Notices" },
+    { key: "2", value: "Classes" },
+    { key: "3", value: "Events" },
+  ];
   const showToastMessage = (message) => {
     setToastMessage(message);
     setShowToast(true);
@@ -136,7 +144,15 @@ function AddDataScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Text style={styles.title}>Add Notice</Text>
+         <SelectList
+          style={styles.input}
+          setSelected={(val) =>
+            setselectedDataType(val)
+          }
+          data={DataForSelectedType}
+          placeholder="Select Data Type"
+          save="value"
+        />
 
         <TextInput
           style={styles.input}
@@ -244,7 +260,7 @@ function AddDataScreen({ navigation }) {
 
         {/* Add Notice Button */}
         <TouchableOpacity style={styles.button} onPress={handleAddNotice}>
-          <Text style={styles.buttonText}>ADD NOTICE</Text>
+          <Text style={styles.buttonText}>ADD </Text>
         </TouchableOpacity>
 
         <Spinner
@@ -269,22 +285,22 @@ function AddDataScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
     textAlign: "center",
   },
   label: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "medium",
     marginBottom: 10,
   },
   input: {
-    height: 40,
+    height: 60,
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,

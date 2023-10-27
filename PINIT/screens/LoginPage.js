@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   pinDiv: {
     flex: 1,
     justifyContent: 'center',
-    marginTop: 80,
+    marginTop: '30%',
     // backgroundColor: '#000',
   },
   pinImage: {
