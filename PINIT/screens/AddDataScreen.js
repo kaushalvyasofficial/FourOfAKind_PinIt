@@ -39,6 +39,8 @@ function AddDataScreen({ navigation }) {
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [selectedEndTime, setSelectedEndTime] = useState(new Date());
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
+
   const [noticeData, setNoticeData] = useState({
     noticeName: "",
     noticeID: "",
@@ -102,6 +104,7 @@ function AddDataScreen({ navigation }) {
     if (file.assets) {
       
       setUploadedFile(file);
+      setIsFileUploaded(true);
     } else {
       console.log("file not selected");
     }
@@ -612,7 +615,9 @@ function AddDataScreen({ navigation }) {
 
         {/* Add Notice Button */}
         <View style={styles.btnpd}>
-          <TouchableOpacity style={styles.btn} onPress={handleAddNotice}>
+          <TouchableOpacity style={styles.btn} onPress={handleAddNotice}
+            disabled={!isFileUploaded}
+            >
             <Text style={styles.btnText}>ADD </Text>
             <Addicon height={25} width={25} />
           </TouchableOpacity>
