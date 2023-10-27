@@ -189,19 +189,36 @@ function AddDataScreen({ navigation }) {
             style={[
               styles.button,
               selectedOption === "Notices" && styles.selectedButton,
+              selectedOption === "Event" && styles.unselectedText,
+              selectedOption === "Event" && styles.unselectedButton,
             ]}
             onPress={() => handleOptionSelect("Notices")}
           >
-            <Text style={styles.buttonText}>Notices</Text>
+            <Text
+              style={[
+                styles.buttonText,
+                selectedOption === "Event" && styles.unselectedText,
+              ]}
+            >
+              Notices
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.button,
               selectedOption === "Event" && styles.selectedButton,
+              selectedOption === "Notices" && styles.unselectedButton,
             ]}
             onPress={() => handleOptionSelect("Event")}
           >
-            <Text style={styles.buttonText}>Event</Text>
+            <Text
+              style={[
+                styles.buttonText,
+                selectedOption === "Notices" && styles.unselectedText,
+              ]}
+            >
+              Event
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -214,7 +231,10 @@ function AddDataScreen({ navigation }) {
                 placeholder="Notice Name"
                 placeholderTextColor="#74768890"
                 value={noticeData.noticeName}
-                onChangeText={(text) => setNoticeData({ ...noticeData, noticeName: text })} />
+                onChangeText={(text) =>
+                  setNoticeData({ ...noticeData, noticeName: text })
+                }
+              />
             </View>
             {/* Notice id */}
             <View style={styles.noticeContainer}>
@@ -223,29 +243,41 @@ function AddDataScreen({ navigation }) {
                 placeholder="Notice ID"
                 placeholderTextColor="#74768890"
                 value={noticeData.noticeID}
-                onChangeText={(text) => setNoticeData({ ...noticeData, noticeID: text })} />
+                onChangeText={(text) =>
+                  setNoticeData({ ...noticeData, noticeID: text })
+                }
+              />
             </View>
             {/* Authorize by */}
             <SelectList
               style={styles.input}
-              setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, authorizedBy: val })
+              }
               data={data}
               placeholder="Authorized By"
-              save="value" />
+              save="value"
+            />
             <SelectList
               style={styles.input}
-              setSelected={(val) => setNoticeData({ ...noticeData, concernedFaculty: val })}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, concernedFaculty: val })
+              }
               data={data}
               placeholder="Concerned Faculty"
-              save="value" />
+              save="value"
+            />
             <View style={styles.noticeContainer}>
               <TextInput
                 style={styles.input}
                 placeholder="Notice Date"
                 placeholderTextColor="#74768890"
                 value={noticeData.noticeDate}
-                onChangeText={(text) => setNoticeData({ ...noticeData, noticeData: text })}
-                onFocus={showDatepicker} />
+                onChangeText={(text) =>
+                  setNoticeData({ ...noticeData, noticeData: text })
+                }
+                onFocus={showDatepicker}
+              />
             </View>
             {showDatePicker && (
               <DateTimePicker
@@ -254,22 +286,29 @@ function AddDataScreen({ navigation }) {
                 mode="date"
                 is24Hour={true}
                 display="default"
-                onChange={handleDateChange} />
+                onChange={handleDateChange}
+              />
             )}
 
             <SelectList
               style={styles.input}
-              setSelected={(val) => setNoticeData({ ...noticeData, issuedFor: val })}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, issuedFor: val })
+              }
               data={data}
               placeholder="Issued For"
-              save="value" />
+              save="value"
+            />
 
             <SelectList
               style={styles.input}
-              setSelected={(val) => setNoticeData({ ...noticeData, viewedBy: val })}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, viewedBy: val })
+              }
               data={data}
               placeholder="Viewed By"
-              save="value" />
+              save="value"
+            />
 
             {/* Rest of the input fields and components */}
 
@@ -316,23 +355,32 @@ function AddDataScreen({ navigation }) {
                 placeholder="Event Name"
                 placeholderTextColor="#74768890"
                 value={eventData.eventName}
-                onChangeText={(text) => setEventData({ ...eventData, eventName: text })} />
+                onChangeText={(text) =>
+                  setEventData({ ...eventData, eventName: text })
+                }
+              />
             </View>
             {/* Authorize by */}
             <SelectList
               style={styles.input}
-              setSelected={(val) => setEventData({ ...eventData, eventauthorizedBy: val })}
+              setSelected={(val) =>
+                setEventData({ ...eventData, eventauthorizedBy: val })
+              }
               data={data}
               placeholder="Authorized By"
-              save="value" />
+              save="value"
+            />
             <View style={styles.noticeContainer}>
               <TextInput
                 style={styles.input}
                 placeholder="Event Date"
                 placeholderTextColor="#74768890"
                 value={eventData.eventDate}
-                onChangeText={(text) => setEventData({ ...eventData, eventDate: text })}
-                onFocus={showDatepicker} />
+                onChangeText={(text) =>
+                  setEventData({ ...eventData, eventDate: text })
+                }
+                onFocus={showDatepicker}
+              />
             </View>
             {showDatePicker && (
               <DateTimePicker
@@ -341,15 +389,19 @@ function AddDataScreen({ navigation }) {
                 mode="date"
                 is24Hour={true}
                 display="default"
-                onChange={handleDateChange} />
+                onChange={handleDateChange}
+              />
             )}
 
             <SelectList
               style={styles.input}
-              setSelected={(val) => setEventData({ ...eventData, eventIssuedFor: val })}
+              setSelected={(val) =>
+                setEventData({ ...eventData, eventIssuedFor: val })
+              }
               data={data}
               placeholder="Issued For"
-              save="value" />
+              save="value"
+            />
 
             {/* Rest of the input fields and components */}
 
@@ -395,10 +447,17 @@ function AddDataScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
+        {/* Progress Bar for Creating Notices */}
+        {/* {creatingProgress > 0 && creatingProgress < 1 && (
+          <ProgressBar
+            progress={creatingProgress}
+            width={null} // Adjust as needed
+          />
+        )} */}
 
         <Spinner
           visible={loading}
-          textContent={"Creating Notice..."}
+          textContent={"Just wait *-* ...."}
           textStyle={styles.spinnerText}
         />
 
@@ -409,9 +468,8 @@ function AddDataScreen({ navigation }) {
           autoHideDuration={3000}
           onHidden={() => setShowToast(false)}
         />
-
       </ScrollView>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 }
 
@@ -437,10 +495,10 @@ const styles = StyleSheet.create({
     // backgroundColor: '#04500030',
   },
   noticeContainerD: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#E4DFDF',
+    borderColor: "#E4DFDF",
     borderRadius: 16,
     marginBottom: 20,
     height: 100,
@@ -538,7 +596,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height: 60,
-    backgroundColor: '#635BFF',
+    backgroundColor: "#635BFF",
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
