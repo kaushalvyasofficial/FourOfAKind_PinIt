@@ -14,7 +14,7 @@ import {
   SafeAreaView,
  
   ScrollView,
-  FlatList,,
+  FlatList,
 } from "react-native";
 import { Linking } from "react-native";
 import FloatingButton from "./component/FloatingButton";
@@ -36,7 +36,7 @@ import CarouselCardsEvent from "./component/Carousel-Event";
 import CarouselCardsNotice from "./component/Carousel-Notice";
 const Tab = createBottomTabNavigator();
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   // Default to 'admin'
   const [backCount, setBackCount] = useState(0);
   // const navigation = useNavigation();
@@ -226,7 +226,7 @@ const EventScreen = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={stylesEvent.card}
+            style={styleEvent.card}
             onPress={(item) => handlePress(item)}
           >
             <View>
@@ -240,17 +240,17 @@ const EventScreen = () => {
                   resizeMode: "cover",
                 }}
               />
-              <Text style={stylesEvent.eventName}>{item.eventName}</Text>
-              <Text style={stylesEvent.eventDescription}>
+              <Text style={styleEvent.eventName}>{item.eventName}</Text>
+              <Text style={styleEvent.eventDescription}>
                 {item.eventStartDate} to {item.eventEndDate}
               </Text>
-              <Text style={stylesEvent.eventDescription}>
+              <Text style={styleEvent.eventDescription}>
                 from {item.eventStartTime} to {item.eventEndTime}
               </Text>
-              <Text style={stylesEvent.eventDescription}>
+              <Text style={styleEvent.eventDescription}>
                 At {item.eventLocation}
               </Text>
-              <Text style={stylesEvent.eventDescription}>
+              <Text style={styleEvent.eventDescription}>
                 {item.eventDescription}
               </Text>
               <View style={styleEvent.flex}>
@@ -442,6 +442,7 @@ const DashboardScreen = ({ navigation }) => {
       <Tab.Screen
         name="Event"
         component={EventScreen}
+        headerShown={false}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
