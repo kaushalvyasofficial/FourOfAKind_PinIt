@@ -27,6 +27,7 @@ export const AppNavigator = () => {
       <Stack.Screen
             name="AddData"
             component={AddDataScreen}
+            options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
