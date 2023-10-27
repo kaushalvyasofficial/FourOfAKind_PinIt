@@ -100,28 +100,32 @@ const stylesHome = StyleSheet.create({
   },
   h1: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontFamily: 'Inter500',
+    paddingHorizontal: 12,
   },
   seeMoreContainer: {
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: "38%",
+    justifyContent: 'center',
   },
   seeMoreText: {
+    fontFamily: 'Inter400',
+    paddingRight: 8,
     fontSize: 15,
-    color: '#007AFF',
-    alignContent:'flex-end',
+    color: '#212121',
   },
   seeMoreIcon: {
     fontSize: 15,
-    color: '#007AFF', // You can choose your preferred color
+    color: '#212121', // You can choose your preferred color
   },
   divCarousel: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '80%',
+    // marginBottom: 10,
   },
 });
 
@@ -306,7 +310,7 @@ const styleEvent = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.3,
     marginVertical: 10,
-    margin: "2%",
+    margin: "5%",
     padding: "3%",
   },
   unselectedText: {
