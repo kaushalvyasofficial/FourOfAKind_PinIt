@@ -115,6 +115,7 @@ function AddDataScreen({ navigation }) {
       showToastMessage(toastMessage);
       // navigation.navigate("ViewNotice");
       console.log("Notice added successfully");
+      navigation.navigate("Explore")
     }
   };
 
@@ -133,7 +134,6 @@ function AddDataScreen({ navigation }) {
     setShowToast(true);
   };
 
-  console.log(selectedDate);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -203,7 +203,7 @@ function AddDataScreen({ navigation }) {
 
 <SelectList
         style={styles.input}
-        setSelected={val => setSelected(val)}
+        setSelected={val => setNoticeData({...noticeData, viewedBy: val})}
         data={data}
         placeholder="Viewed By"
         save="value"
