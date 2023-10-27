@@ -12,8 +12,9 @@ import {
   Alert,
   BackHandler,
   SafeAreaView,
+ 
   ScrollView,
-  FlatList,
+  FlatList,,
 } from "react-native";
 import { Linking } from "react-native";
 import FloatingButton from "./component/FloatingButton";
@@ -35,7 +36,8 @@ import CarouselCardsEvent from "./component/Carousel-Event";
 import CarouselCardsNotice from "./component/Carousel-Notice";
 const Tab = createBottomTabNavigator();
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = () => {
+  // Default to 'admin'
   const [backCount, setBackCount] = useState(0);
   // const navigation = useNavigation();
 
@@ -128,6 +130,7 @@ const stylesHome = StyleSheet.create({
 
 const EventScreen = () => {
   const [eventData, setEventData] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("Ongoing"); // Default to 'Ongoing'
   const monthNames = [
     'Jan', 'Feb', 'Mar', 'Apr',
     'May', 'Jun', 'Jul', 'Aug',
@@ -142,7 +145,6 @@ const EventScreen = () => {
         const querySnapshot = await getDocs(q);
         const eventData = querySnapshot.docs.map((doc) => doc.data());
         setEventData(eventData);
-        // console.log('Events from Firestore:', eventData);
       } catch (error) {
         console.error("Error fetching events from Firestore:", error);
         // Handle the error as per your application's requirements
@@ -157,14 +159,70 @@ const EventScreen = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // console.log("File Download Link : ", eventData.fileDownloadURL);
-  function handlePress(item) {
-    console.log(item.id);
-  }
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+  };
+
+  // Filter events based on the selected option (Ongoing or Upcoming)
+  // Filter events based on the selected option (Ongoing or Upcoming)
+  const filteredEvents = eventData.filter((item) => {
+    const eventDateStr = item.eventDate; // Replace with the actual field name from your data
+
+    if (eventDateStr) {
+      const [day, month, year] = eventDateStr.split("/").map(Number);
+      const eventDate = new Date(year, month - 1, day); // Parse the event date
+
+      if (selectedOption === "Ongoing") {
+        console.log(eventDate, new Date());
+        return eventDate === new Date(); // Filter ongoing events
+      } else if (selectedOption === "Upcoming") {
+        return eventDate > new Date(); // Filter upcoming events
+      }
+    }
+    return false; // Exclude events with undefined or invalid date
+  });
+  
+
   return (
-    <SafeAreaView style={stylesEvent.container}>
+    <View>
+      <View style={styleEvent.buttonContainer}>
+        <TouchableOpacity
+          style={[
+            styleEvent.button,
+            selectedOption === "Ongoing" && styleEvent.selectedButton,
+          ]}
+          onPress={() => handleOptionSelect("Ongoing")}
+        >
+          <Text
+            style={[
+              styleEvent.buttonText,
+              selectedOption !== "Ongoing" && styleEvent.unselectedText,
+            ]}
+          >
+            Ongoing
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styleEvent.button,
+            selectedOption === "Upcoming" && styleEvent.selectedButton,
+          ]}
+          onPress={() => handleOptionSelect("Upcoming")}
+        >
+          <Text
+            style={[
+              styleEvent.buttonText,
+              selectedOption !== "Upcoming" && styleEvent.unselectedText,
+            ]}
+          >
+            Upcoming
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <SafeAreaView style={styleEvent.container}>
       <FlatList
-        data={eventData}
+        data={filteredEvents}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -195,22 +253,41 @@ const EventScreen = () => {
               <Text style={stylesEvent.eventDescription}>
                 {item.eventDescription}
               </Text>
-              {item.fileDownloadURL && (
-                <TouchableOpacity
-                  onPress={() => Linking.openURL(item.fileDownloadURL)}
-                >
-                  <Text style={styles.fileLink}>Download File</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+              <View style={styleEvent.flex}>
+                <View style={styleEvent.eventDescription}>
+                  <MapPin width={20} height={20} />
+                  <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
+                </View>
+                <Text style={styleEvent.eventDate}>
+                  {item.eventDate}
+                </Text>
+              </View>
+              <View style={styleEvent.flex}>
+                {item.fileDownloadURL && (
+                  <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={styleEvent.dwn} >
+                    <DownLoad width={20} height={20} />
+                    <Text style={styleEvent.fileLink}>Download File </Text>
+                  </TouchableOpacity>
+                )}
+                <Text style={styleEvent.eventTime}>
+                  {item.eventStartTime}
+                </Text>
+              </View></View>
           </TouchableOpacity>
         )}
       />
-    </SafeAreaView>
+
+      </SafeAreaView>
+    </View>
   );
 };
-const stylesEvent = StyleSheet.create({
-  container: {
+
+const styleEvent = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  button: {
     flex: 1,
     padding: 16,
   },
@@ -232,14 +309,10 @@ const stylesEvent = StyleSheet.create({
     margin: "2%",
     padding: "3%",
   },
-  image: {
-    // width: "100%",
-    // height: 200,
-    // borderTopLeftRadius: 8,
-    // borderTopRightRadius: 8,
-    resizeMode: "cover",
+  unselectedText: {
+    color: "#A3ACBA",
   },
-  eventName: {
+  buttonText: {
     fontSize: 20,
     fontFamily: "Inter500",
     color: "#30313D",
@@ -288,6 +361,7 @@ const stylesEvent = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
   },
+  
 });
 
 const SearchScreen = () => {
@@ -457,6 +531,126 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "medium",
     marginHorizontal: 10,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  pinDiv: {
+    flex: 1,
+    justifyContent: "center",
+    marginTop: "10%",
+    // backgroundColor: '#000',
+  },
+  pinImage: {
+    // padding: 10,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    // flex: 1,
+    justifyContent: "center",
+    width: "70%",
+    marginBottom: 40,
+  },
+  button: {
+    flex: 1,
+    height: 60,
+    // borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 2,
+    borderColor: "#A3ACBA",
+    // marginBottom: 20,
+  },
+  selectedButton: {
+    borderBottomWidth: 2, // Add underline
+    borderColor: "#635BFF", // Color of underline
+  },
+  unselectedText: {
+    color: "#A3ACBA",
+    // borderBottomWidth: 2,
+    borderColor: "#000",
+    // backgroundColor: '#000',
+  },
+  unselectedButton: {
+    // backgroundColor: '#000',
+    borderBottomWidth: 2, // Add underline
+    borderColor: "#dddddd",
+  },
+  buttonText: {
+    fontSize: 20,
+    fontFamily: "Inter300",
+    // fontWeight: 'bold',
+    color: "#000",
+  },
+  inputContainer: {
+    flex: 3,
+    width: "80%",
+  },
+  mailContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#E4DFDF",
+    borderRadius: 16,
+    marginBottom: 20,
+  },
+  mailInput: {
+    flex: 1,
+    fontFamily: "Inter300",
+    height: 60,
+    paddingHorizontal: 10,
+  },
+  icon: {
+    padding: 20,
+  },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#E4DFDF",
+    borderRadius: 16,
+    marginBottom: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    height: 60,
+    fontFamily: "Inter300",
+    paddingHorizontal: 10,
+  },
+  showPasswordButton: {
+    padding: 10,
+  },
+  rememberMeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  p: {
+    fontFamily: "Inter300",
+    color: "#120D26",
+  },
+  loginButton: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#635BFF",
+    height: 60,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  loginButtonText: {
+    fontSize: 20,
+    paddingHorizontal: "30%",
+    fontFamily: "Inter400",
+    // fontWeight: 'bold',
+    color: "#fff",
+  },
+  spinnerText: {
+    color: "#FFF",
   },
 });
 
