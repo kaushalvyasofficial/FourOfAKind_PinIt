@@ -18,7 +18,7 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { SelectList } from "react-native-dropdown-select-list";
-import Addicon from "../assets/images/addEvent";
+import Addicon from "../assets/images/add";
 import Upload from "../assets/images/upload";
 
 function AddDataScreen({ navigation }) {
@@ -467,7 +467,7 @@ function AddDataScreen({ navigation }) {
         <View style={styles.btnpd}>
           <TouchableOpacity style={styles.btn} onPress={handleAddNotice}>
             <Text style={styles.btnText}>ADD </Text>
-            <Addicon />
+            <Addicon height={25} width={25} />
           </TouchableOpacity>
         </View>
 
@@ -533,13 +533,14 @@ const styles = StyleSheet.create({
     flex: 1,
     color: "#000",
     paddingHorizontal: 10,
-    width:100,
-    
+    width: 100,
+
   },
   inputdd: {
+    fontFamily: "Inter700",
+    // color: "red",
     flex: 1,
     width: "100%",
-    paddingHorizontal: 40,
     // height: 60,  
     marginBottom: 10,
     paddingHorizontal: 10,
@@ -569,11 +570,12 @@ const styles = StyleSheet.create({
   dropdown: {
     borderWidth: 1,
     borderColor: "#E4DFDF",
-    marginTop:-10,
+    marginTop: -10,
     marginBottom: 10,
+    borderRadius: 16,
     // borderRadiusBottomLeft: 0,
 
-    
+
   },
   dropdownItem: {
     justifyContent: "flex-start",
@@ -598,7 +600,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 0,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 0,
   },
   uploadedFileText: {
     fontFamily: "Inter300",
@@ -608,7 +610,7 @@ const styles = StyleSheet.create({
   uploadedFileNameContainer: {
     backgroundColor: "#ffffff",
     padding: 5,
-    borderRadius: 5,
+    borderRadius: 0,
   },
   uploadedFileName: {
     fontFamily: "Inter400",
@@ -625,7 +627,7 @@ const styles = StyleSheet.create({
     right: 20,
     backgroundColor: "#333",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 0,
     backgroundColor: "#000000",
   },
   toastText: {
@@ -664,6 +666,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter400",
     color: "#fff",
     fontSize: 20,
+    paddingHorizontal: 10,
   },
   btnsText: {
     fontFamily: "Inter400",
