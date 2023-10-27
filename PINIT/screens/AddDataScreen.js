@@ -25,7 +25,7 @@ function AddDataScreen({ navigation }) {
   // const [selected, setSelected] = useState("");
 
   useBackHandler(() => {
-    navigation.navigate("Explore");
+    navigation.navigate("Dashboard");
   });
 
   const [loading, setLoading] = useState(false);

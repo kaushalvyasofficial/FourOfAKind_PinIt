@@ -29,20 +29,24 @@ import { FlatList } from "react-native-gesture-handler";
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
+  const [backCount, setBackCount] = useState(0);
   useBackHandler(() => {
-    Alert.alert(
-      "Logout",
-      "Are you sure you want to Exit?",
-      [
-        { text: "No", style: "cancel" },
-        {
-          text: "Yes",
-          onPress: () => BackHandler.exitApp(),
-        },
-      ],
-      { cancelable: true }
-    );
-  });
+    setBackCount(backCount + 1);  
+    if(backCount >= 1){
+      setBackCount(0);
+      Alert.alert(
+        'Logout',
+        'Are you sure you want to Exit?',
+        [
+          { text: 'No', style: 'cancel' },
+          {
+            text: 'Yes',
+            onPress: () => BackHandler.exitApp(),
+          },
+        ],
+        { cancelable: true }
+      );
+  }})
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
@@ -160,9 +164,9 @@ const ProfileScreen = ({ navigation }) => {
 };
 
 const DashboardScreen = ({ navigation }) => {
-  useBackHandler(() => {
-    navigation.navigate("Explore");
-  });
+  // useBackHandler(() => {
+  //   navigation.navigate("Explore");
+  // });
 
   function onClick() {
     navigation.navigate("AddData");
