@@ -159,14 +159,14 @@ function AddDataScreen({ navigation }) {
         />
         <SelectList
         style={styles.input}
-        setSelected={val => setSelected(val)}
+        setSelected={val => setNoticeData({...noticeData, authorizedBy: val})}
         data={data}
         placeholder="Authorized By"
         save="value"
       />
         <SelectList
         style={styles.input}
-        setSelected={val => setSelected(val)}
+        setSelected={val => setNoticeData({...noticeData, concernedFaculty: val})}
         data={data}
         placeholder="Concerned Faculty"
         save="value"
@@ -177,7 +177,7 @@ function AddDataScreen({ navigation }) {
           placeholder="Notice Date"
           value={noticeData.noticeDate}
           onChangeText={(text) =>
-            setNoticeData({ ...noticeData, noticeDate: text })
+            setNoticeData({ ...noticeData, noticeData: text })
           }
           onFocus={showDatepicker}
         />
@@ -195,7 +195,7 @@ function AddDataScreen({ navigation }) {
 
         <SelectList
         style={styles.input}
-        setSelected={val => setSelected(val)}
+        setSelected={val => setNoticeData({...noticeData, issuedFor: val})}
         data={data}
         placeholder="Issued For"
         save="value"
