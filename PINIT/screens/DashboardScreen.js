@@ -254,7 +254,7 @@ const EventScreen = () => {
                     <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
                   </View>
                   <Text style={styleEvent.eventDate}>
-                    {item.eventDate}
+                    from {item.eventDate} to {item.eventEndDate}
                   </Text>
                 </View>
                 <View style={styleEvent.flex}>
@@ -265,7 +265,7 @@ const EventScreen = () => {
                     </TouchableOpacity>
                   )}
                   <Text style={styleEvent.eventTime}>
-                    {item.eventTime}
+                   At {item.eventTime.substring(0,5)}
                   </Text>
                 </View>
               </View>
