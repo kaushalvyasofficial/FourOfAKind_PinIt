@@ -181,7 +181,7 @@ const DashboardScreen = ({ navigation }) => {
       right: 0,
       left: 0,
       elevation: 0,
-      height: "8%",
+      height: "7%",
       backgroundColor: "#fff",
     },
   };
@@ -228,7 +228,7 @@ const DashboardScreen = ({ navigation }) => {
         component={FloatingButton}
         options={{
           tabBarButton: () => (
-            <View style={{ flex: 1, alignItems: "center", marginBottom: "7%" }}>
+            <View style={{ flex: 1, alignItems: "center", marginBottom: "6%" }}>
               <FloatingButton onPress={onClick} />
             </View>
           ),
