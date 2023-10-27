@@ -115,6 +115,8 @@ function AddDataScreen({ navigation }) {
       setLoading(false);
       showToastMessage(toastMessage);
       // navigation.navigate("ViewNotice");
+      console.log("Notice added successfully");
+      navigation.navigate("Explore")
     }
   };
 
@@ -138,7 +140,6 @@ function AddDataScreen({ navigation }) {
     setShowToast(true);
   };
 
-  console.log(selectedDate);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -284,22 +285,22 @@ function AddDataScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
     textAlign: "center",
   },
   label: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "medium",
     marginBottom: 10,
   },
   input: {
-    height: 40,
+    height: 60,
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
