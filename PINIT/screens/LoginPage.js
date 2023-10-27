@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   pinDiv: {
     flex: 1,
     justifyContent: "center",
-    marginTop: "30%",
+    marginTop: "10%",
     // backgroundColor: '#000',
   },
   pinImage: {
@@ -317,6 +317,7 @@ const styles = StyleSheet.create({
   rememberMeContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 20,
   },
   p: {
     fontFamily: "Inter300",
@@ -327,7 +328,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#635BFF",
     height: 60,
-    borderRadius: 10,
+    borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
