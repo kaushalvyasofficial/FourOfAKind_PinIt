@@ -20,13 +20,12 @@ export default function CarouselCardsNotice(uid) {
         const q = collection(db, "Notices"); // Use collection to reference the 'Event' collection
         const querySnapshot = await getDocs(q);
         const data = querySnapshot.docs.map((doc) => doc.data());
-        
         const newArray = data.map(obj => ({
-          title: obj.eventName,
-          body: obj.eventDescription,
-          imgUrl: obj.fileDownloadURL,
+          "title": obj.noticeName,
+          "body": obj.noticeDescription,
+          "imgUrl": obj.fileDownloadURL,
         }));
-        // console.log(newArray);
+        console.log(newArray);
         setEventData(newArray.slice(0,5));
       }
       catch (error) {
