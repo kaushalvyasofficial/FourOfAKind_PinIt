@@ -177,7 +177,6 @@ const stylesEvent = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Inter500",
     color: "#30313D",
-    marginBottom: 10,
   },
   eventDate: {
     fontSize: 12,

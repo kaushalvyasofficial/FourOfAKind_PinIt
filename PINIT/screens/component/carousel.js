@@ -23,10 +23,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'lightblue',
     borderRadius: 8,
-    marginRight: 25,
-    paddingRight: 25,
     width: ITEM_WIDTH,
-    paddingBottom: 40,
+    margin: "2%",
+    padding: "3%",
+    paddingRight: 30,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -35,10 +35,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 3,
+    overflow: "hidden",
   },
   image: {
     width: ITEM_WIDTH,
     height: 200,
+    borderTopRightRadius: 8,
+    borderTopLeftRadius: 8,
   },
   header: {
     color: "#222",
