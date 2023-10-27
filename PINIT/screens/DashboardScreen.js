@@ -78,10 +78,14 @@ const DashboardScreen = ({ navigation }) => {
   //   console.log("DashboardScreen");
   return (
     <Tab.Navigator
-      tabBarOprions={{
+      tabBarOptions={{
         activeTintColor: "white",
         inactiveTintColor: "black",
         showLabel: false,
+      }}
+      tabBarStyle={{
+        backgroundColor: "#ddd",
+        height:10,
       }}
     >
       <Tab.Screen
@@ -97,7 +101,7 @@ const DashboardScreen = ({ navigation }) => {
         name="Event"
         component={EventScreen}
         options={{
-          tabBarIcon: ({ color, size }) => <EventLogo color="#635bff" />,
+          tabBarIcon: () => <EventLogo fill="#635bff" size = "20" />,
         }}
       />
 
