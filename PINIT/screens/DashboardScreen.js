@@ -82,7 +82,9 @@ const EventScreen = () => {
   }, []);
 
   // console.log("File Download Link : ", eventData.fileDownloadURL);
-
+  function handlePress (item){
+      console.log(item.id);
+  }
   return (
     <SafeAreaView style={stylesEvent.container}>
 
@@ -90,14 +92,16 @@ const EventScreen = () => {
         data={eventData}
         keyExtractor={(item) => item.id}
         renderItem={({item}) =>(
-          <TouchableOpacity style={stylesEvent.card}>
+          <TouchableOpacity style={stylesEvent.card} onPress={(item) =>handlePress(item)}>
             <View>
               <Image
-                source={null && { uri: item.fileDownloadURL }}
+                source={{ uri: item.fileDownloadURL }}
                 style={stylesEvent.image}
               />
               <Text style={stylesEvent.eventName}>{item.eventName}</Text>
-              <Text style={stylesEvent.eventDescription}>{item.fileDownloadURL}</Text>
+              <Text style={stylesEvent.eventDescription}>{item.eventStartDate} to {item.eventEndDate}</Text>
+              <Text style={stylesEvent.eventDescription}>from {item.eventStartTime} to {item.eventEndTime}</Text>
+              <Text style={stylesEvent.eventDescription}>At {item.eventLocation}</Text>
               <Text style={stylesEvent.eventDescription}>
                 {item.eventDescription}
               </Text>

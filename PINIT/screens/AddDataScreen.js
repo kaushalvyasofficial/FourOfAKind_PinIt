@@ -89,7 +89,7 @@ function AddDataScreen({ navigation }) {
         eventStartTime: "",
         eventEndTime: "",
         eventauthorizedBy: "",
-        eventIssuedFor: "",
+        eventLocation: "",
         eventDescription: "",
         uploadedFileURI: null,
       });
@@ -566,10 +566,10 @@ function AddDataScreen({ navigation }) {
               // dropdownItemStyles={styles.dropdownItem}
               dropdownStyles={styles.dropdown}
               setSelected={(val) =>
-                setEventData({ ...eventData, eventIssuedFor: val })
+                setEventData({ ...eventData, eventLocation: val })
               }
               data={data}
-              placeholder="Issued For"
+              placeholder="Location"
               placeholderTextColor="#E4DFDF"
               save="value"
             />
