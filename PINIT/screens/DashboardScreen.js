@@ -12,6 +12,7 @@ import {
   Alert,
   BackHandler,
   SafeAreaView,
+ 
   ScrollView,
   FlatList,
 } from "react-native";
@@ -28,14 +29,18 @@ import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { db } from "../FirebaseConfig";
 import { collection, getDocs, query } from "firebase/firestore";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { useNavigation } from '@react-navigation/native';
 
 import CarouselCardsEvent from "./component/Carousel-Event";
 import CarouselCardsNotice from "./component/Carousel-Notice";
 const Tab = createBottomTabNavigator();
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   // Default to 'admin'
   const [backCount, setBackCount] = useState(0);
+  // const navigation = useNavigation();
+
   useBackHandler(() => {
     setBackCount(backCount + 1);
     if (backCount >= 1) {
@@ -54,17 +59,72 @@ const HomeScreen = () => {
       );
     }
   });
+
+  function handleClick() {
+    console.log("See more clicked");
+    navigation.navigate("Event");
+  }
+  function handleClickNotice() {
+    console.log("See more clicked");
+    navigation.navigate("Notice");
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.h1}>Home Screen</Text>
       <ScrollView>
+        <View style={stylesHome.divCarousel}>
+          <Text style={stylesHome.h1}>Recent Notices</Text>
+          <TouchableOpacity style={stylesHome.seeMoreContainer} onPress={handleClickNotice}>
+            <Text style={stylesHome.seeMoreText}>See more</Text>
+            <Icon name="chevron-right" style={stylesHome.seeMoreIcon} />
+          </TouchableOpacity>
+        </View>
         <CarouselCardsNotice />
+        <View style={stylesHome.divCarousel}>
+          <Text style={stylesHome.h1}>Recent Events</Text>
+          <TouchableOpacity style={stylesHome.seeMoreContainer} onPress={handleClick}>
+            <Text style={stylesHome.seeMoreText}>See more</Text>
+            <Icon name="chevron-right" style={stylesHome.seeMoreIcon} />
+          </TouchableOpacity>
+        </View>
         <CarouselCardsEvent />
       </ScrollView>
-      {/* <CarouselCards /> */}
     </View>
   );
 };
+
+const stylesHome = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: 'white',
+  },
+  h1: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  seeMoreContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: "38%",
+  },
+  seeMoreText: {
+    fontSize: 15,
+    color: '#007AFF',
+    alignContent:'flex-end',
+  },
+  seeMoreIcon: {
+    fontSize: 15,
+    color: '#007AFF', // You can choose your preferred color
+  },
+  divCarousel: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+  },
+});
+
 
 
 
@@ -165,15 +225,31 @@ const EventScreen = () => {
         data={filteredEvents}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styleEvent.card} onPress={(item) => handlePress(item)}>
+          <TouchableOpacity
+            style={styleEvent.card}
+            onPress={(item) => handlePress(item)}
+          >
             <View>
               <Image
                 source={null || { uri: item.fileDownloadURL }}
-                style={{ width: "100%", height: 200, borderTopLeftRadius: 8, borderTopRightRadius: 8, resizeMode: "cover" }}
+                style={{
+                  width: "100%",
+                  height: 200,
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                  resizeMode: "cover",
+                }}
               />
               <Text style={styleEvent.eventName}>{item.eventName}</Text>
-
-
+              <Text style={styleEvent.eventDescription}>
+                {item.eventStartDate} to {item.eventEndDate}
+              </Text>
+              <Text style={styleEvent.eventDescription}>
+                from {item.eventStartTime} to {item.eventEndTime}
+              </Text>
+              <Text style={styleEvent.eventDescription}>
+                At {item.eventLocation}
+              </Text>
               <Text style={styleEvent.eventDescription}>
                 {item.eventDescription}
               </Text>
@@ -366,6 +442,7 @@ const DashboardScreen = ({ navigation }) => {
       <Tab.Screen
         name="Event"
         component={EventScreen}
+        headerShown={false}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -380,6 +457,7 @@ const DashboardScreen = ({ navigation }) => {
           },
         }}
       />
+      
 
       <Tab.Screen
         name="FloatingButtonScreen"
