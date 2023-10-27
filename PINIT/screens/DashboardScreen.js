@@ -18,6 +18,7 @@ import { Linking } from 'react-native';
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
 import DownLoad from "../assets/images/download";
+import MapPin from "../assets/images/map-pin";
 import { useBackHandler } from "@react-native-community/hooks";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -33,8 +34,8 @@ const Tab = createBottomTabNavigator();
 const HomeScreen = () => {
   const [backCount, setBackCount] = useState(0);
   useBackHandler(() => {
-    setBackCount(backCount + 1);  
-    if(backCount >= 1){
+    setBackCount(backCount + 1);
+    if (backCount >= 1) {
       setBackCount(0);
       Alert.alert(
         'Logout',
@@ -48,7 +49,8 @@ const HomeScreen = () => {
         ],
         { cancelable: true }
       );
-  }})
+    }
+  })
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
@@ -84,17 +86,17 @@ const EventScreen = () => {
   }, []);
 
   // console.log("File Download Link : ", eventData.fileDownloadURL);
-  function handlePress (item){
-      console.log(item.id);
+  function handlePress(item) {
+    console.log(item.id);
   }
   return (
     <SafeAreaView style={stylesEvent.container}>
 
-      <FlatList 
+      <FlatList
         data={eventData}
         keyExtractor={(item) => item.id}
-        renderItem={({item}) =>(
-          <TouchableOpacity style={stylesEvent.card} onPress={(item) =>handlePress(item)}>
+        renderItem={({ item }) => (
+          <TouchableOpacity style={stylesEvent.card} onPress={(item) => handlePress(item)}>
             <View>
               <Image
                 source={{ uri: item.fileDownloadURL }}
@@ -103,10 +105,11 @@ const EventScreen = () => {
               <Text style={stylesEvent.eventName}>{item.eventName}</Text>
               <Text style={stylesEvent.eventDescription}>{item.eventStartDate} to {item.eventEndDate}</Text>
               <Text style={stylesEvent.eventDescription}>from {item.eventStartTime} to {item.eventEndTime}</Text>
-              <Text style={stylesEvent.eventDescription}>At {item.eventLocation}</Text>
-              <Text style={stylesEvent.eventDescription}>
-                {item.eventDescription} 
-              </Text>
+              <Text style={stylesEvent.eventDescription}>{item.eventDescription}</Text>
+              <View style={stylesEvent.eventDescription}>
+                <MapPin width={20} height={20} />
+                <Text style={stylesEvent.eventLocation}> {item.eventLocation} </Text>
+              </View>
               {item.fileDownloadURL && (
                 <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={stylesEvent.dwn} >
                   <DownLoad width={20} height={20} />
@@ -150,10 +153,23 @@ const stylesEvent = StyleSheet.create({
     marginBottom: 10,
   },
   eventDescription: {
+    display: "flex",
+    flexDirection: "row",
+    // justifyContent: "center",
+    alignItems: "center",
     fontSize: 16,
     fontFamily: "Inter300",
-    color: "#30313D",
+    // color: "#716E90",
     marginBottom: 10,
+  },
+  eventLocation: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 14,
+    fontFamily: "Inter400",
+    color: "#716E90",
   },
   fileLink: {
     fontSize: 12,
@@ -162,7 +178,7 @@ const stylesEvent = StyleSheet.create({
     color: "#30313D",
     textDecorationLine: "underline",
   },
-  dwn:{
+  dwn: {
     display: "flex",
     flexDirection: "row",
   }
