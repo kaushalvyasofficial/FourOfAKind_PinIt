@@ -5,20 +5,12 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Spinner from 'react-native-loading-spinner-overlay';
 import LoginLogo from '../assets/images/loginlogo';
 import {useBackHandler} from '@react-native-community/hooks'
-import {useRoute } from '@react-navigation/native';
+import { useRoute } from "@react-navigation/native";
 // import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const LoginPage = ({ navigation }) => {
-  const route = useRoute();
-  
-
 useBackHandler(() => {
-  if (route.name == "Login" || route.name == "Dashboard") {
-    // handle it
-    return true
-  }
-  // let the default thing happen
-  return false
+  return true
 })
 
   // const navigation = useNavigation();

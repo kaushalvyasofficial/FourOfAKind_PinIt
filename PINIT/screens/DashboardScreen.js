@@ -14,12 +14,17 @@ import EventLogo from "../assets/images/Calendar";
 import SearchLogo from "../assets/images/search";
 import ProfileLogo from "../assets/images/profile";
 import FloatingButton from "./component/FloatingButton";
-
+import { useRoute } from "@react-navigation/native";
+import {useBackHandler} from '@react-native-community/hooks'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+
 
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
+
+  
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
@@ -53,6 +58,9 @@ const ProfileScreen = () => {
 
 const DashboardScreen = ({ navigation }) => {
 
+useBackHandler(() => {
+  navigation.navigate("Explore");
+})
 
     function onClick() {
         navigation.navigate("AddData");
@@ -67,7 +75,7 @@ const DashboardScreen = ({ navigation }) => {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="Explore"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
