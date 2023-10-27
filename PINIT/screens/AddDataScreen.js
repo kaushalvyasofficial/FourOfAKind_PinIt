@@ -17,7 +17,6 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { get } from "react-native/Libraries/Utilities/PixelRatio";
 import { SelectList } from "react-native-dropdown-select-list";
 
 function AddDataScreen({ navigation }) {
@@ -26,14 +25,14 @@ function AddDataScreen({ navigation }) {
   useBackHandler(() => {
     navigation.navigate("Explore");
   });
-  // const navigation = useNavigation();
+
   const [loading, setLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedOption, setSelectedOption] = useState("Notice"); // Default to 'admin'
+  const [selectedOption, setSelectedOption] = useState("Notices"); // Default to 'Notices'
 
   const [noticeData, setNoticeData] = useState({
     noticeName: "",
@@ -46,25 +45,45 @@ function AddDataScreen({ navigation }) {
     description: "",
   });
 
+  const [eventData, setEventData] = useState({
+    eventName: "",
+    eventID: "",
+    eventDate: "",
+    eventLocation: "",
+    eventDescription: "",
+  });
+
   const handleOptionSelect = (option) => {
-    setNoticeData({
-      noticeName: "",
-      noticeID: "",
-      authorizedBy: "",
-      concernedFaculty: "",
-      noticeDate: "",
-      issuedFor: "",
-      viewedBy: "",
-      description: "",
-    });
     setSelectedOption(option);
+    setUploadedFile(null); // Clear any uploaded file
+    setShowDatePicker(false); // Close the date picker
+
+    // Reset the form data based on the selected option
+    if (option === "Notices") {
+      setNoticeData({
+        noticeName: "",
+        noticeID: "",
+        authorizedBy: "",
+        concernedFaculty: "",
+        noticeDate: "",
+        issuedFor: "",
+        viewedBy: "",
+        description: "",
+      });
+    } else if (option === "Event") {
+      setEventData({
+        eventName: "",
+        eventID: "",
+        eventDate: "",
+        eventLocation: "",
+        eventDescription: "",
+      });
+    }
   };
 
   const handleFileUpload = async () => {
-    console.log("in file handler");
     const file = await DocumentPicker.getDocumentAsync();
 
-    console.log(file);
     if (file.assets) {
       setUploadedFile(file);
     } else {
@@ -81,7 +100,11 @@ function AddDataScreen({ navigation }) {
     if (selectedDate) {
       setSelectedDate(selectedDate);
       const formattedDate = selectedDate.toLocaleDateString("en-GB");
-      setNoticeData({ ...noticeData, noticeDate: formattedDate });
+      if (selectedOption === "Notices") {
+        setNoticeData({ ...noticeData, noticeDate: formattedDate });
+      } else if (selectedOption === "Event") {
+        setEventData({ ...eventData, eventDate: formattedDate });
+      }
     }
   };
 
@@ -108,7 +131,7 @@ function AddDataScreen({ navigation }) {
 
       // Add notice to Firestore with the download URL (if available)
       await addDoc(collection(db, "data"), {
-        ...noticeData,
+        ...(selectedOption === "Notices" ? noticeData : eventData),
         fileDownloadURL: downloadUrl,
         selectedOption: selectedOption,
       });
@@ -124,19 +147,23 @@ function AddDataScreen({ navigation }) {
         viewedBy: "",
         description: "",
       });
+      setEventData({
+        eventName: "",
+        eventID: "",
+        eventDate: "",
+        eventLocation: "",
+        eventDescription: "",
+      });
 
       setUploadedFile(null);
       setToastMessage("Notice was successfully created");
-      console.log("Notice added successfully");
+      navigation.navigate("Explore");
     } catch (error) {
       console.error("Error adding notice to Firestore:", error);
       // Handle the error as per your application's requirements
     } finally {
       setLoading(false);
-      showToastMessage(toastMessage);
-      // navigation.navigate("ViewNotice");
-      console.log("Notice added successfully");
-      navigation.navigate("Explore");
+      setToastMessage(toastMessage);
     }
   };
 
@@ -150,10 +177,7 @@ function AddDataScreen({ navigation }) {
     { key: "7", value: "Admin" },
   ];
 
-  const showToastMessage = (message) => {
-    setToastMessage(message);
-    setShowToast(true);
-  };
+  // Rest of your code...
 
   return (
     <SafeAreaView style={styles.container}>
@@ -162,173 +186,234 @@ function AddDataScreen({ navigation }) {
           <TouchableOpacity
             style={[
               styles.button,
-              // styles.adminButton,
-              selectedOption === "notices" && styles.selectedButton,
-              selectedOption === "event" && styles.unselectedButton,
+              selectedOption === "Notices" && styles.selectedButton,
             ]}
-            onPress={() => handleOptionSelect("notices")}
+            onPress={() => handleOptionSelect("Notices")}
           >
-            <Text
-              style={[
-                styles.buttonText,
-                selectedOption === "event" && styles.unselectedText,
-              ]}
-            >
-              Notices
-            </Text>
+            <Text style={styles.buttonText}>Notices</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.button,
-              styles.studentButton,
-              selectedOption === "event" && styles.selectedButton,
-              selectedOption === "notices" && styles.unselectedButton,
+              selectedOption === "Event" && styles.selectedButton,
             ]}
-            onPress={() => handleOptionSelect("event")}
+            onPress={() => handleOptionSelect("Event")}
           >
-            <Text
-              style={[
-                styles.buttonText,
-                selectedOption === "notices" && styles.unselectedText,
-              ]}
-            >
-              Event
-            </Text>
+            <Text style={styles.buttonText}>Event</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.inputContainer}>
-          <View style={styles.noticeContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Notice Name"
-              placeholderTextColor="#74768890"
-              value={noticeData.noticeName}
-              onChangeText={(text) =>
-                setNoticeData({ ...noticeData, noticeName: text })
-              }
-            />
-          </View>
-          <View style={styles.noticeContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Notice ID"
-              placeholderTextColor="#74768890"
-              value={noticeData.noticeID}
-              onChangeText={(text) =>
-                setNoticeData({ ...noticeData, noticeID: text })
-              }
-            />
-          </View>
-          <View style={styles.noticeContainer}>
-            <SelectList
-              style={styles.inputdd}
-              setSelected={(val) =>
-                setNoticeData({ ...noticeData, authorizedBy: val })
-              }
-              data={data}
-              placeholder="Authorizedd By"
-              placeholderTextColor="#74768890"
-              save="value"
-            />
-          </View>
-        </View>
-        <View style={styles.inputContainer}>
-          <SelectList
-            style={styles.input}
-            setSelected={(val) =>
-              setNoticeData({ ...noticeData, authorizedBy: val })
-            }
-            data={data}
-            placeholder="Authorized By"
-            save="value"
-          />
-          <SelectList
-            style={styles.input}
-            setSelected={(val) =>
-              setNoticeData({ ...noticeData, concernedFaculty: val })
-            }
-            data={data}
-            placeholder="Concerned Faculty"
-            save="value"
-          />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Notice Date"
-            value={noticeData.noticeDate}
-            onChangeText={(text) =>
-              setNoticeData({ ...noticeData, noticeData: text })
-            }
-            onFocus={showDatepicker}
-          />
-
-          {showDatePicker && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={selectedDate}
-              mode="date"
-              is24Hour={true}
-              display="default"
-              onChange={handleDateChange}
-            />
-          )}
-
-          <SelectList
-            style={styles.input}
-            setSelected={(val) =>
-              setNoticeData({ ...noticeData, issuedFor: val })
-            }
-            data={data}
-            placeholder="Issued For"
-            save="value"
-          />
-
-          <SelectList
-            style={styles.input}
-            setSelected={(val) =>
-              setNoticeData({ ...noticeData, viewedBy: val })
-            }
-            data={data}
-            placeholder="Viewed By"
-            save="value"
-          />
-
-          {/* Rest of the input fields and components */}
-
-          {/* Add Description */}
-          <Text style={styles.label}>Description:</Text>
-          <TextInput
-            style={styles.input}
-            multiline
-            value={noticeData.description}
-            onChangeText={(text) =>
-              setNoticeData({ ...noticeData, description: text })
-            }
-          />
-
-          {/* Upload Document */}
-          <Text style={styles.label}>Upload Document:</Text>
-          <TouchableOpacity style={styles.button} onPress={handleFileUpload}>
-            <Text style={styles.buttonText}>UPLOAD FILE</Text>
-          </TouchableOpacity>
-
-          {/* Uploaded File Display */}
-          {uploadedFile && (
-            <View style={styles.uploadedFileContainer}>
-              <Text style={styles.uploadedFileText}>Uploaded File:</Text>
-              <View style={styles.uploadedFileNameContainer}>
-                <Text style={styles.uploadedFileName}>
-                  {uploadedFile.assets[0].name}
-                </Text>
-              </View>
+        {selectedOption === "Notices" && (
+          <><View style={styles.inputContainer}>
+            <View style={styles.noticeContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Notice Name"
+                placeholderTextColor="#74768890"
+                value={noticeData.noticeName}
+                onChangeText={(text) => setNoticeData({ ...noticeData, noticeName: text })} />
             </View>
-          )}
+            <View style={styles.noticeContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Notice ID"
+                placeholderTextColor="#74768890"
+                value={noticeData.noticeID}
+                onChangeText={(text) => setNoticeData({ ...noticeData, noticeID: text })} />
+            </View>
+            <View style={styles.noticeContainer}>
+              <SelectList
+                style={styles.inputdd}
+                setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
+                data={data}
+                placeholder="Authorizedd By"
+                placeholderTextColor="#74768890"
+                save="value" />
+            </View>
+          </View><View style={styles.inputContainer}>
+              <SelectList
+                style={styles.input}
+                setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
+                data={data}
+                placeholder="Authorized By"
+                save="value" />
+              <SelectList
+                style={styles.input}
+                setSelected={(val) => setNoticeData({ ...noticeData, concernedFaculty: val })}
+                data={data}
+                placeholder="Concerned Faculty"
+                save="value" />
 
-          {/* Add Notice Button */}
-          <TouchableOpacity style={styles.button} onPress={handleAddNotice}>
+              <TextInput
+                style={styles.input}
+                placeholder="Notice Date"
+                value={noticeData.noticeDate}
+                onChangeText={(text) => setNoticeData({ ...noticeData, noticeData: text })}
+                onFocus={showDatepicker} />
+
+              {showDatePicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={selectedDate}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  onChange={handleDateChange} />
+              )}
+
+              <SelectList
+                style={styles.input}
+                setSelected={(val) => setNoticeData({ ...noticeData, issuedFor: val })}
+                data={data}
+                placeholder="Issued For"
+                save="value" />
+
+              <SelectList
+                style={styles.input}
+                setSelected={(val) => setNoticeData({ ...noticeData, viewedBy: val })}
+                data={data}
+                placeholder="Viewed By"
+                save="value" />
+
+              {/* Rest of the input fields and components */}
+
+              {/* Add Description */}
+              <Text style={styles.label}>Description:</Text>
+              <TextInput
+                style={styles.input}
+                multiline
+                value={noticeData.description}
+                onChangeText={(text) => setNoticeData({ ...noticeData, description: text })} />
+
+              {/* Upload Document */}
+              <Text style={styles.label}>Upload Document:</Text>
+              <TouchableOpacity style={styles.button} onPress={handleFileUpload}>
+                <Text style={styles.buttonText}>UPLOAD FILE</Text>
+              </TouchableOpacity>
+
+              {/* Uploaded File Display */}
+              {uploadedFile && (
+                <View style={styles.uploadedFileContainer}>
+                  <Text style={styles.uploadedFileText}>Uploaded File:</Text>
+                  <View style={styles.uploadedFileNameContainer}>
+                    <Text style={styles.uploadedFileName}>
+                      {uploadedFile.assets[0].name}
+                    </Text>
+                  </View>
+                </View>
+              )}
+            </View></>
+        )}
+
+        {selectedOption === "Event" && (
+          <View style={styles.inputContainer}>
+                <><View style={styles.inputContainer}>
+            <View style={styles.noticeContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Notice Name"
+                placeholderTextColor="#74768890"
+                value={noticeData.noticeName}
+                onChangeText={(text) => setNoticeData({ ...noticeData, noticeName: text })} />
+            </View>
+            <View style={styles.noticeContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Notice ID"
+                placeholderTextColor="#74768890"
+                value={noticeData.noticeID}
+                onChangeText={(text) => setNoticeData({ ...noticeData, noticeID: text })} />
+            </View>
+            <View style={styles.noticeContainer}>
+              <SelectList
+                style={styles.inputdd}
+                setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
+                data={data}
+                placeholder="Authorizedd By"
+                placeholderTextColor="#74768890"
+                save="value" />
+            </View>
+          </View><View style={styles.inputContainer}>
+              <SelectList
+                style={styles.input}
+                setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
+                data={data}
+                placeholder="Authorized By"
+                save="value" />
+              <SelectList
+                style={styles.input}
+                setSelected={(val) => setNoticeData({ ...noticeData, concernedFaculty: val })}
+                data={data}
+                placeholder="Concerned Faculty"
+                save="value" />
+
+              <TextInput
+                style={styles.input}
+                placeholder="Notice Date"
+                value={noticeData.noticeDate}
+                onChangeText={(text) => setNoticeData({ ...noticeData, noticeData: text })}
+                onFocus={showDatepicker} />
+
+              {showDatePicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={selectedDate}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  onChange={handleDateChange} />
+              )}
+
+              <SelectList
+                style={styles.input}
+                setSelected={(val) => setNoticeData({ ...noticeData, issuedFor: val })}
+                data={data}
+                placeholder="Issued For"
+                save="value" />
+
+              <SelectList
+                style={styles.input}
+                setSelected={(val) => setNoticeData({ ...noticeData, viewedBy: val })}
+                data={data}
+                placeholder="Viewed By"
+                save="value" />
+
+              {/* Rest of the input fields and components */}
+
+              {/* Add Description */}
+              <Text style={styles.label}>Description:</Text>
+              <TextInput
+                style={styles.input}
+                multiline
+                value={noticeData.description}
+                onChangeText={(text) => setNoticeData({ ...noticeData, description: text })} />
+
+              {/* Upload Document */}
+              <Text style={styles.label}>Upload Document:</Text>
+              <TouchableOpacity style={styles.button} onPress={handleFileUpload}>
+                <Text style={styles.buttonText}>UPLOAD FILE</Text>
+              </TouchableOpacity>
+
+              {/* Uploaded File Display */}
+              {uploadedFile && (
+                <View style={styles.uploadedFileContainer}>
+                  <Text style={styles.uploadedFileText}>Uploaded File:</Text>
+                  <View style={styles.uploadedFileNameContainer}>
+                    <Text style={styles.uploadedFileName}>
+                      {uploadedFile.assets[0].name}
+                    </Text>
+                  </View>
+                </View>
+              )}
+            </View></>
+          </View>
+        )}
+
+         {/* Add Notice Button */}
+         <TouchableOpacity style={styles.button} onPress={handleAddNotice}>
             <Text style={styles.buttonText}>ADD </Text>
           </TouchableOpacity>
-        </View>
+        
 
         <Spinner
           visible={loading}
@@ -343,6 +428,8 @@ function AddDataScreen({ navigation }) {
           autoHideDuration={3000}
           onHidden={() => setShowToast(false)}
         />
+
+        {/* Rest of your code... */}
       </ScrollView>
     </SafeAreaView>
   );
