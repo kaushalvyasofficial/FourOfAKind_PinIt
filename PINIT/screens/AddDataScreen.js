@@ -61,9 +61,11 @@ function AddDataScreen({ navigation }) {
   };
 
   const handleFileUpload = async () => {
+    console.log("in file handler")
     const file = await DocumentPicker.getDocumentAsync();
+
     console.log(file);
-    if (file) {
+    if (file.assets) {
       setUploadedFile(file);
     } else {
       console.log("file not selected");
