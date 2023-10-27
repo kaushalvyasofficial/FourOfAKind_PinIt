@@ -17,8 +17,8 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   logo: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 export default HomeScreen;
