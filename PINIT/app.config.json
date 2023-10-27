@@ -1,0 +1,9 @@
+{
+    "expo": {
+      "assets": [
+        {
+          "font": "assets/fonts/Inter%20Light.ttf"
+        }
+      ]
+    }
+  }

@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator();
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text style={styles.h1}>Home Screen</Text>
     </View>
   );
 };
@@ -145,8 +145,10 @@ const styles = StyleSheet.create({
     left: "-80%",
   },
   h1: {
+    fontFamily: "Roboto",
+    fontFamily: "InterMedium",
     color: "#30313D",
-    fontSize: 48,
+    fontSize: 58,
     fontWeight: "medium",
   },
   txt: {

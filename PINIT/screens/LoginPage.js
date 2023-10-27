@@ -161,6 +161,8 @@ const LoginPage = ({ navigation }) => {
               style={styles.mailInput}
               placeholder="email@gmail.com"
               placeholderTextColor="#74768890"
+              // placeholder font family
+              place
               onChangeText={(text) => setEmail(text)}
               value={email}
             />
@@ -193,7 +195,7 @@ const LoginPage = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.rememberMeContainer}>
-            <Text>Remember Me</Text>
+            <Text style={styles.p}>Remember Me</Text>
             <Switch
               trackColor={{ false: "#C0C8D2", true: "#635BFF" }}
               thumbColor={rememberMe ? "#fff" : "#fff"}
@@ -268,6 +270,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 20,
+    fontFamily: "InterMedium",
     // fontWeight: 'bold',
     color: "#000",
   },
@@ -285,6 +288,7 @@ const styles = StyleSheet.create({
   },
   mailInput: {
     flex: 1,
+    fontFamily: "Inter200",
     height: 60,
     paddingHorizontal: 10,
   },
@@ -302,6 +306,7 @@ const styles = StyleSheet.create({
   passwordInput: {
     flex: 1,
     height: 60,
+    fontFamily: "Inter200",
     paddingHorizontal: 10,
   },
   showPasswordButton: {
@@ -310,6 +315,10 @@ const styles = StyleSheet.create({
   rememberMeContainer: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  p:{
+    
+    fontFamily: "Inter400",
   },
   loginButton: {
     backgroundColor: "#635BFF",
@@ -321,6 +330,7 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     fontSize: 20,
+    fontFamily: "InterMedium",
     // fontWeight: 'bold',
     color: "#fff",
   },
