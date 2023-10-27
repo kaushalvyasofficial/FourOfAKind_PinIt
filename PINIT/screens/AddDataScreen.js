@@ -52,6 +52,9 @@ function AddDataScreen({ navigation }) {
     if (file) {
       setUploadedFile(file); 
     }
+    else{
+      console.log("file not selected")
+    }
   };
 
   const showDatepicker = () => {
