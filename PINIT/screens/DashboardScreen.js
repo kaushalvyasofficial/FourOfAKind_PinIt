@@ -11,7 +11,7 @@ import {
   Switch,
   Alert,
   BackHandler,
-  SafeAreaView,
+  SafeAreaView,ScrollView,
   FlatList
 } from "react-native";
 import { Linking } from 'react-native';
@@ -51,6 +51,9 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
+      <ScrollView>
+        <CarouselCards />
+      </ScrollView>
       {/* <CarouselCards /> */}
     </View>
   );
@@ -95,10 +98,8 @@ const EventScreen = () => {
         renderItem={({item}) =>(
           <TouchableOpacity style={stylesEvent.card} onPress={(item) =>handlePress(item)}>
             <View>
-              <Image
-                source={{ uri: item.fileDownloadURL }}
-                style={stylesEvent.image}
-              />
+              
+
               <Text style={stylesEvent.eventName}>{item.eventName}</Text>
               <Text style={stylesEvent.eventDescription}>{item.eventStartDate} to {item.eventEndDate}</Text>
               <Text style={stylesEvent.eventDescription}>from {item.eventStartTime} to {item.eventEndTime}</Text>

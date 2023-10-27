@@ -1,14 +1,45 @@
-import React from 'react'
+import React ,{useState,useEffect}from 'react'
 import { View } from "react-native"
 import Carousel from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './carousel'
-
-
+import { collection, getDocs, query } from "firebase/firestore";
+import { db } from "../../FirebaseConfig";
 import data from "./data"
 import { TouchableOpacity } from 'react-native'
 
 export default function CarouselCards() {
   const isCarousel = React.useRef(null)
+  const [eventData, setEventData] = useState([]);
+
+  useEffect(() => {
+    // Fetch events from Firestore
+    const fetchEvents = async () => {
+      try {
+        const q = collection(db, "Event"); // Use collection to reference the 'Event' collection
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map((doc) => doc.data());
+        
+        const newArray = data.map(obj => ({
+          title: obj.eventName,
+          body: obj.eventDescription,
+          imgUrl: obj.fileDownloadURL,
+        }));
+        // console.log(newArray);
+        setEventData(newArray);
+      }
+      catch (error) {
+        console.error("Error fetching events from Firestore:", error);
+        // Handle the error as per your application's requirements
+      }
+    };
+
+    fetchEvents();
+
+    const interval = setInterval(() => {
+      fetchEvents();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <View>
@@ -17,7 +48,7 @@ export default function CarouselCards() {
         layout="default"
         layoutCardOffset={8}
         ref={isCarousel}
-        data={data}
+        data={eventData}
         renderItem={CarouselCardItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
