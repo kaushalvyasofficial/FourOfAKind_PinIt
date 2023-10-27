@@ -15,8 +15,9 @@ import EventLogo from "../assets/images/Calendar";
 import SearchLogo from "../assets/images/search";
 import ProfileLogo from "../assets/images/profile";
 import FloatingButton from "./component/FloatingButton";
+import Logoutbtn from "../assets/images/log-in-outline";
 import { useRoute } from "@react-navigation/native";
-import {useBackHandler} from '@react-native-community/hooks'
+import { useBackHandler } from '@react-native-community/hooks'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 
@@ -25,7 +26,7 @@ const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
 
-  
+
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
@@ -49,24 +50,35 @@ const SearchScreen = () => {
   );
 };
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Profile Screen</Text>
-      <Button onPress={() => navigation.navigate("Login")} title="LogOut" />
+      <Text style={styles.h1}>Gourav</Text>
+
+      <View>
+        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Login")}>
+          <Logoutbtn
+            width={40}
+            height={40}
+          />
+          <Text style={styles.txt}>
+            Log Out
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const DashboardScreen = ({ navigation }) => {
 
-useBackHandler(() => {
-  navigation.navigate("Explore");
-})
+  useBackHandler(() => {
+    navigation.navigate("Explore");
+  })
 
-    function onClick() {
-        navigation.navigate("AddData");
-    }
+  function onClick() {
+    navigation.navigate("AddData");
+  }
   //   console.log("DashboardScreen");
   return (
     <Tab.Navigator
@@ -130,6 +142,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  btn: {
+    flexDirection: "row",
+    height: "20%",
+    // backgroundColor: "#000",
+    top: "80%",
+    left: "-80%",
+  },
+  h1: {
+    color: "#30313D",
+    fontSize: 48,
+    fontWeight: "medium",
+  },
+  txt: {
+    color: "#30313D",
+    fontSize: 24,
+    fontWeight: "medium",
+    marginHorizontal: 10,
   },
 });
 

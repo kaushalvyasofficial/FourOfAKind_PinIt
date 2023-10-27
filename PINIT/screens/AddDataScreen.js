@@ -160,7 +160,7 @@ function AddDataScreen({ navigation }) {
           <TouchableOpacity
             style={[
               styles.button,
-              styles.adminButton,
+              // styles.adminButton,
               selectedOption === "notices" && styles.selectedButton,
               selectedOption === "event" && styles.unselectedButton,
             ]}
@@ -194,25 +194,43 @@ function AddDataScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="     Notice Name"
-            value={noticeData.noticeName}
-            onChangeText={(text) =>
-              setNoticeData({ ...noticeData, noticeName: text })
-            }
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder="     Notice ID"
-            value={noticeData.noticeID}
-            onChangeText={(text) =>
-              setNoticeData({ ...noticeData, noticeID: text })
-            }
-          />
+          <View style={styles.noticeContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Notice Name"
+              placeholderTextColor="#74768890"
+              value={noticeData.noticeName}
+              onChangeText={(text) =>
+                setNoticeData({ ...noticeData, noticeName: text })
+              }
+            />
+          </View>
+          <View style={styles.noticeContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Notice ID"
+              placeholderTextColor="#74768890"
+              value={noticeData.noticeID}
+              onChangeText={(text) =>
+                setNoticeData({ ...noticeData, noticeID: text })
+              }
+            />
+          </View>
+          <View style={styles.noticeContainer}>
+            <SelectList
+              style={styles.inputdd}
+              setSelected={(val) =>
+                setNoticeData({ ...noticeData, authorizedBy: val })
+              }
+              data={data}
+              placeholder="Authorizedd By"
+              placeholderTextColor="#74768890"
+              save="value"
+            />
+          </View>
+        </View>
+        <View style={styles.inputContainer}>
           <SelectList
             style={styles.input}
             setSelected={(val) =>
@@ -335,6 +353,35 @@ const styles = StyleSheet.create({
     padding: 0,
     backgroundColor: "#fff",
   },
+  inputContainer: {
+    flex: 3,
+    width: '80%',
+  },
+  noticeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E4DFDF',
+    borderRadius: 16,
+    marginBottom: 20,
+    height: 60,
+  },
+  input: {
+    flex: 1,
+    // height: 60,
+    paddingHorizontal: 10,
+  },
+  inputdd: {
+    flex: 1,
+    width: 100,
+    paddingHorizontal: 40,
+    // height: 60,
+    paddingHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 0,
+    borderColor: '#fff',
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -346,17 +393,10 @@ const styles = StyleSheet.create({
     fontWeight: "medium",
     marginBottom: 10,
   },
-  input: {
-    height: 60,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    borderRadius: 10,
-    height: 50,
-  },
   dropdownContainer: {
-    height: 40,
+    height: 60,
     marginBottom: 20,
+    borderRadius: 16,
   },
   dropdown: {
     backgroundColor: "#fafafa",
@@ -365,7 +405,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   dropdownMenu: {
-    backgroundColor: "#fafafa",
+    backgroundColor: "#000",
     zIndex: 5000,
   },
   uploadedFileContainer: {
@@ -413,7 +453,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
-    borderRadius: 10,
+    borderRadius: 16,
     // elevation:10,
   },
   buttonText: {
@@ -422,10 +462,10 @@ const styles = StyleSheet.create({
   },
   datePickerButton: {
     backgroundColor: "#635BFF",
-    height: 50,
+    height: 60,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 16,
     marginTop: 10,
   },
   datePickerButtonText: {
@@ -437,7 +477,8 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: "center",
     width: "100%",
-    marginBottom: 40,
+    marginBottom: "8%",
+    marginTop: "10%",
   },
   button: {
     flex: 1,
@@ -470,9 +511,9 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   inputContainer: {
-    flex: 3, 
-    paddingLeft: "5%",
-    paddingRight: "5%",
+    flex: 3,
+    paddingLeft: "6%",
+    paddingRight: "6%",
   },
 });
 

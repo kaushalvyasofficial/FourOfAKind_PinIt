@@ -140,15 +140,10 @@ const LoginPage = ({ navigation }) => {
 
       {selectedOption && (
         <View style={styles.inputContainer}>
-          <View style={styles.inputRow}>
-            <FontAwesome
-              name="envelope"
-              size={24}
-              color="#807A7A99"
-              style={styles.icon}
-            />
+          <View style={styles.mailContainer}>
+            <FontAwesome name="envelope" size={24} color="#807A7A99" style={styles.icon} />
             <TextInput
-              style={styles.input}
+              style={styles.mailInput}
               placeholder="email@gmail.com"
               placeholderTextColor="#74768890"
               onChangeText={(text) => setEmail(text)}
@@ -265,15 +260,15 @@ const styles = StyleSheet.create({
     flex: 3,
     width: "80%",
   },
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
+  mailContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: "#E4DFDF",
     borderRadius: 16,
     marginBottom: 20,
   },
-  input: {
+  mailInput: {
     flex: 1,
     height: 60,
     paddingHorizontal: 10,
