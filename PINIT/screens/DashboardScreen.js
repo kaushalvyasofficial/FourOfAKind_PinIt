@@ -173,8 +173,8 @@ const EventScreen = () => {
       const eventDate = new Date(year, month - 1, day); // Parse the event date
 
       if (selectedOption === "Ongoing") {
-        console.log(eventDate, new Date());
-        return eventDate === new Date(); // Filter ongoing events
+        // console.log(eventDate, new Date());
+        return eventDate >= new Date() && eventEndDate < new Date(); // Filter ongoing events
       } else if (selectedOption === "Upcoming") {
         return eventDate > new Date(); // Filter upcoming events
       }

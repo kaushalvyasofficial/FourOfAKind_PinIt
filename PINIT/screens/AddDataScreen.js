@@ -177,6 +177,7 @@ console.log(selectedDate,selectedEndDate,selectedTime)
   
 
   const handleAddNotice = async () => {
+    // console.log(eventData)
     try {
       setLoading(true);
 
