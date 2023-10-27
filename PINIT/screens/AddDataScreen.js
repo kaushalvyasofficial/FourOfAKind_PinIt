@@ -227,13 +227,22 @@ function AddDataScreen({ navigation }) {
             </View>
             {/* Authorize by */}
             <SelectList
-              style={styles.input}
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
               setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
               data={data}
               placeholder="Authorized By"
               save="value" />
             <SelectList
-              style={styles.input}
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
+
               setSelected={(val) => setNoticeData({ ...noticeData, concernedFaculty: val })}
               data={data}
               placeholder="Concerned Faculty"
@@ -258,14 +267,22 @@ function AddDataScreen({ navigation }) {
             )}
 
             <SelectList
-              style={styles.input}
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
               setSelected={(val) => setNoticeData({ ...noticeData, issuedFor: val })}
               data={data}
               placeholder="Issued For"
               save="value" />
 
             <SelectList
-              style={styles.input}
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
               setSelected={(val) => setNoticeData({ ...noticeData, viewedBy: val })}
               data={data}
               placeholder="Viewed By"
@@ -320,7 +337,11 @@ function AddDataScreen({ navigation }) {
             </View>
             {/* Authorize by */}
             <SelectList
-              style={styles.input}
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownStyles={styles.dropdown}
+              itemStyles={styles.dropdownItem}
+              menuStyles={styles.dropdownMenu}
               setSelected={(val) => setEventData({ ...eventData, eventauthorizedBy: val })}
               data={data}
               placeholder="Authorized By"
@@ -345,7 +366,12 @@ function AddDataScreen({ navigation }) {
             )}
 
             <SelectList
-              style={styles.input}
+              style={styles.inputdd}
+              boxStyles={styles.inputdd}
+              dropdownTextStyles={styles.dropdownItemText}
+              inputStyles={styles.input}
+              dropdownItemStyles={styles.dropdownItem}
+              dropdownStyles={styles.dropdown}
               setSelected={(val) => setEventData({ ...eventData, eventIssuedFor: val })}
               data={data}
               placeholder="Issued For"
@@ -448,20 +474,23 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    // height: 60,
+    color: "#fff",
     paddingHorizontal: 10,
-    // backgroundColor: '#00000030',
+    width:100,
+    
   },
   inputdd: {
     flex: 1,
-    width: 100,
+    width: "100%",
     paddingHorizontal: 40,
-    // height: 60,
+    // height: 60,  
+    marginBottom: 10,
     paddingHorizontal: 10,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    borderWidth: 0,
-    borderColor: "#fff",
+    borderWidth: 1,
+    borderColor: '#E4DFDF',
+    // backgroundColor: '#00000030',
   },
   title: {
     fontSize: 24,
@@ -482,9 +511,20 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     backgroundColor: "#fafafa",
+    borderWidth: 1,
+    borderColor: "#E4DFDF",
+    
   },
   dropdownItem: {
     justifyContent: "flex-start",
+    borderWidth:5,
+    borderBottomWidth: 5,
+    borderBottomColor: "#000",
+    // borderWidth:1,
+  },
+  dropdownItemText: {
+    fontSize: 16,
+    color: "#fff",
   },
   dropdownMenu: {
     backgroundColor: "#000",
