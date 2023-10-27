@@ -48,8 +48,12 @@ function AddDataScreen({ navigation }) {
 
   const handleFileUpload = async () => {
     const file = await DocumentPicker.getDocumentAsync();
-    if (file.type === "success") {
-      setUploadedFile(file);
+    console.log(file)
+    if (file) {
+      setUploadedFile(file); 
+    }
+    else{
+      console.log("file not selected")
     }
   };
 
@@ -73,9 +77,10 @@ function AddDataScreen({ navigation }) {
       // Upload the file to Firebase Storage if an uploaded file exists
       let downloadUrl = null;
       if (uploadedFile) {
-        const response = await fetch(uploadedFile.uri);
+
+        const response = await fetch(uploadedFile.assets[0].uri);
         const blob = await response.blob();
-        const fileName = `notices/${Date.now()}-${uploadedFile.name}`;
+        const fileName = `notices/${Date.now()}-${uploadedFile.assets[0].name}`;
 
         // Get a reference to the Firebase Storage location
         const storageRef = ref(storage, fileName);
@@ -253,7 +258,7 @@ function AddDataScreen({ navigation }) {
           <View style={styles.uploadedFileContainer}>
             <Text style={styles.uploadedFileText}>Uploaded File:</Text>
             <View style={styles.uploadedFileNameContainer}>
-              <Text style={styles.uploadedFileName}>{uploadedFile.name}</Text>
+              <Text style={styles.uploadedFileName}>{uploadedFile.assets[0].name}</Text>
             </View>
           </View>
         )}
