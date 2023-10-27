@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
 
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 20,
     // fontWeight: 'bold',
     color: '#000',
   },
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   loginButtonText: {
-    fontSize: 24,
+    fontSize: 20,
     // fontWeight: 'bold',
     color: '#fff',
   },

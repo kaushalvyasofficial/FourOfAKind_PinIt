@@ -19,6 +19,8 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { get } from "react-native/Libraries/Utilities/PixelRatio";
 import { SelectList } from "react-native-dropdown-select-list";
+import Addicon from "../assets/images/addEvent";
+import Upload from "../assets/images/upload";
 
 function AddDataScreen({ navigation }) {
   const [selected, setSelected] = useState("");
@@ -219,27 +221,14 @@ function AddDataScreen({ navigation }) {
               }
             />
           </View>
-          <View style={styles.noticeContainer}>
-            <SelectList
-              style={styles.inputdd}
-              setSelected={(val) =>
-                setNoticeData({ ...noticeData, authorizedBy: val })
-              }
-              data={data}
-              placeholder="Authorizedd By"
-              placeholderTextColor="#74768890"
-              save="value"
-            />
-          </View>
-        </View>
-        <View style={styles.inputContainer}>
           <SelectList
-            style={styles.input}
+            style={styles.inputdd}
             setSelected={(val) =>
               setNoticeData({ ...noticeData, authorizedBy: val })
             }
             data={data}
             placeholder="Authorized By"
+            placeholderTextColor="#74768890"
             save="value"
           />
           <SelectList
@@ -251,17 +240,18 @@ function AddDataScreen({ navigation }) {
             placeholder="Concerned Faculty"
             save="value"
           />
-
-          <TextInput
-            style={styles.input}
-            placeholder="Notice Date"
-            value={noticeData.noticeDate}
-            onChangeText={(text) =>
-              setNoticeData({ ...noticeData, noticeData: text })
-            }
-            onFocus={showDatepicker}
-          />
-
+          <View style={styles.noticeContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Notice Date"
+              placeholderTextColor="#74768890"
+              value={noticeData.noticeDate}
+              onChangeText={(text) =>
+                setNoticeData({ ...noticeData, noticeData: text })
+              }
+              onFocus={showDatepicker}
+            />
+          </View>
           {showDatePicker && (
             <DateTimePicker
               testID="dateTimePicker"
@@ -296,20 +286,23 @@ function AddDataScreen({ navigation }) {
           {/* Rest of the input fields and components */}
 
           {/* Add Description */}
-          <Text style={styles.label}>Description:</Text>
-          <TextInput
-            style={styles.input}
-            multiline
-            value={noticeData.description}
-            onChangeText={(text) =>
-              setNoticeData({ ...noticeData, description: text })
-            }
-          />
-
+          <View style={styles.noticeContainerD}>
+            <TextInput
+              style={styles.input}
+              multiline
+              placeholder="Description"
+              placeholderTextColor="#74768890"
+              value={noticeData.description}
+              onChangeText={(text) =>
+                setNoticeData({ ...noticeData, description: text })
+              }
+            />
+          </View>
           {/* Upload Document */}
           <Text style={styles.label}>Upload Document:</Text>
-          <TouchableOpacity style={styles.button} onPress={handleFileUpload}>
-            <Text style={styles.buttonText}>UPLOAD FILE</Text>
+          <TouchableOpacity style={styles.btns} onPress={handleFileUpload}>
+            <Text style={styles.btnsText}>UPLOAD FILE</Text>
+            <Upload />
           </TouchableOpacity>
 
           {/* Uploaded File Display */}
@@ -325,8 +318,9 @@ function AddDataScreen({ navigation }) {
           )}
 
           {/* Add Notice Button */}
-          <TouchableOpacity style={styles.button} onPress={handleAddNotice}>
-            <Text style={styles.buttonText}>ADD </Text>
+          <TouchableOpacity style={styles.btn} onPress={handleAddNotice}>
+            <Text style={styles.btnText}>ADD </Text>
+            <Addicon />
           </TouchableOpacity>
         </View>
 
@@ -367,11 +361,23 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 20,
     height: 60,
+    // backgroundColor: '#04500030',
+  },
+  noticeContainerD: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E4DFDF',
+    borderRadius: 16,
+    marginBottom: 20,
+    height: 100,
+    // backgroundColor: '#04500030',
   },
   input: {
     flex: 1,
     // height: 60,
     paddingHorizontal: 10,
+    // backgroundColor: '#00000030',
   },
   inputdd: {
     flex: 1,
@@ -394,6 +400,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "medium",
     marginBottom: 10,
+    color: "#635BFF",
   },
   dropdownContainer: {
     height: 60,
@@ -448,19 +455,39 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
   },
-  button: {
+  btn: {
+    flex: 1,
+    flexDirection: "row",
     width: "100%",
     height: 60,
-    backgroundColor: "#635BFF",
+    backgroundColor: '#635BFF',
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
     borderRadius: 16,
     // elevation:10,
   },
-  buttonText: {
+  btns: {
+    flex: 1,
+    flexDirection: "row",
+    width: "100%",
+    height: 50,
+    // backgroundColor: '#635BFF',
+    borderBottomColor: "#635BFF",
+    borderBottomWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 10,
+    // borderRadius: 16,
+  },
+  btnText: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 20,
+  },
+  btnsText: {
+    color: "#747688",
+    fontSize: 16,
+    paddingHorizontal: 10,
   },
   datePickerButton: {
     backgroundColor: "#635BFF",

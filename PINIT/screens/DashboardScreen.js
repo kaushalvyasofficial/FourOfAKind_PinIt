@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     color: "#30313D",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "medium",
     marginHorizontal: 10,
   },
