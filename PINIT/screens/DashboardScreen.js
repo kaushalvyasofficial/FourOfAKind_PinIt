@@ -11,8 +11,9 @@ import {
   Switch,
   Alert,
   BackHandler,
-  SafeAreaView,ScrollView,
-  FlatList
+  SafeAreaView,
+  ScrollView,
+  FlatList,
 } from "react-native";
 import { Linking } from "react-native";
 import FloatingButton from "./component/FloatingButton";
@@ -26,13 +27,17 @@ import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { db } from "../FirebaseConfig";
 import { collection, getDocs, query } from "firebase/firestore";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { useNavigation } from '@react-navigation/native';
 
 import CarouselCardsEvent from "./component/Carousel-Event";
 import CarouselCardsNotice from "./component/Carousel-Notice";
 const Tab = createBottomTabNavigator();
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [backCount, setBackCount] = useState(0);
+  // const navigation = useNavigation();
+
   useBackHandler(() => {
     setBackCount(backCount + 1);
     if (backCount >= 1) {
@@ -51,17 +56,74 @@ const HomeScreen = () => {
       );
     }
   });
+
+  function handleClick() {
+    console.log("See more clicked");
+    navigation.navigate("Event");
+  }
+  function handleClickNotice() {
+    console.log("See more clicked");
+    navigation.navigate("Notice");
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.h1}>Home Screen</Text>
       <ScrollView>
-        <CarouselCardsNotice/>
-        <CarouselCardsEvent/>
+        <View style={stylesHome.divCarousel}>
+          <Text style={stylesHome.h1}>Recent Notices</Text>
+          <TouchableOpacity style={stylesHome.seeMoreContainer} onPress={handleClickNotice}>
+            <Text style={stylesHome.seeMoreText}>See more</Text>
+            <Icon name="chevron-right" style={stylesHome.seeMoreIcon} />
+          </TouchableOpacity>
+        </View>
+        <CarouselCardsNotice />
+        <View style={stylesHome.divCarousel}>
+          <Text style={stylesHome.h1}>Recent Events</Text>
+          <TouchableOpacity style={stylesHome.seeMoreContainer} onPress={handleClick}>
+            <Text style={stylesHome.seeMoreText}>See more</Text>
+            <Icon name="chevron-right" style={stylesHome.seeMoreIcon} />
+          </TouchableOpacity>
+        </View>
+        <CarouselCardsEvent />
       </ScrollView>
-      {/* <CarouselCards /> */}
     </View>
   );
 };
+
+const stylesHome = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: 'white',
+  },
+  h1: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  seeMoreContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: "38%",
+  },
+  seeMoreText: {
+    fontSize: 15,
+    color: '#007AFF',
+    alignContent:'flex-end',
+  },
+  seeMoreIcon: {
+    fontSize: 15,
+    color: '#007AFF', // You can choose your preferred color
+  },
+  divCarousel: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+  },
+});
+
+
+
 
 const EventScreen = () => {
   const [eventData, setEventData] = useState([]);
@@ -99,33 +161,42 @@ const EventScreen = () => {
         data={eventData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={stylesEvent.card} onPress={(item) =>handlePress(item)}>
-          <View>
-            <Image
-                source={ null || { uri: item.fileDownloadURL }}
-                style={{ width: "100%", height: 200, borderTopLeftRadius: 8, borderTopRightRadius: 8, resizeMode: "cover" }}
+          <TouchableOpacity
+            style={stylesEvent.card}
+            onPress={(item) => handlePress(item)}
+          >
+            <View>
+              <Image
+                source={null || { uri: item.fileDownloadURL }}
+                style={{
+                  width: "100%",
+                  height: 200,
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                  resizeMode: "cover",
+                }}
               />
-            <Text style={stylesEvent.eventName}>{item.eventName}</Text>
-            <Text style={stylesEvent.eventDescription}>
-              {item.eventStartDate} to {item.eventEndDate}
-            </Text>
-            <Text style={stylesEvent.eventDescription}>
-              from {item.eventStartTime} to {item.eventEndTime}
-            </Text>
-            <Text style={stylesEvent.eventDescription}>
-              At {item.eventLocation}
-            </Text>
-            <Text style={stylesEvent.eventDescription}>
-              {item.eventDescription}
-            </Text>
-            {item.fileDownloadURL && (
-              <TouchableOpacity
-                onPress={() => Linking.openURL(item.fileDownloadURL)}
-              >
-                <Text style={styles.fileLink}>Download File</Text>
-              </TouchableOpacity>
-            )}
-          </View>
+              <Text style={stylesEvent.eventName}>{item.eventName}</Text>
+              <Text style={stylesEvent.eventDescription}>
+                {item.eventStartDate} to {item.eventEndDate}
+              </Text>
+              <Text style={stylesEvent.eventDescription}>
+                from {item.eventStartTime} to {item.eventEndTime}
+              </Text>
+              <Text style={stylesEvent.eventDescription}>
+                At {item.eventLocation}
+              </Text>
+              <Text style={stylesEvent.eventDescription}>
+                {item.eventDescription}
+              </Text>
+              {item.fileDownloadURL && (
+                <TouchableOpacity
+                  onPress={() => Linking.openURL(item.fileDownloadURL)}
+                >
+                  <Text style={styles.fileLink}>Download File</Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </TouchableOpacity>
         )}
       />
@@ -174,10 +245,10 @@ const stylesEvent = StyleSheet.create({
     color: "#30313D",
     textDecorationLine: "underline",
   },
-  dwn:{
+  dwn: {
     display: "flex",
     flexDirection: "row",
-  }
+  },
 });
 
 const SearchScreen = () => {
@@ -272,6 +343,7 @@ const DashboardScreen = ({ navigation }) => {
           },
         }}
       />
+      
 
       <Tab.Screen
         name="FloatingButtonScreen"

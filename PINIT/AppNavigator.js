@@ -3,7 +3,7 @@ import HomeScreen from './screens/HomeScreen';
 import LoginPage from './screens/LoginPage';
 import DashboardScreen from './screens/DashboardScreen';
 import AddDataScreen from './screens/AddDataScreen';
-
+import NoticeScreen from './screens/NoticeScreenPage'
 const Stack = createNativeStackNavigator();
 
 export const AppNavigator = () => {
@@ -28,6 +28,10 @@ export const AppNavigator = () => {
             name="AddData"
             component={AddDataScreen}
             options={{headerShown: false}}
+      />
+      <Stack.Screen
+            name="Notice"
+            component={NoticeScreen}
       />
     </Stack.Navigator>
   );
