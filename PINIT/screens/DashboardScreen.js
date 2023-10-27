@@ -68,7 +68,11 @@ const HomeScreen = () => {
 
 const EventScreen = () => {
   const [eventData, setEventData] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("Ongoing");
+  const monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr',
+    'May', 'Jun', 'Jul', 'Aug',
+    'Sep', 'Oct', 'Nov', 'Dec'
+  ];
 
   useEffect(() => {
     // Fetch events from Firestore
@@ -181,23 +185,78 @@ const styleEvent = StyleSheet.create({
   },
   button: {
     flex: 1,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 2,
+    padding: 16,
   },
-  selectedButton: {
-    borderBottomWidth: 2,
-    borderColor: "#635BFF",
+  flex: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // backgroundColor: "#239876",
+  },
+  card: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    elevation: 6,
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    marginVertical: 10,
+    margin: "2%",
+    padding: "3%",
   },
   unselectedText: {
     color: "#A3ACBA",
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: "Inter300",
-    color: "#000",
+    fontFamily: "Inter500",
+    color: "#30313D",
+    marginBottom: 10,
   },
+  eventDate: {
+    fontSize: 12,
+    fontFamily: "Inter400",
+    textAlign: "right",
+    color: "#716E90",
+  },
+  eventTime: {
+    fontSize: 12,
+    fontFamily: "Inter400",
+    textAlign: "right",
+    color: "#716E90",
+  },
+  eventDescription: {
+    display: "flex",
+    flexDirection: "row",
+    // justifyContent: "center",
+    alignItems: "center",
+    fontSize: 16,
+    fontFamily: "Inter300",
+    color: "#606060",
+    marginBottom: 10,
+  },
+  eventLocation: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 14,
+    fontFamily: "Inter400",
+    color: "#716E90",
+  },
+  fileLink: {
+    fontSize: 12,
+    fontFamily: "Inter500",
+    paddingHorizontal: 5,
+    color: "#716E90",
+    textDecorationLine: "underline",
+    textDecorationColor: "#716E90",
+  },
+  dwn: {
+    display: "flex",
+    flexDirection: "row",
+  }
 });
 
 const SearchScreen = () => {
