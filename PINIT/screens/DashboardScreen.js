@@ -14,6 +14,7 @@ import {
   SafeAreaView,
   FlatList
 } from "react-native";
+import { Linking } from 'react-native';
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
 import { useBackHandler } from "@react-native-community/hooks";
@@ -77,7 +78,7 @@ const EventScreen = () => {
 
     const interval = setInterval(() => {
       fetchEvents();
-    }, 15000);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -105,6 +106,11 @@ const EventScreen = () => {
               <Text style={stylesEvent.eventDescription}>
                 {item.eventDescription}
               </Text>
+              {item.fileDownloadURL && (
+                <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)}>
+                  <Text style={styles.fileLink}>Download File</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </TouchableOpacity>
         )}
