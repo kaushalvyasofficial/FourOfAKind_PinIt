@@ -3,6 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
+  Button,
   TouchableOpacity,
   Image,
   TextInput,
@@ -48,10 +49,11 @@ const SearchScreen = () => {
   );
 };
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text>Profile Screen</Text>
+      <Button onPress={() => navigation.navigate("Login")} title="LogOut" />
     </View>
   );
 };

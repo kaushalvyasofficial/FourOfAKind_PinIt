@@ -1,11 +1,10 @@
-import React, { useCallback, useState} from 'react';
+import React, { useCallback, useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, Switch } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Spinner from 'react-native-loading-spinner-overlay';
 import LoginLogo from '../assets/images/loginlogo';
 import {useBackHandler} from '@react-native-community/hooks'
-import { useRoute } from "@react-navigation/native";
 // import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const LoginPage = ({ navigation }) => {
@@ -20,7 +19,7 @@ useBackHandler(() => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+ 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setEmail('');
@@ -28,7 +27,8 @@ useBackHandler(() => {
     setShowPassword(false);
     setRememberMe(false);
   };
-
+  
+  
   const handleSignIn = () => {
     setIsLoading(true); // Show loading indicator
 
@@ -42,6 +42,8 @@ useBackHandler(() => {
         } else if (selectedOption === 'student') {
           navigation.navigate('Dashboard');
         }
+        setEmail('');
+        setPassword('');
         console.log(`${selectedOption} successfully logged in`);
       })
       .catch((error) => {
@@ -53,6 +55,7 @@ useBackHandler(() => {
       });
   };
 
+  
   return (
     <View style={styles.container}>
       <View style={styles.pinDiv}>
