@@ -58,8 +58,8 @@ function AddDataScreen({ navigation }) {
   const [eventData, setEventData] = useState({
     eventName: "",
     eventIDDate: "",
-        eventTime: "",
-    
+    eventTime: "",
+
     eventLocation: "",
     eventDescription: "",
     uploadedFileURI: null,
@@ -81,14 +81,14 @@ function AddDataScreen({ navigation }) {
         issuedFor: "",
         viewedBy: "",
         description: "",
-        uploadedFileURI:null,
+        uploadedFileURI: null,
       });
     } else if (option === "Event") {
       setEventData({
         eventName: "",
         eventDate: "",
         eventEndDate: "",
-            eventTime: "",
+        eventTime: "",
         eventauthorizedBy: "",
         eventLocation: "",
         eventDescription: "",
@@ -101,7 +101,7 @@ function AddDataScreen({ navigation }) {
     const file = await DocumentPicker.getDocumentAsync();
 
     if (file.assets) {
-      
+
       setUploadedFile(file);
       setIsFileUploaded(true);
     } else {
@@ -119,7 +119,7 @@ function AddDataScreen({ navigation }) {
   const showTimepicker = () => {
     setShowTimePicker(true);
   };
-  
+
   // const handleDateChange= (e) => {
   //   setShowDatePicker(false);
   //   if (e.target.value) {
@@ -149,7 +149,7 @@ function AddDataScreen({ navigation }) {
       setSelectedEndDate(newDate);
     }
   };
-console.log(selectedDate,selectedEndDate,selectedTime)
+  console.log(selectedDate, selectedEndDate, selectedTime)
   // const handleDateChangeEnd= (event, selectedDate) => {
   //   setShowDatePicker(false);
   //   if (selectedDate) {
@@ -160,21 +160,21 @@ console.log(selectedDate,selectedEndDate,selectedTime)
   //     }
   //   }
   // };
-  
+
   const handleTimeChangeStart = (event, selectedStartTime) => {
     setShowTimePicker(false);
-    if (selectedStartTime) { 
-      setSelectedTime(selectedStartTime); 
+    if (selectedStartTime) {
+      setSelectedTime(selectedStartTime);
       const formattedTime = selectedStartTime.toLocaleTimeString("en-GB");
       if (selectedOption === "Event") {
         setEventData({ ...eventData, eventTime: formattedTime });
       }
     }
   };
-  
-  
-  
-  
+
+
+
+
 
   const handleAddNotice = async () => {
     // console.log(eventData)
@@ -203,11 +203,11 @@ console.log(selectedDate,selectedEndDate,selectedTime)
           console.log("Inside Notices");
           console.log("File download URL:", downloadUrl);
           setNoticeData({ ...noticeData, uploadedFileURI: await getDownloadURL(storageRef) });
-          
+
         } else {
           setEventData({ ...eventData, uploadedFileURI: await getDownloadURL(storageRef) });
         }
-       
+
       }
       console.log(noticeData);
       console.log(eventData);
@@ -394,7 +394,7 @@ console.log(selectedDate,selectedEndDate,selectedTime)
                 onChange={handleDateChange}
               />
             )}
-            
+
 
             <SelectList
               style={styles.inputdd}
@@ -454,7 +454,7 @@ console.log(selectedDate,selectedEndDate,selectedTime)
                 <Text style={styles.uploadedFileText}>Uploaded File:</Text>
                 <View style={styles.uploadedFileNameContainer}>
                   <Text style={styles.uploadedFileName}>
-                    {uploadedFile.assets[0].name.slice(0, 25)+"..."}
+                    {uploadedFile.assets[0].name.slice(0, 25) + "..."}
                   </Text>
                 </View>
               </View>
@@ -491,47 +491,47 @@ console.log(selectedDate,selectedEndDate,selectedTime)
               placeholder="Authorized By"
               save="value"
             />
-      <View style={styles.dateRangeContainer}>
-      <View style={styles.dateInput}>
-        <TextInput
-          style={styles.input}
-          placeholder="Start Date"
-          placeholderTextColor="#74768890"
-          value={eventData.eventDate}
-          onFocus={showStartDatepicker}
-        />
-        {showStartDatePicker && (
-          <DateTimePicker
-            testID="startDatePicker"
-            value={selectedStartDate}
-            mode="date"
-            is24Hour={false}
-            display="default"
-            onChange={handleStartDateChange}
-          />
-        )}
-      </View>
+            <View style={styles.dateRangeContainer}>
+              <View style={styles.noticeContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Start Date"
+                  placeholderTextColor="#74768890"
+                  value={eventData.eventDate}
+                  onFocus={showStartDatepicker}
+                />
+                {showStartDatePicker && (
+                  <DateTimePicker
+                    testID="startDatePicker"
+                    value={selectedStartDate}
+                    mode="date"
+                    is24Hour={false}
+                    display="default"
+                    onChange={handleStartDateChange}
+                  />
+                )}
+              </View>
 
-      <View style={styles.dateInput}>
-        <TextInput
-          style={styles.input}
-          placeholder="End Date"
-          placeholderTextColor="#74768890"
-          value={eventData.eventEndDate}
-          onFocus={showEndDatepicker}
-        />
-        {showEndDatePicker && (
-          <DateTimePicker
-            testID="endDatePicker"
-            value={selectedEndDate}
-            mode="date"
-            is24Hour={false}
-            display="default"
-            onChange={handleEndDateChange}
-          />
-        )}
-      </View>
-    </View>
+              <View style={styles.noticeContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="End Date"
+                  placeholderTextColor="#74768890"
+                  value={eventData.eventEndDate}
+                  onFocus={showEndDatepicker}
+                />
+                {showEndDatePicker && (
+                  <DateTimePicker
+                    testID="endDatePicker"
+                    value={selectedEndDate}
+                    mode="date"
+                    is24Hour={false}
+                    display="default"
+                    onChange={handleEndDateChange}
+                  />
+                )}
+              </View>
+            </View>
             <View style={styles.noticeContainer}>
               <TextInput
                 style={styles.input}
@@ -539,7 +539,7 @@ console.log(selectedDate,selectedEndDate,selectedTime)
                 placeholderTextColor="#74768890"
                 value={eventData.eventTime}
                 onChangeText={(text) =>
-                  setEventData({ ...eventData,eventTime: text })
+                  setEventData({ ...eventData, eventTime: text })
                 }
                 onFocus={showTimepicker}
               />
@@ -554,7 +554,7 @@ console.log(selectedDate,selectedEndDate,selectedTime)
                 onChange={handleTimeChangeStart}
               />
             )}
-            
+
 
             <SelectList
               style={styles.inputdd}
@@ -600,7 +600,7 @@ console.log(selectedDate,selectedEndDate,selectedTime)
                 <Text style={styles.uploadedFileText}>Uploaded File:</Text>
                 <View style={styles.uploadedFileNameContainer}>
                   <Text style={styles.uploadedFileName}>
-                    {uploadedFile.assets[0].name.slice(0, 25)+"..."}
+                    {uploadedFile.assets[0].name.slice(0, 25) + "..."}
                   </Text>
                 </View>
               </View>
@@ -612,7 +612,7 @@ console.log(selectedDate,selectedEndDate,selectedTime)
         <View style={styles.btnpd}>
           <TouchableOpacity style={styles.btn} onPress={handleAddNotice}
             disabled={!isFileUploaded}
-            >
+          >
             <Text style={styles.btnText}>ADD </Text>
             <Addicon height={25} width={25} />
           </TouchableOpacity>
