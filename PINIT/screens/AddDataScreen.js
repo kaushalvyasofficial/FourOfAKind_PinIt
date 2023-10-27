@@ -257,6 +257,7 @@ function AddDataScreen({ navigation }) {
               }}
               boxStyles={styles.inputdd}
               dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
               setSelected={(val) => setNoticeData({ ...noticeData, authorizedBy: val })}
@@ -268,6 +269,7 @@ function AddDataScreen({ navigation }) {
               style={styles.inputdd}
               boxStyles={styles.inputdd}
               dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
 
@@ -303,6 +305,7 @@ function AddDataScreen({ navigation }) {
               style={styles.inputdd}
               boxStyles={styles.inputdd}
               dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
               setSelected={(val) => setNoticeData({ ...noticeData, issuedFor: val })}
@@ -315,6 +318,7 @@ function AddDataScreen({ navigation }) {
               style={styles.inputdd}
               boxStyles={styles.inputdd}
               dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
               setSelected={(val) => setNoticeData({ ...noticeData, viewedBy: val })}
@@ -378,6 +382,7 @@ function AddDataScreen({ navigation }) {
               style={styles.inputdd}
               boxStyles={styles.inputdd}
               dropdownStyles={styles.dropdown}
+              dropdownTextStyles={styles.dropdownItemText}
               itemStyles={styles.dropdownItem}
               menuStyles={styles.dropdownMenu}
               setSelected={(val) => setEventData({ ...eventData, eventauthorizedBy: val })}
@@ -411,7 +416,7 @@ function AddDataScreen({ navigation }) {
             <SelectList
               style={styles.inputdd}
               boxStyles={styles.inputdd}
-              // dropdownTextStyles={styles.dropdownItemText}
+              dropdownTextStyles={styles.dropdownItemText}
               inputStyles={styles.input}
               // dropdownItemStyles={styles.dropdownItem}
               dropdownStyles={styles.dropdown}
@@ -524,6 +529,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#04500030',
   },
   input: {
+    fontFamily: "Inter300",
     flex: 1,
     color: "#000",
     paddingHorizontal: 10,
@@ -561,7 +567,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   dropdown: {
-    backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#E4DFDF",
     marginTop:-10,
@@ -578,8 +583,9 @@ const styles = StyleSheet.create({
     // borderWidth:1,
   },
   dropdownItemText: {
-    fontSize: 16,
-    color: "#000",
+    fontFamily: "Inter400",
+    fontSize: 14,
+    color: "#212121",
   },
   dropdownMenu: {
     backgroundColor: "#000",
@@ -595,8 +601,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   uploadedFileText: {
+    fontFamily: "Inter300",
     fontSize: 12,
-    fontWeight: "medium",
     color: "#212121",
   },
   uploadedFileNameContainer: {
@@ -605,8 +611,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   uploadedFileName: {
+    fontFamily: "Inter400",
     fontSize: 14,
-    color: "#000000",
+    color: "#212121",
   },
   spinnerText: {
     color: "#FFF",
@@ -654,10 +661,12 @@ const styles = StyleSheet.create({
     // borderRadius: 16,
   },
   btnText: {
+    fontFamily: "Inter400",
     color: "#fff",
     fontSize: 20,
   },
   btnsText: {
+    fontFamily: "Inter400",
     color: "#747688",
     fontSize: 16,
     paddingHorizontal: 10,
@@ -708,9 +717,10 @@ const styles = StyleSheet.create({
     borderColor: "#dddddd",
   },
   buttonText: {
-    fontSize: 24,
+    fontFamily: "Inter400",
+    fontSize: 20,
     // fontWeight: 'bold',
-    color: "#000",
+    color: "#30313D",
   },
   inputContainer: {
     flex: 3,

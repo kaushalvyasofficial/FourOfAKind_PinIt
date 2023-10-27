@@ -89,7 +89,8 @@ const DashboardScreen = ({ navigation }) => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <HomeLogo color="#635bff" size="50" />
+            <HomeLogo color="#635bff" size="50"
+            />
           ),
         }}
       />
@@ -145,11 +146,9 @@ const styles = StyleSheet.create({
     left: "-80%",
   },
   h1: {
-    fontFamily: "Roboto",
-    fontFamily: "InterMedium",
     color: "#30313D",
-    fontSize: 58,
-    fontWeight: "medium",
+    fontSize: 32,
+    fontFamily: "Inter500",
   },
   txt: {
     color: "#30313D",
