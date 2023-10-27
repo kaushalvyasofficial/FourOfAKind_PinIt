@@ -1,3 +1,5 @@
+![PINIT](https://drive.google.com/uc?export=view&id=1NeEeE1LuFWQGs2OPhhJOCjiIK01soYBy)
+
 # PIN-IT App
 
 ## Overview
