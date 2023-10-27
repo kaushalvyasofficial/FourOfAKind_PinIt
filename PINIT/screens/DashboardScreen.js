@@ -30,6 +30,7 @@ const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
   useBackHandler(() => {
+    
     Alert.alert(
       'Logout',
       'Are you sure you want to Exit?',
@@ -88,9 +89,9 @@ const ProfileScreen = ({ navigation }) => {
 };
 
 const DashboardScreen = ({ navigation }) => {
-  useBackHandler(() => {
-    navigation.navigate("Explore");
-  });
+  // useBackHandler(() => {
+  //   navigation.navigate("Explore");
+  // });
 
   function onClick() {
     navigation.navigate("AddData");
