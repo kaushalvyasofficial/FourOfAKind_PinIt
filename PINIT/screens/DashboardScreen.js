@@ -19,6 +19,7 @@ import { Linking } from "react-native";
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
 import DownLoad from "../assets/images/download";
+import MapPin from "../assets/images/map-pin";
 import { useBackHandler } from "@react-native-community/hooks";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -127,6 +128,11 @@ const stylesHome = StyleSheet.create({
 
 const EventScreen = () => {
   const [eventData, setEventData] = useState([]);
+  const monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr',
+    'May', 'Jun', 'Jul', 'Aug',
+    'Sep', 'Oct', 'Nov', 'Dec'
+  ];
 
   useEffect(() => {
     // Fetch events from Firestore
@@ -208,6 +214,13 @@ const stylesEvent = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+  flex: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // backgroundColor: "#239876",
+  },
   card: {
     backgroundColor: "white",
     borderRadius: 8,
@@ -232,18 +245,44 @@ const stylesEvent = StyleSheet.create({
     color: "#30313D",
     marginBottom: 10,
   },
+  eventDate: {
+    fontSize: 12,
+    fontFamily: "Inter400",
+    textAlign: "right",
+    color: "#716E90",
+  },
+  eventTime: {
+    fontSize: 12,
+    fontFamily: "Inter400",
+    textAlign: "right",
+    color: "#716E90",
+  },
   eventDescription: {
+    display: "flex",
+    flexDirection: "row",
+    // justifyContent: "center",
+    alignItems: "center",
     fontSize: 16,
     fontFamily: "Inter300",
-    color: "#30313D",
+    color: "#606060",
     marginBottom: 10,
+  },
+  eventLocation: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 14,
+    fontFamily: "Inter400",
+    color: "#716E90",
   },
   fileLink: {
     fontSize: 12,
     fontFamily: "Inter500",
     paddingHorizontal: 5,
-    color: "#30313D",
+    color: "#716E90",
     textDecorationLine: "underline",
+    textDecorationColor: "#716E90",
   },
   dwn: {
     display: "flex",
