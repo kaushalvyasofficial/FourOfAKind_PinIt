@@ -537,6 +537,8 @@ const styles = StyleSheet.create({
 
   },
   inputdd: {
+    fontFamily: "Inter700",
+    // color: "red",
     flex: 1,
     width: "100%",
     // height: 60,  
