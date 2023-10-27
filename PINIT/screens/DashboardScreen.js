@@ -64,8 +64,8 @@ const ProfileScreen = ({ navigation }) => {
       <View>
         <TouchableOpacity style={styles.btn} onPress={handleClick}>
           <Logoutbtn
-            width={40}
-            height={40}
+            width={30}
+            height={30}
           />
           <Text style={styles.txt}>
             Log Out
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     color: "#30313D",
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "medium",
     marginHorizontal: 10,
   },
