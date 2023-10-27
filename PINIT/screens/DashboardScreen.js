@@ -12,7 +12,7 @@ import {
   Alert,
   BackHandler,
   SafeAreaView,
- 
+
   ScrollView,
   FlatList,
 } from "react-native";
@@ -36,7 +36,7 @@ import CarouselCardsEvent from "./component/Carousel-Event";
 import CarouselCardsNotice from "./component/Carousel-Notice";
 const Tab = createBottomTabNavigator();
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   // Default to 'admin'
   const [backCount, setBackCount] = useState(0);
   // const navigation = useNavigation();
@@ -100,28 +100,32 @@ const stylesHome = StyleSheet.create({
   },
   h1: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontFamily: 'Inter500',
+    paddingHorizontal: 12,
   },
   seeMoreContainer: {
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: "38%",
+    justifyContent: 'center',
   },
   seeMoreText: {
+    fontFamily: 'Inter400',
+    paddingRight: 8,
     fontSize: 15,
-    color: '#007AFF',
-    alignContent:'flex-end',
+    color: '#212121',
   },
   seeMoreIcon: {
     fontSize: 15,
-    color: '#007AFF', // You can choose your preferred color
+    color: '#212121', // You can choose your preferred color
   },
   divCarousel: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '80%',
+    // marginBottom: 10,
   },
 });
 
@@ -181,7 +185,7 @@ const EventScreen = () => {
     }
     return false; // Exclude events with undefined or invalid date
   });
-  
+
 
   return (
     <View>
@@ -221,61 +225,53 @@ const EventScreen = () => {
       </View>
 
       <SafeAreaView style={styleEvent.container}>
-      <FlatList
-        data={filteredEvents}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styleEvent.card}
-            onPress={(item) => handlePress(item)}
-          >
-            <View>
-              <Image
-                source={null || { uri: item.fileDownloadURL }}
-                style={{
-                  width: "100%",
-                  height: 200,
-                  borderTopLeftRadius: 8,
-                  borderTopRightRadius: 8,
-                  resizeMode: "cover",
-                }}
-              />
-              <Text style={styleEvent.eventName}>{item.eventName}</Text>
-              <Text style={styleEvent.eventDescription}>
-                {item.eventStartDate} to {item.eventEndDate}
-              </Text>
-              <Text style={styleEvent.eventDescription}>
-                from {item.eventStartTime} to {item.eventEndTime}
-              </Text>
-              <Text style={styleEvent.eventDescription}>
-                At {item.eventLocation}
-              </Text>
-              <Text style={styleEvent.eventDescription}>
-                {item.eventDescription}
-              </Text>
-              <View style={styleEvent.flex}>
-                <View style={styleEvent.eventDescription}>
-                  <MapPin width={20} height={20} />
-                  <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
+        <FlatList
+          data={filteredEvents}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styleEvent.card}
+              onPress={(item) => handlePress(item)}
+            >
+              <View>
+                <Image
+                  source={null || { uri: item.fileDownloadURL }}
+                  style={{
+                    width: "100%",
+                    height: 200,
+                    borderTopLeftRadius: 8,
+                    borderTopRightRadius: 8,
+                    resizeMode: "cover",
+                  }}
+                />
+                <Text style={styleEvent.eventName}>{item.eventName}</Text>
+                <Text style={styleEvent.eventDescription}>
+                  {item.eventDescription}
+                </Text>
+                <View style={styleEvent.flex}>
+                  <View style={styleEvent.eventDescription}>
+                    <MapPin width={20} height={20} />
+                    <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
+                  </View>
+                  <Text style={styleEvent.eventDate}>
+                    {item.eventDate}
+                  </Text>
                 </View>
-                <Text style={styleEvent.eventDate}>
-                  {item.eventDate}
-                </Text>
+                <View style={styleEvent.flex}>
+                  {item.fileDownloadURL && (
+                    <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={styleEvent.dwn} >
+                      <DownLoad width={20} height={20} />
+                      <Text style={styleEvent.fileLink}>Download File </Text>
+                    </TouchableOpacity>
+                  )}
+                  <Text style={styleEvent.eventTime}>
+                    {item.eventTime}
+                  </Text>
+                </View>
               </View>
-              <View style={styleEvent.flex}>
-                {item.fileDownloadURL && (
-                  <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={styleEvent.dwn} >
-                    <DownLoad width={20} height={20} />
-                    <Text style={styleEvent.fileLink}>Download File </Text>
-                  </TouchableOpacity>
-                )}
-                <Text style={styleEvent.eventTime}>
-                  {item.eventStartTime}
-                </Text>
-              </View></View>
-          </TouchableOpacity>
-        )}
-      />
+            </TouchableOpacity>
+          )}
+        />
 
       </SafeAreaView>
     </View>
@@ -306,7 +302,7 @@ const styleEvent = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.3,
     marginVertical: 10,
-    margin: "2%",
+    margin: "5%",
     padding: "3%",
   },
   unselectedText: {
@@ -316,7 +312,11 @@ const styleEvent = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Inter500",
     color: "#30313D",
-    marginBottom: 10,
+  },
+  eventName: {
+    fontSize: 20,
+    fontFamily: "Inter500",
+    color: "#30313D",
   },
   eventDate: {
     fontSize: 12,
@@ -335,7 +335,7 @@ const styleEvent = StyleSheet.create({
     flexDirection: "row",
     // justifyContent: "center",
     alignItems: "center",
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "Inter300",
     color: "#606060",
     marginBottom: 10,
@@ -361,7 +361,7 @@ const styleEvent = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
   },
-  
+
 });
 
 const SearchScreen = () => {
@@ -457,7 +457,7 @@ const DashboardScreen = ({ navigation }) => {
           },
         }}
       />
-      
+
 
       <Tab.Screen
         name="FloatingButtonScreen"
