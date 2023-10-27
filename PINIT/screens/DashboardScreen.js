@@ -104,7 +104,7 @@ const EventScreen = () => {
               <Text style={stylesEvent.eventDescription}>from {item.eventStartTime} to {item.eventEndTime}</Text>
               <Text style={stylesEvent.eventDescription}>At {item.eventLocation}</Text>
               <Text style={stylesEvent.eventDescription}>
-                {item.eventDescription}
+                {item.eventDescription} 
               </Text>
               {item.fileDownloadURL && (
                 <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)}>
