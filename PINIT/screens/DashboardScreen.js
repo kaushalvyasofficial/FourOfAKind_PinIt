@@ -17,6 +17,7 @@ import {
 import { Linking } from "react-native";
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
+import DownLoad from "../assets/images/download";
 import { useBackHandler } from "@react-native-community/hooks";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -134,11 +135,13 @@ const stylesEvent = StyleSheet.create({
   card: {
     backgroundColor: "white",
     borderRadius: 8,
-    elevation: 3,
+    elevation: 6,
     shadowOffset: { width: 1, height: 1 },
     shadowColor: "black",
     shadowOpacity: 0.3,
     marginVertical: 10,
+    margin: "2%",
+    padding: "3%",
   },
   image: {
     // width: "100%",
@@ -149,14 +152,27 @@ const stylesEvent = StyleSheet.create({
   },
   eventName: {
     fontSize: 20,
-    fontWeight: "bold",
-    margin: 16,
+    fontFamily: "Inter500",
+    color: "#30313D",
+    marginBottom: 10,
   },
   eventDescription: {
     fontSize: 16,
-    margin: 16,
-    marginBottom: 20,
+    fontFamily: "Inter300",
+    color: "#30313D",
+    marginBottom: 10,
   },
+  fileLink: {
+    fontSize: 12,
+    fontFamily: "Inter500",
+    paddingHorizontal: 5,
+    color: "#30313D",
+    textDecorationLine: "underline",
+  },
+  dwn:{
+    display: "flex",
+    flexDirection: "row",
+  }
 });
 
 const SearchScreen = () => {
