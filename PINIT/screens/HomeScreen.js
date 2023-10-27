@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import Logo from "../assets/images/logo";
-import OnBoardlogoo from "../assets/images/onboardlogo";
+import OnBoardlogo from "../assets/images/onboardlogo";
 
 const HomeScreen = ({ navigation }) => {
   setTimeout(() => {
@@ -10,7 +10,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.logo}>
-      <OnBoardlogoo />
+      <OnBoardlogo />
     </View>
   );
 };
