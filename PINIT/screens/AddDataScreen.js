@@ -219,6 +219,12 @@ console.log(selectedDate,selectedEndDate,selectedTime)
         // selectedOption: selectedOption,
       });
 
+      await addDoc(collection(db, 'data'), {
+        ...(selectedOption === "Notices" ? noticeData : eventData),
+        fileDownloadURL: downloadUrl,
+        // selectedOption: selectedOption,
+      });
+
       // Reset notice data and other fields
       setNoticeData({
         noticeName: "",
