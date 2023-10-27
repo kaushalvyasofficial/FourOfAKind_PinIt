@@ -56,8 +56,8 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text style={styles.h1}>Home Screen</Text>
       <ScrollView>
-        <CarouselCardsNotice/>
-        <CarouselCardsEvent/>
+        <CarouselCardsNotice />
+        <CarouselCardsEvent />
       </ScrollView>
       {/* <CarouselCards /> */}
     </View>
@@ -66,6 +66,11 @@ const HomeScreen = () => {
 
 const EventScreen = () => {
   const [eventData, setEventData] = useState([]);
+  const monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr',
+    'May', 'Jun', 'Jul', 'Aug',
+    'Sep', 'Oct', 'Nov', 'Dec'
+  ];
 
   useEffect(() => {
     // Fetch events from Firestore
@@ -107,26 +112,31 @@ const EventScreen = () => {
                 style={{ width: "100%", height: 200, borderTopLeftRadius: 8, borderTopRightRadius: 8, resizeMode: "cover" }}
               />
               <Text style={stylesEvent.eventName}>{item.eventName}</Text>
-              <Text style={stylesEvent.eventDescription}>
-                {item.eventStartDate} to {item.eventEndDate}
-              </Text>
-              <Text style={stylesEvent.eventDescription}>
-                from {item.eventStartTime} to {item.eventEndTime}
-              </Text>
+
+
               <Text style={stylesEvent.eventDescription}>
                 {item.eventDescription}
               </Text>
-              <View style={stylesEvent.eventDescription}>
-                <MapPin width={20} height={20} />
-                <Text style={stylesEvent.eventLocation}> {item.eventLocation} </Text>
+              <View style={stylesEvent.flex}>
+                <View style={stylesEvent.eventDescription}>
+                  <MapPin width={20} height={20} />
+                  <Text style={stylesEvent.eventLocation}> {item.eventLocation} </Text>
+                </View>
+                <Text style={stylesEvent.eventDate}>
+                  {item.eventStartDate}
+                </Text>
               </View>
-              {item.fileDownloadURL && (
-                <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={stylesEvent.dwn} >
-                  <DownLoad width={20} height={20} />
-                  <Text style={stylesEvent.fileLink}>Download File </Text>
-                </TouchableOpacity>
-              )}
-            </View>
+              <View style={stylesEvent.flex}>
+                {item.fileDownloadURL && (
+                  <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={stylesEvent.dwn} >
+                    <DownLoad width={20} height={20} />
+                    <Text style={stylesEvent.fileLink}>Download File </Text>
+                  </TouchableOpacity>
+                )}
+                <Text style={stylesEvent.eventTime}>
+                  {item.eventStartTime}
+                </Text>
+              </View></View>
           </TouchableOpacity>
         )}
       />
@@ -137,6 +147,13 @@ const stylesEvent = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+  },
+  flex: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // backgroundColor: "#239876",
   },
   card: {
     backgroundColor: "white",
@@ -162,6 +179,18 @@ const stylesEvent = StyleSheet.create({
     color: "#30313D",
     marginBottom: 10,
   },
+  eventDate: {
+    fontSize: 12,
+    fontFamily: "Inter400",
+    textAlign: "right",
+    color: "#716E90",
+  },
+  eventTime: {
+    fontSize: 12,
+    fontFamily: "Inter400",
+    textAlign: "right",
+    color: "#716E90",
+  },
   eventDescription: {
     display: "flex",
     flexDirection: "row",
@@ -169,7 +198,7 @@ const stylesEvent = StyleSheet.create({
     alignItems: "center",
     fontSize: 16,
     fontFamily: "Inter300",
-    // color: "#716E90",
+    color: "#606060",
     marginBottom: 10,
   },
   eventLocation: {
@@ -185,8 +214,9 @@ const stylesEvent = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Inter500",
     paddingHorizontal: 5,
-    color: "#30313D",
+    color: "#716E90",
     textDecorationLine: "underline",
+    textDecorationColor: "#716E90",
   },
   dwn: {
     display: "flex",
