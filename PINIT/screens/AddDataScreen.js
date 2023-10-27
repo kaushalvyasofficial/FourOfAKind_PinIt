@@ -38,7 +38,11 @@ function AddDataScreen({ navigation }) {
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [isFileUploaded, setIsFileUploaded] = useState(false);
-
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const [showDatepicker, setShowDatepicker] = useState(false);
   const [noticeData, setNoticeData] = useState({
     noticeName: "",
     noticeID: "",
@@ -83,6 +87,7 @@ function AddDataScreen({ navigation }) {
       setEventData({
         eventName: "",
         eventDate: "",
+        eventEndDate: "",
             eventTime: "",
         eventauthorizedBy: "",
         eventLocation: "",
@@ -104,24 +109,57 @@ function AddDataScreen({ navigation }) {
     }
   };
 
-  const showDatepicker = () => {
-    setShowDatePicker(true);
+  const showStartDatepicker = () => {
+    setShowStartDatePicker(true);
+  };
+
+  const showEndDatepicker = () => {
+    setShowEndDatePicker(true);
   };
   const showTimepicker = () => {
     setShowTimePicker(true);
   };
-  const handleDateChange= (event, selectedDate) => {
-    setShowDatePicker(false);
-    if (selectedDate) {
-      setSelectedDate(selectedDate);
-      const formattedDate = selectedDate.toLocaleDateString("en-GB");
-      if (selectedOption === "Notices") {
-        setNoticeData({ ...noticeData, noticeDate: formattedDate });
-      } else if (selectedOption === "Event") {
-        setEventData({ ...eventData,eventDate: formattedDate });
-      }
+  
+  // const handleDateChange= (e) => {
+  //   setShowDatePicker(false);
+  //   if (e.target.value) {
+  //     setSelectedDate(e.target.value);
+  //     const formattedDate = selectedDate.toLocaleDateString("en-GB");
+  //     if (selectedOption === "Notices") {
+  //       setNoticeData({ ...noticeData, noticeDate: formattedDate });
+  //     } else if (selectedOption === "Event") {
+  //       setEventData({ ...eventData,eventDate: formattedDate });
+  //     }
+  //   }
+  // };
+  const handleStartDateChange = (event, newDate) => {
+    setShowStartDatePicker(Platform.OS === 'ios');
+    if (event.type === 'set') {
+      const formattedDate = newDate.toLocaleDateString();
+      setEventData({ ...eventData, eventDate: formattedDate });
+      setSelectedStartDate(newDate);
     }
   };
+
+  const handleEndDateChange = (event, newDate) => {
+    setShowEndDatePicker(Platform.OS === 'ios');
+    if (event.type === 'set') {
+      const formattedDate = newDate.toLocaleDateString();
+      setEventData({ ...eventData, eventEndDate: formattedDate });
+      setSelectedEndDate(newDate);
+    }
+  };
+console.log(selectedDate,selectedEndDate,selectedTime)
+  // const handleDateChangeEnd= (event, selectedDate) => {
+  //   setShowDatePicker(false);
+  //   if (selectedDate) {
+  //     setSelectedEndDate(selectedDate);
+  //     const formattedDate = selectedDate.toLocaleDateString("en-GB");
+  //     if (selectedOption === "Event") {
+  //       setEventData({ ...eventData,eventEndDate: formattedDate });
+  //     }
+  //   }
+  // };
   
   const handleTimeChangeStart = (event, selectedStartTime) => {
     setShowTimePicker(false);
@@ -139,6 +177,7 @@ function AddDataScreen({ navigation }) {
   
 
   const handleAddNotice = async () => {
+    // console.log(eventData)
     try {
       setLoading(true);
 
@@ -202,6 +241,7 @@ function AddDataScreen({ navigation }) {
         eventName: "",
         eventID: "",
         eventDate: "",
+        eventEndDate: "",
         eventTime: "",
         eventLocation: "",
         eventDescription: "",
@@ -451,29 +491,47 @@ function AddDataScreen({ navigation }) {
               placeholder="Authorized By"
               save="value"
             />
-            <View style={styles.noticeContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Event Date"
-                placeholderTextColor="#74768890"
-                value={eventData.eventDate}
-                onChangeText={(text) =>
-                  setEventData({ ...eventData,eventDate: text })
-                }
-                onFocus={showDatepicker}
-              />
-            </View>
-            {showDatePicker && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={selectedDate}
-                mode="date"
-                is24Hour={false}
-                display="default"
-                onChange={handleDateChange}
-              />
-            )}
-            
+      <View style={styles.dateRangeContainer}>
+      <View style={styles.dateInput}>
+        <TextInput
+          style={styles.input}
+          placeholder="Start Date"
+          placeholderTextColor="#74768890"
+          value={eventData.eventDate}
+          onFocus={showStartDatepicker}
+        />
+        {showStartDatePicker && (
+          <DateTimePicker
+            testID="startDatePicker"
+            value={selectedStartDate}
+            mode="date"
+            is24Hour={false}
+            display="default"
+            onChange={handleStartDateChange}
+          />
+        )}
+      </View>
+
+      <View style={styles.dateInput}>
+        <TextInput
+          style={styles.input}
+          placeholder="End Date"
+          placeholderTextColor="#74768890"
+          value={eventData.eventEndDate}
+          onFocus={showEndDatepicker}
+        />
+        {showEndDatePicker && (
+          <DateTimePicker
+            testID="endDatePicker"
+            value={selectedEndDate}
+            mode="date"
+            is24Hour={false}
+            display="default"
+            onChange={handleEndDateChange}
+          />
+        )}
+      </View>
+    </View>
             <View style={styles.noticeContainer}>
               <TextInput
                 style={styles.input}
