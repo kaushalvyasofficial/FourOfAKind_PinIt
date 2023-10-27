@@ -11,6 +11,8 @@ import {
   Switch,
   Alert,
   BackHandler,
+  SafeAreaView,
+  FlatList
 } from "react-native";
 import FloatingButton from "./component/FloatingButton";
 import Logoutbtn from "../assets/images/log-in-outline";
@@ -24,8 +26,6 @@ import { db } from "../FirebaseConfig";
 import { collection, getDocs, query } from "firebase/firestore";
 
 import CarouselCards from "./component/CarouselComponent";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList } from "react-native-gesture-handler";
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
@@ -81,25 +81,31 @@ const EventScreen = () => {
     return () => clearInterval(interval);
   }, []);
 
-  console.log("File Download Link : ", eventData.fileDownloadURL);
+  // console.log("File Download Link : ", eventData.fileDownloadURL);
 
   return (
-    <View style={styles.container}>
-      {eventData.map((event, index) => (
-        <View style={stylesEvent.card} key={index}>
-          <Image
-            source={{
-              uri: "https://firebasestorage.googleapis.com/v0/b/nexus-e61fe.appspot.com/o/notices%2F1698428236460-IMG-20231026-WA0007.jpg?alt=media&token=37fe9d0d-ed16-4a67-8c7c-7e3c9daebf8b",
-            }}
-            style={stylesEvent.image}
-          />
-          <Text style={stylesEvent.eventName}>{event.eventName}</Text>
-          <Text style={stylesEvent.eventDescription}>
-            {event.eventDescription}
-          </Text>
-        </View>
-      ))}
-    </View>
+    <SafeAreaView style={stylesEvent.container}>
+
+      <FlatList 
+        data={eventData}
+        keyExtractor={(item) => item.id}
+        renderItem={({item}) =>(
+          <TouchableOpacity style={stylesEvent.card}>
+            <View>
+              <Image
+                source={null && { uri: item.fileDownloadURL }}
+                style={stylesEvent.image}
+              />
+              <Text style={stylesEvent.eventName}>{item.eventName}</Text>
+              <Text style={stylesEvent.eventDescription}>{item.fileDownloadURL}</Text>
+              <Text style={stylesEvent.eventDescription}>
+                {item.eventDescription}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+      </SafeAreaView>
   );
 };
 const stylesEvent = StyleSheet.create({
@@ -181,7 +187,7 @@ const DashboardScreen = ({ navigation }) => {
       right: 0,
       left: 0,
       elevation: 0,
-      height: "8%",
+      height: "7%",
       backgroundColor: "#fff",
     },
   };
@@ -228,7 +234,7 @@ const DashboardScreen = ({ navigation }) => {
         component={FloatingButton}
         options={{
           tabBarButton: () => (
-            <View style={{ flex: 1, alignItems: "center", marginBottom: "7%" }}>
+            <View style={{ flex: 1, alignItems: "center", marginBottom: "6%" }}>
               <FloatingButton onPress={onClick} />
             </View>
           ),
