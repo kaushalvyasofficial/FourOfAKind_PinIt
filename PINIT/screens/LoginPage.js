@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     fontSize: 20,
-    paddingHorizontal: 100,
+    paddingHorizontal: "30%",
     fontFamily: "Inter400",
     // fontWeight: 'bold',
     color: "#fff",
