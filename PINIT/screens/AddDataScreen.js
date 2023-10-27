@@ -18,10 +18,11 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { get } from "react-native/Libraries/Utilities/PixelRatio";
+import {SelectList} from "react-native-dropdown-select-list";
 
 function AddDataScreen({ navigation }) {
 
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState("")
 
   useBackHandler(() => {
     navigation.navigate("Explore")
@@ -117,6 +118,16 @@ function AddDataScreen({ navigation }) {
     }
   };
 
+
+  const data = [
+    {key:'1', value:'JD'},
+    {key:'2', value:'Diro'},
+    {key:'3', value:'HOD'},
+    {key:'4', value:'Sec1'},
+    {key:'5', value:'Sec2'},
+    {key:'6', value:'Sec3'},
+    {key:'7', value:'Admin'}
+]
   const showToastMessage = (message) => {
     setToastMessage(message);
     setShowToast(true);
@@ -147,27 +158,19 @@ function AddDataScreen({ navigation }) {
           }
         />
         <SelectList
+        style={styles.input}
         setSelected={val => setSelected(val)}
         data={data}
+        placeholder="Authorized By"
         save="value"
       />
-        <TextInput
-          style={styles.input}
-          placeholder="     Authorized By"
-          value={noticeData.authorizedBy}
-          onChangeText={(text) =>
-            setNoticeData({ ...noticeData, authorizedBy: text })
-          }
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="     Concerned Faculty"
-          value={noticeData.concernedFaculty}
-          onChangeText={(text) =>
-            setNoticeData({ ...noticeData, concernedFaculty: text })
-          }
-        />
+        <SelectList
+        style={styles.input}
+        setSelected={val => setSelected(val)}
+        data={data}
+        placeholder="Concerned Faculty"
+        save="value"
+      />
 
         <TextInput
           style={styles.input}
@@ -190,23 +193,21 @@ function AddDataScreen({ navigation }) {
           />
         )}
 
-        <TextInput
-          style={styles.input}
-          placeholder="     Issued For"
-          value={noticeData.issuedFor}
-          onChangeText={(text) =>
-            setNoticeData({ ...noticeData, issuedFor: text })
-          }
-        />
+        <SelectList
+        style={styles.input}
+        setSelected={val => setSelected(val)}
+        data={data}
+        placeholder="Issued For"
+        save="value"
+      />
 
-        <TextInput
-          style={styles.input}
-          placeholder="     Viewed By"
-          value={noticeData.viewedBy}
-          onChangeText={(text) =>
-            setNoticeData({ ...noticeData, viewedBy: text })
-          }
-        />
+<SelectList
+        style={styles.input}
+        setSelected={val => setSelected(val)}
+        data={data}
+        placeholder="Viewed By"
+        save="value"
+      />
 
         {/* Rest of the input fields and components */}
 
