@@ -7,10 +7,11 @@ import { db } from "../../FirebaseConfig";
 import data from "./data"
 import { TouchableOpacity } from 'react-native'
 
-export default function CarouselCards() {
+export default function CarouselCardsEvent(uid) {
   const isCarousel = React.useRef(null)
   const [eventData, setEventData] = useState([]);
-
+  const [title, setTitle] = useState("");
+  
   useEffect(() => {
     // Fetch events from Firestore
     const fetchEvents = async () => {
