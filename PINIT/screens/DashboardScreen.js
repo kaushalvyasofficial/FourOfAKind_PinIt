@@ -28,7 +28,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { db } from "../FirebaseConfig";
-import { collection, getDocs, query , where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from '@react-navigation/native';
 
@@ -254,7 +254,7 @@ const EventScreen = () => {
                     <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
                   </View>
                   <Text style={styleEvent.eventDate}>
-                    from {item.eventDate} to {item.eventEndDate}
+                    {item.eventDate}
                   </Text>
                 </View>
                 <View style={styleEvent.flex}>
@@ -265,7 +265,7 @@ const EventScreen = () => {
                     </TouchableOpacity>
                   )}
                   <Text style={styleEvent.eventTime}>
-                   At {item.eventTime.substring(0,5)}
+                    {item.eventTime.substring(0, 5)}
                   </Text>
                 </View>
               </View>
@@ -403,43 +403,50 @@ const SearchScreen = () => {
       </View>
       <Text style={stylesSearch.sectionTitle}>Filtered Data:</Text>
       <FlatList
-  data={filteredData}
-  keyExtractor={(item) => item.noticeID || item.eventName}
-  renderItem={({ item }) => (
-    <TouchableOpacity
-      style={stylesSearch.card}
-      onPress={() => handlePress(item)}
-    >
-      <View style={stylesSearch.cardContent}>
-        <Image
-          source={{ uri: item.uploadedFileURI }
-          }
-          style={stylesSearch.cardImage}
-        />
-        <View style={stylesSearch.cardText}>
-          <Text style={styles.eventName}>{item.eventName || item.noticeName}</Text>
-          <Text style={stylesSearch.eventDescription}>
-            {item.eventStartDate} to {item.eventEndDate}
-          </Text>
-          <Text style={stylesSearch.eventDescription}>
-            from {item.eventStartTime} to {item.eventEndTime}
-          </Text>
-          <Text style={styles.eventDescription}>At {item.eventLocation}</Text>
-          <Text style={stylesSearch.eventDescription}>
-            {item.eventDescription || item.description}
-          </Text>
-          {item.uploadedFileURI && (
-            <TouchableOpacity
-              onPress={() => Linking.openURL(item.uploadedFileURI)}
-            >
-              <Text style={stylesSearch.fileLink}>Download File</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-    </TouchableOpacity>
-  )}
-/>
+        data={filteredData}
+        keyExtractor={(item) => item.noticeID || item.eventName}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={stylesSearch.card}
+            onPress={() => handlePress(item)}
+          >
+            <View style={stylesSearch.cardContent}>
+              <Image
+                source={{ uri: item.uploadedFileURI }
+                }
+                style={stylesSearch.cardImage}
+              />
+              <View style={stylesSearch.cardText}>
+                <Text style={styleEvent.eventName}>{item.eventName || item.noticeName}</Text>
+                <Text style={styleEvent.eventDescription}>
+                  {item.eventDescription || item.description}
+                </Text>
+                <View style={styleEvent.flex}>
+                  <View style={styleEvent.eventDescription}>
+                    <MapPin width={20} height={20} />
+                    <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
+                  </View>
+                  <Text style={styleEvent.eventDescription}>
+                    {item.eventDate}
+                  </Text>
+                </View>
+                <View style={styleEvent.flex}>
+                {item.uploadedFileURI && (
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(item.uploadedFileURI)}
+                  >
+                    <Text style={styleEvent.fileLink}>Download File</Text>
+                  </TouchableOpacity>
+                )}
+                <Text style={styleEvent.eventDescription}>
+                  {item.eventTime}
+                </Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
 
     </View>
   );
