@@ -21,7 +21,7 @@ export default function CarouselCardItem({ item, index }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'lightblue',
+    backgroundColor: '#fafafa',
     borderRadius: 8,
     width: ITEM_WIDTH,
     margin: "2%",

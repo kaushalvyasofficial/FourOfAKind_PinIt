@@ -312,28 +312,28 @@ const SearchScreen = () => {
                 style={stylesSearch.cardImage}
               />
               <View style={stylesSearch.cardText}>
-                <Text style={styleEvent.eventName}>{item.eventName || item.noticeName}</Text>
-                <Text style={styleEvent.eventDescription}>
+                <Text style={stylesEvent.eventName}>{item.eventName || item.noticeName}</Text>
+                <Text style={stylesEvent.eventDescription}>
                   {item.eventDescription || item.description}
                 </Text>
-                <View style={styleEvent.flex}>
-                  <View style={styleEvent.eventDescription}>
+                <View style={stylesEvent.flex}>
+                  <View style={stylesEvent.eventDescription}>
                     <MapPin width={20} height={20} />
-                    <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
+                    <Text style={stylesEvent.eventLocation}> {item.eventLocation} </Text>
                   </View>
-                  <Text style={styleEvent.eventDescription}>
+                  <Text style={stylesEvent.eventDescription}>
                     {item.eventDate}
                   </Text>
                 </View>
-                <View style={styleEvent.flex}>
+                <View style={stylesEvent.flex}>
                 {item.uploadedFileURI && (
                   <TouchableOpacity
                     onPress={() => Linking.openURL(item.uploadedFileURI)}
                   >
-                    <Text style={styleEvent.fileLink}>Download File</Text>
+                    <Text style={stylesEvent.fileLink}>Download File</Text>
                   </TouchableOpacity>
                 )}
-                <Text style={styleEvent.eventDescription}>
+                <Text style={stylesEvent.eventDescription}>
                   {item.eventTime}
                 </Text>
                 </View>
