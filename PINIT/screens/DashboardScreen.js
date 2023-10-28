@@ -134,12 +134,6 @@ const stylesHome = StyleSheet.create({
 
 const EventScreen = () => {
   const [eventData, setEventData] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("Ongoing"); // Default to 'Ongoing'
-  const monthNames = [
-    'Jan', 'Feb', 'Mar', 'Apr',
-    'May', 'Jun', 'Jul', 'Aug',
-    'Sep', 'Oct', 'Nov', 'Dec'
-  ];
 
   useEffect(() => {
     // Fetch events from Firestore
@@ -147,8 +141,9 @@ const EventScreen = () => {
       try {
         const q = collection(db, "Event"); // Use collection to reference the 'Event' collection
         const querySnapshot = await getDocs(q);
-        const eventData = querySnapshot.docs.map((doc) => doc.data());
-        setEventData(eventData);
+        const Data = querySnapshot.docs.map((doc) => doc.data());
+        setEventData(Data);
+        // console.log('Events from Firestore:', eventData);
       } catch (error) {
         console.error("Error fetching events from Firestore:", error);
         // Handle the error as per your application's requirements
@@ -163,136 +158,63 @@ const EventScreen = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-  };
-
-  // Filter events based on the selected option (Ongoing or Upcoming)
-  // Filter events based on the selected option (Ongoing or Upcoming)
-  const filteredEvents = eventData.filter((item) => {
-    const eventDateStr = item.eventDate; // Replace with the actual field name from your data
-
-    if (eventDateStr) {
-      const [day, month, year] = eventDateStr.split("/").map(Number);
-      const eventDate = new Date(year, month - 1, day); // Parse the event date
-
-      if (selectedOption === "Ongoing") {
-        // console.log(eventDate, new Date());
-        return eventDate >= new Date() && eventEndDate < new Date(); // Filter ongoing events
-      } else if (selectedOption === "Upcoming") {
-        return eventDate > new Date(); // Filter upcoming events
-      }
-    }
-    return false; // Exclude events with undefined or invalid date
-  });
-
-
+  // console.log("File Download Link : ", eventData.fileDownloadURL);
+  function handlePress(item) {
+    console.log(item.id);
+  }
   return (
-    <View>
-      <View style={styleEvent.buttonContainer}>
-        <TouchableOpacity
-          style={[
-            styleEvent.button,
-            selectedOption === "Ongoing" && styleEvent.selectedButton,
-          ]}
-          onPress={() => handleOptionSelect("Ongoing")}
-        >
-          <Text
-            style={[
-              styleEvent.buttonText,
-              selectedOption !== "Ongoing" && styleEvent.unselectedText,
-            ]}
+    <SafeAreaView style={stylesEvent.container}>
+      <FlatList
+        data={eventData}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={stylesEvent.card}
+            onPress={(item) => handlePress(item)}
           >
-            Ongoing
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styleEvent.button,
-            selectedOption === "Upcoming" && styleEvent.selectedButton,
-          ]}
-          onPress={() => handleOptionSelect("Upcoming")}
-        >
-          <Text
-            style={[
-              styleEvent.buttonText,
-              selectedOption !== "Upcoming" && styleEvent.unselectedText,
-            ]}
-          >
-            Upcoming
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <SafeAreaView style={styleEvent.container}>
-        <FlatList
-          data={filteredEvents}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styleEvent.card}
-              onPress={(item) => handlePress(item)}
-            >
-              <View>
-                <Image
-                  source={null || { uri: item.fileDownloadURL }}
-                  style={{
-                    width: "100%",
-                    height: 200,
-                    borderTopLeftRadius: 8,
-                    borderTopRightRadius: 8,
-                    resizeMode: "cover",
-                  }}
-                />
-                <Text style={styleEvent.eventName}>{item.eventName}</Text>
-                <Text style={styleEvent.eventDescription}>
-                  {item.eventDescription}
-                </Text>
-                <View style={styleEvent.flex}>
-                  <View style={styleEvent.eventDescription}>
-                    <MapPin width={20} height={20} />
-                    <Text style={styleEvent.eventLocation}> {item.eventLocation} </Text>
-                  </View>
-                  <Text style={styleEvent.eventDate}>
-                    from {item.eventDate} to {item.eventEndDate}
-                  </Text>
-                </View>
-                <View style={styleEvent.flex}>
-                  {item.fileDownloadURL && (
-                    <TouchableOpacity onPress={() => Linking.openURL(item.fileDownloadURL)} style={styleEvent.dwn} >
-                      <DownLoad width={20} height={20} />
-                      <Text style={styleEvent.fileLink}>Download File </Text>
-                    </TouchableOpacity>
-                  )}
-                  <Text style={styleEvent.eventTime}>
-                   At {item.eventTime.substring(0,5)}
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-
-      </SafeAreaView>
-    </View>
+            <View>
+              <Image
+                source={null || { uri: item.fileDownloadURL }}
+                style={{
+                  width: "100%",
+                  height: 200,
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                  resizeMode: "cover",
+                }}
+              />
+              <Text style={stylesEvent.eventName}>{item.eventName}</Text>
+              <Text style={stylesEvent.eventDescription}>
+                {item.eventStartDate} to {item.eventEndDate}
+              </Text>
+              <Text style={stylesEvent.eventDescription}>
+                from {item.eventStartTime} to {item.eventEndTime}
+              </Text>
+              <Text style={stylesEvent.eventDescription}>
+                At {item.eventLocation}
+              </Text>
+              <Text style={stylesEvent.eventDescription}>
+                {item.eventDescription}
+              </Text>
+              {item.fileDownloadURL && (
+                <TouchableOpacity
+                  onPress={() => Linking.openURL(item.fileDownloadURL)}
+                >
+                  <Text style={stylesEvent.fileLink}>Download File</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </SafeAreaView>
   );
-};
+}
 
-const styleEvent = StyleSheet.create({
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  button: {
+const stylesEvent = StyleSheet.create({
+  container: {
     flex: 1,
     padding: 16,
-  },
-  flex: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    // backgroundColor: "#239876",
   },
   card: {
     backgroundColor: "white",
@@ -302,66 +224,39 @@ const styleEvent = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 0.3,
     marginVertical: 10,
-    margin: "5%",
+    margin: "2%",
     padding: "3%",
   },
-  unselectedText: {
-    color: "#A3ACBA",
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Inter500",
-    color: "#30313D",
+  image: {
+    // width: "100%",
+    // height: 200,
+    // borderTopLeftRadius: 8,
+    // borderTopRightRadius: 8,
+    resizeMode: "cover",
   },
   eventName: {
     fontSize: 20,
     fontFamily: "Inter500",
     color: "#30313D",
-  },
-  eventDate: {
-    fontSize: 12,
-    fontFamily: "Inter400",
-    textAlign: "right",
-    color: "#716E90",
-  },
-  eventTime: {
-    fontSize: 12,
-    fontFamily: "Inter400",
-    textAlign: "right",
-    color: "#716E90",
-  },
-  eventDescription: {
-    display: "flex",
-    flexDirection: "row",
-    // justifyContent: "center",
-    alignItems: "center",
-    fontSize: 14,
-    fontFamily: "Inter300",
-    color: "#606060",
     marginBottom: 10,
   },
-  eventLocation: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize: 14,
-    fontFamily: "Inter400",
-    color: "#716E90",
+  eventDescription: {
+    fontSize: 16,
+    fontFamily: "Inter300",
+    color: "#30313D",
+    marginBottom: 10,
   },
   fileLink: {
     fontSize: 12,
     fontFamily: "Inter500",
     paddingHorizontal: 5,
-    color: "#716E90",
+    color: "#30313D",
     textDecorationLine: "underline",
-    textDecorationColor: "#716E90",
   },
   dwn: {
     display: "flex",
     flexDirection: "row",
   },
-
 });
 
 const SearchScreen = () => {
