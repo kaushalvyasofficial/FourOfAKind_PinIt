@@ -395,7 +395,17 @@ function AddDataScreen({ navigation }) {
               />
             )}
 
-
+            <View style={styles.noticeContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Location"
+                placeholderTextColor="#74768890"
+                value={eventData.eventLocation}
+                onChangeText={(text) =>
+                  setEventData({ ...eventData, eventLocation: text })
+                }
+              />
+            </View>
             <SelectList
               style={styles.inputdd}
               boxStyles={styles.inputdd}
@@ -555,22 +565,18 @@ function AddDataScreen({ navigation }) {
               />
             )}
 
-
-            <SelectList
-              style={styles.inputdd}
-              boxStyles={styles.inputdd}
-              dropdownTextStyles={styles.dropdownItemText}
-              inputStyles={styles.input}
-              // dropdownItemStyles={styles.dropdownItem}
-              dropdownStyles={styles.dropdown}
-              setSelected={(val) =>
-                setEventData({ ...eventData, eventLocation: val })
-              }
-              data={data}
-              placeholder="Location"
-              placeholderTextColor="#E4DFDF"
-              save="value"
-            />
+            {/* Location */}
+            <View style={styles.noticeContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Location"
+                placeholderTextColor="#74768890"
+                value={eventData.eventLocation}
+                onChangeText={(text) =>
+                  setEventData({ ...eventData, eventLocation: text })
+                }
+              />
+            </View>
 
             {/* Rest of the input fields and components */}
 
@@ -762,6 +768,8 @@ const styles = StyleSheet.create({
     color: "#212121",
   },
   spinnerText: {
+    
+    fontFamily: "Inter400",
     color: "#FFF",
   },
   toastContainer: {

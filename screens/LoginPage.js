@@ -215,6 +215,7 @@ const LoginPage = ({ navigation }) => {
         <Spinner
           visible={isLoading}
           textContent={"Signing In..."}
+          // text content style
           textStyle={styles.spinnerText}
         />
       )}
@@ -341,6 +342,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   spinnerText: {
+    fontFamily: "Inter400",
     color: "#FFF",
   },
 });

@@ -66,18 +66,14 @@ function NoticeScreenPage() {
                   resizeMode: "cover",
                 }}
               />
-              <Text style={styles.eventName}>{item.eventName}</Text>
+              <Text style={styles.eventName}>{item.noticeName}</Text>
               <Text style={styles.eventDescription}>
-                {item.eventStartDate} to {item.eventEndDate}
+                {item.noticeDate}
               </Text>
+              
+              
               <Text style={styles.eventDescription}>
-                from {item.eventStartTime} to {item.eventEndTime}
-              </Text>
-              <Text style={styles.eventDescription}>
-                At {item.eventLocation}
-              </Text>
-              <Text style={styles.eventDescription}>
-                {item.eventDescription}
+                {item.noticeDescription}
               </Text>
               {item.fileDownloadURL && (
                 <TouchableOpacity
