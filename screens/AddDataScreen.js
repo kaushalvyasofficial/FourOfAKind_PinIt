@@ -120,18 +120,7 @@ function AddDataScreen({ navigation }) {
     setShowTimePicker(true);
   };
 
-  // const handleDateChange= (e) => {
-  //   setShowDatePicker(false);
-  //   if (e.target.value) {
-  //     setSelectedDate(e.target.value);
-  //     const formattedDate = selectedDate.toLocaleDateString("en-GB");
-  //     if (selectedOption === "Notices") {
-  //       setNoticeData({ ...noticeData, noticeDate: formattedDate });
-  //     } else if (selectedOption === "Event") {
-  //       setEventData({ ...eventData,eventDate: formattedDate });
-  //     }
-  //   }
-  // };
+  
   const handleStartDateChange = (event, newDate) => {
     setShowStartDatePicker(Platform.OS === 'ios');
     if (event.type === 'set') {
@@ -149,17 +138,6 @@ function AddDataScreen({ navigation }) {
       setSelectedEndDate(newDate);
     }
   };
-  console.log(selectedDate, selectedEndDate, selectedTime)
-  // const handleDateChangeEnd= (event, selectedDate) => {
-  //   setShowDatePicker(false);
-  //   if (selectedDate) {
-  //     setSelectedEndDate(selectedDate);
-  //     const formattedDate = selectedDate.toLocaleDateString("en-GB");
-  //     if (selectedOption === "Event") {
-  //       setEventData({ ...eventData,eventEndDate: formattedDate });
-  //     }
-  //   }
-  // };
 
   const handleTimeChangeStart = (event, selectedStartTime) => {
     setShowTimePicker(false);
@@ -196,12 +174,9 @@ function AddDataScreen({ navigation }) {
 
         // Get the download URL of the uploaded file
         downloadUrl = await getDownloadURL(storageRef);
-        console.log("--------------------------------------")
-        // console.log("File download URL:", downloadUrl);
+       
         // Update the uploadedFileURI in the correct object based on the selected option
         if (selectedOption === "Notices") {
-          console.log("Inside Notices");
-          console.log("File download URL:", downloadUrl);
           setNoticeData({ ...noticeData, uploadedFileURI: await getDownloadURL(storageRef) });
 
         } else {
@@ -209,9 +184,7 @@ function AddDataScreen({ navigation }) {
         }
 
       }
-      console.log(noticeData);
-      console.log(eventData);
-
+      
       // Add notice to Firestore with the download URL (if available)
       await addDoc(collection(db, selectedOption), {
         ...(selectedOption === "Notices" ? noticeData : eventData),

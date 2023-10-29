@@ -61,11 +61,11 @@ const HomeScreen = ({ navigation }) => {
   });
 
   function handleClick() {
-    console.log("See more clicked");
+    // console.log("See more clicked");
     navigation.navigate("Event");
   }
   function handleClickNotice() {
-    console.log("See more clicked");
+    // console.log("See more clicked");
     navigation.navigate("Notice");
   }
   return (
@@ -143,6 +143,7 @@ const EventScreen = () => {
         const querySnapshot = await getDocs(q);
         const Data = querySnapshot.docs.map((doc) => doc.data());
         setEventData(Data);
+        
         // console.log('Events from Firestore:', eventData);
       } catch (error) {
         console.error("Error fetching events from Firestore:", error);
@@ -158,9 +159,8 @@ const EventScreen = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // console.log("File Download Link : ", eventData.fileDownloadURL);
   function handlePress(item) {
-    console.log(item.id);
+    console.log(item.eventName);
   }
   return (
     <SafeAreaView style={stylesEvent.container}>
@@ -170,7 +170,7 @@ const EventScreen = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={stylesEvent.card}
-            onPress={(item) => handlePress(item)}
+            onPress={()=>{handlePress(item)}}
           >
             <View>
               <Image

@@ -4,7 +4,6 @@ import Carousel from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './carousel'
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../FirebaseConfig";
-import data from "./data"
 import { TouchableOpacity } from 'react-native'
 
 export default function CarouselCardsEvent(uid) {
@@ -25,7 +24,7 @@ export default function CarouselCardsEvent(uid) {
           body: obj.eventDescription,
           imgUrl: obj.fileDownloadURL,
         }));
-        // console.log(newArray);
+        
         setEventData(newArray.slice(0,5));
       }
       catch (error) {

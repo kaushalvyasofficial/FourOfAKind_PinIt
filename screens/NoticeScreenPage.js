@@ -26,7 +26,7 @@ function NoticeScreenPage() {
         const querySnapshot = await getDocs(q);
         const Data = querySnapshot.docs.map((doc) => doc.data());
         setEventData(Data);
-        // console.log('Events from Firestore:', eventData);
+        
       } catch (error) {
         console.error("Error fetching events from Firestore:", error);
         // Handle the error as per your application's requirements
