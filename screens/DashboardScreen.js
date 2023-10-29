@@ -267,7 +267,7 @@ const stylesEvent = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Inter500",
     paddingHorizontal: 5,
-    color: "#716E90",
+    color: "#30313D",
     textDecorationLine: "underline",
   },
   eventTime: {
