@@ -1,9 +1,17 @@
 {
-    "expo": {
-      "assets": [
-        {
-          "font": "assets/fonts/Inter%20Light.ttf"
-        }
-      ]
+  "expo": {
+    "assets": [
+      {
+        "font": "assets/fonts/Inter%20Light.ttf"
+      }
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "736c2452-dc5e-4db2-8225-2204e14b68de"
+      }
+    },
+    "android": {
+      "package": "com.gourav0507.pinit"
     }
   }
+}

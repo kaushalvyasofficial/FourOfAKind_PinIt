@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  Linking
+} from "react-native";
 
 import DownLoad from "../../assets/images/download";
 import MapPin from "../../assets/images/map-pin";
 
-export const SLIDER_WIDTH = Dimensions.get('window').width + 80;
+export const SLIDER_WIDTH = Dimensions.get("window").width + 80;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
 
 export default function CarouselCardItem({ item, index }) {
   return (
     <View style={styles.container} key={index}>
-      <TouchableOpacity onPress={() => { console.log("Pressed") }}>
-        <Image
-          source={{ uri: item.imgUrl }}
-          style={styles.image}
-        />
+      <TouchableOpacity
+        onPress={() => {
+          console.log("Pressed");
+        }}
+      >
+        <Image source={{ uri: item.imgUrl }} style={styles.image} />
         <Text style={styles.header}>{item.title}</Text>
         <Text style={styles.body}>{item.body}</Text>
         <View style={styles.flex}>
@@ -23,7 +32,6 @@ export default function CarouselCardItem({ item, index }) {
             <Text style={styles.eventLocation}> {item.eventLocation} </Text>
           </View>
           <Text style={styles.eventTime}>{item.eventDate}</Text>
-
         </View>
         <View style={styles.flex}>
           <View style={styles.dwn}>
@@ -45,7 +53,7 @@ export default function CarouselCardItem({ item, index }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fafafa',
+    backgroundColor: "#fafafa",
     borderRadius: 8,
     width: ITEM_WIDTH,
     margin: "2%",

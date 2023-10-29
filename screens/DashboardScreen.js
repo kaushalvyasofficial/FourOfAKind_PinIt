@@ -12,7 +12,6 @@ import {
   Alert,
   BackHandler,
   SafeAreaView,
-
   ScrollView,
   FlatList,
 } from "react-native";
@@ -30,7 +29,6 @@ import { Feather } from "@expo/vector-icons";
 import { db } from "../FirebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from '@react-navigation/native';
 
 import CarouselCardsEvent from "./component/Carousel-Event";
 import CarouselCardsNotice from "./component/Carousel-Notice";
@@ -73,7 +71,10 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView>
         <View style={stylesHome.divCarousel}>
           <Text style={stylesHome.h1}>Recent Notices</Text>
-          <TouchableOpacity style={stylesHome.seeMoreContainer} onPress={handleClickNotice}>
+          <TouchableOpacity
+            style={stylesHome.seeMoreContainer}
+            onPress={handleClickNotice}
+          >
             <Text style={stylesHome.seeMoreText}>See more</Text>
             <Icon name="chevron-right" style={stylesHome.seeMoreIcon} />
           </TouchableOpacity>
@@ -81,7 +82,10 @@ const HomeScreen = ({ navigation }) => {
         <CarouselCardsNotice />
         <View style={stylesHome.divCarousel}>
           <Text style={stylesHome.h1}>Recent Events</Text>
-          <TouchableOpacity style={stylesHome.seeMoreContainer} onPress={handleClick}>
+          <TouchableOpacity
+            style={stylesHome.seeMoreContainer}
+            onPress={handleClick}
+          >
             <Text style={stylesHome.seeMoreText}>See more</Text>
             <Icon name="chevron-right" style={stylesHome.seeMoreIcon} />
           </TouchableOpacity>
@@ -96,41 +100,38 @@ const stylesHome = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   h1: {
     fontSize: 24,
-    fontFamily: 'Inter500',
+    fontFamily: "Inter500",
     paddingHorizontal: 12,
   },
   seeMoreContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   seeMoreText: {
-    fontFamily: 'Inter400',
+    fontFamily: "Inter400",
     paddingRight: 8,
     fontSize: 15,
-    color: '#212121',
+    color: "#212121",
   },
   seeMoreIcon: {
     fontSize: 15,
-    color: '#212121', // You can choose your preferred color
+    color: "#212121", // You can choose your preferred color
   },
   divCarousel: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '80%',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "80%",
     // marginBottom: 10,
   },
 });
-
-
-
 
 const EventScreen = () => {
   const [eventData, setEventData] = useState([]);
@@ -143,7 +144,7 @@ const EventScreen = () => {
         const querySnapshot = await getDocs(q);
         const Data = querySnapshot.docs.map((doc) => doc.data());
         setEventData(Data);
-        
+
         // console.log('Events from Firestore:', eventData);
       } catch (error) {
         console.error("Error fetching events from Firestore:", error);
@@ -166,11 +167,15 @@ const EventScreen = () => {
     <SafeAreaView style={stylesEvent.container}>
       <FlatList
         data={eventData}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item , id)=>{
+          return item.id
+        }}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={stylesEvent.card}
-            onPress={()=>{handlePress(item)}}
+            onPress={() => {
+              handlePress(item);
+            }}
           >
             <View>
               <Image
@@ -184,15 +189,19 @@ const EventScreen = () => {
                 }}
               />
               <Text style={stylesEvent.eventName}>{item.eventName}</Text>
-              <Text style={stylesEvent.eventDescription}>{item.eventDescription}</Text>
+              <Text style={stylesEvent.eventDescription}>
+                {item.eventDescription}
+              </Text>
 
               <View style={stylesEvent.flex}>
                 <View style={stylesEvent.dwn}>
                   <MapPin width={20} height={20} />
-                  <Text style={stylesEvent.eventLocation}> {item.eventLocation} </Text>
+                  <Text style={stylesEvent.eventLocation}>
+                    {" "}
+                    {item.eventLocation}{" "}
+                  </Text>
                 </View>
                 <Text style={stylesEvent.eventTime}>{item.eventDate}</Text>
-
               </View>
               <View style={stylesEvent.flex}>
                 <View style={stylesEvent.dwn}>
@@ -213,7 +222,7 @@ const EventScreen = () => {
       />
     </SafeAreaView>
   );
-}
+};
 
 const stylesEvent = StyleSheet.create({
   container: {
@@ -282,18 +291,18 @@ const stylesEvent = StyleSheet.create({
 });
 
 const SearchScreen = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedTag, setSelectedTag] = useState(null);
 
   // Function to fetch data from Firestore based on search query and selected tag
   const fetchData = async () => {
-    const dataRef = collection(db, selectedTag || 'data'); // Replace 'YourCollection' with your Firestore collection name
+    const dataRef = collection(db, selectedTag || "data"); // Replace 'YourCollection' with your Firestore collection name
 
     let baseQuery = query(dataRef);
 
     if (searchQuery) {
-      baseQuery = query(dataRef, where('noticeName', '>=', searchQuery));
+      baseQuery = query(dataRef, where("noticeName", ">=", searchQuery));
     }
 
     const querySnapshot = await getDocs(baseQuery);
@@ -314,9 +323,24 @@ const SearchScreen = () => {
         onChangeText={(text) => setSearchQuery(text)}
       />
       <View style={stylesSearch.tagsContainer}>
-        <TouchableOpacity style={stylesSearch.btn} onPress={() => setSelectedTag(null)} ><Text style={stylesSearch.eventbtn}>All</Text></TouchableOpacity>
-        <TouchableOpacity style={stylesSearch.btn} onPress={() => setSelectedTag('Notices')} ><Text style={stylesSearch.eventbtn}>Notices</Text></TouchableOpacity>
-        <TouchableOpacity style={stylesSearch.btn} onPress={() => setSelectedTag('Events')} ><Text style={stylesSearch.eventbtn}>Events</Text></TouchableOpacity>
+        <TouchableOpacity
+          style={stylesSearch.btn}
+          onPress={() => setSelectedTag(null)}
+        >
+          <Text style={stylesSearch.eventbtn}>All</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={stylesSearch.btn}
+          onPress={() => setSelectedTag("Notices")}
+        >
+          <Text style={stylesSearch.eventbtn}>Notices</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={stylesSearch.btn}
+          onPress={() => setSelectedTag("Events")}
+        >
+          <Text style={stylesSearch.eventbtn}>Events</Text>
+        </TouchableOpacity>
       </View>
       <Text style={stylesSearch.sectionTitle}>Filtered Data:</Text>
       <FlatList
@@ -329,22 +353,25 @@ const SearchScreen = () => {
           >
             <View style={stylesSearch.cardContent}>
               <Image
-                source={{ uri: item.uploadedFileURI }
-                }
+                source={{ uri: item.uploadedFileURI }}
                 style={stylesSearch.cardImage}
               />
               <View style={stylesSearch.cardText}>
-                <Text style={stylesEvent.eventName}>{item.eventName || item.noticeName}</Text>
+                <Text style={stylesEvent.eventName}>
+                  {item.eventName || item.noticeName}
+                </Text>
                 <Text style={stylesEvent.eventDescription}>
                   {item.eventDescription || item.description}
                 </Text>
                 <View style={stylesEvent.flex}>
                   <View style={stylesEvent.dwn}>
                     <MapPin width={20} height={20} />
-                    <Text style={stylesEvent.eventLocation}> {item.eventLocation} </Text>
+                    <Text style={stylesEvent.eventLocation}>
+                      {" "}
+                      {item.eventLocation}{" "}
+                    </Text>
                   </View>
                   <Text style={stylesEvent.eventTime}>{item.eventDate}</Text>
-
                 </View>
                 <View style={stylesEvent.flex}>
                   <View style={stylesEvent.dwn}>
@@ -372,18 +399,18 @@ const stylesSearch = StyleSheet.create({
   searchInput: {
     height: 60,
     borderWidth: 1,
-    borderColor: '#60606060',
+    borderColor: "#60606060",
     borderRadius: 16,
     paddingHorizontal: 10,
     marginBottom: 10,
-    fontFamily: 'Inter300',
+    fontFamily: "Inter300",
   },
   tagsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '80%',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "80%",
     marginBottom: 10,
   },
   container: {
@@ -402,7 +429,7 @@ const stylesSearch = StyleSheet.create({
     height: 40,
     width: 100,
   },
-  eventbtn:{
+  eventbtn: {
     color: "#fff",
     fontSize: 14,
     fontFamily: "Inter400",
@@ -553,7 +580,6 @@ const DashboardScreen = ({ navigation }) => {
           },
         }}
       />
-
 
       <Tab.Screen
         name="FloatingButtonScreen"

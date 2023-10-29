@@ -8,6 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import { collection, addDoc } from "firebase/firestore";
@@ -32,17 +33,16 @@ function AddDataScreen({ navigation }) {
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedOption, setSelectedOption] = useState("Notices"); // Default to 'Notices'
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [noticeDatePicker, setNoticeDatePicker] = useState(new Date());
+  const [showNoticeDatePicker, setShowNoticeDatePicker] = useState(false);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [selectedEndDate, setSelectedEndDate] = useState(new Date());
-  const [showDatepicker, setShowDatepicker] = useState(false);
   const [noticeData, setNoticeData] = useState({
     noticeName: "",
     noticeID: "",
@@ -57,9 +57,10 @@ function AddDataScreen({ navigation }) {
 
   const [eventData, setEventData] = useState({
     eventName: "",
-    eventIDDate: "",
+    eventDate: "",
+    eventEndDate: "",
     eventTime: "",
-
+    eventauthorizedBy: "",
     eventLocation: "",
     eventDescription: "",
     uploadedFileURI: null,
@@ -68,7 +69,7 @@ function AddDataScreen({ navigation }) {
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setUploadedFile(null); // Clear any uploaded file
-    setShowDatePicker(false); // Close the date picker
+    setShowNoticeDatePicker(false); // Close the date picker
 
     // Reset the form data based on the selected option
     if (option === "Notices") {
@@ -101,12 +102,15 @@ function AddDataScreen({ navigation }) {
     const file = await DocumentPicker.getDocumentAsync();
 
     if (file.assets) {
-
       setUploadedFile(file);
       setIsFileUploaded(true);
     } else {
       console.log("file not selected");
     }
+  };
+
+  const NoticeDatePicker = () => {
+    setShowNoticeDatePicker(true);  
   };
 
   const showStartDatepicker = () => {
@@ -120,10 +124,18 @@ function AddDataScreen({ navigation }) {
     setShowTimePicker(true);
   };
 
-  
+  const handleNoticeDateChange = (notice, newDate) => {
+    setShowNoticeDatePicker(Platform.OS === "ios");
+    if (notice.type === "set") {
+      const formattedDate = newDate.toLocaleDateString();
+      setNoticeData({ ...noticeData, noticeDate: formattedDate });
+      setNoticeDatePicker(newDate);
+    }
+  };
+
   const handleStartDateChange = (event, newDate) => {
-    setShowStartDatePicker(Platform.OS === 'ios');
-    if (event.type === 'set') {
+    setShowStartDatePicker(Platform.OS === "ios");
+    if (event.type === "set") {
       const formattedDate = newDate.toLocaleDateString();
       setEventData({ ...eventData, eventDate: formattedDate });
       setSelectedStartDate(newDate);
@@ -131,8 +143,8 @@ function AddDataScreen({ navigation }) {
   };
 
   const handleEndDateChange = (event, newDate) => {
-    setShowEndDatePicker(Platform.OS === 'ios');
-    if (event.type === 'set') {
+    setShowEndDatePicker(Platform.OS === "ios");
+    if (event.type === "set") {
       const formattedDate = newDate.toLocaleDateString();
       setEventData({ ...eventData, eventEndDate: formattedDate });
       setSelectedEndDate(newDate);
@@ -149,10 +161,6 @@ function AddDataScreen({ navigation }) {
       }
     }
   };
-
-
-
-
 
   const handleAddNotice = async () => {
     // console.log(eventData)
@@ -174,17 +182,21 @@ function AddDataScreen({ navigation }) {
 
         // Get the download URL of the uploaded file
         downloadUrl = await getDownloadURL(storageRef);
-       
+
         // Update the uploadedFileURI in the correct object based on the selected option
         if (selectedOption === "Notices") {
-          setNoticeData({ ...noticeData, uploadedFileURI: await getDownloadURL(storageRef) });
-
+          setNoticeData({
+            ...noticeData,
+            uploadedFileURI: await getDownloadURL(storageRef),
+          });
         } else {
-          setEventData({ ...eventData, uploadedFileURI: await getDownloadURL(storageRef) });
+          setEventData({
+            ...eventData,
+            uploadedFileURI: await getDownloadURL(storageRef),
+          });
         }
-
       }
-      
+
       // Add notice to Firestore with the download URL (if available)
       await addDoc(collection(db, selectedOption), {
         ...(selectedOption === "Notices" ? noticeData : eventData),
@@ -192,7 +204,7 @@ function AddDataScreen({ navigation }) {
         // selectedOption: selectedOption,
       });
 
-      await addDoc(collection(db, 'data'), {
+      await addDoc(collection(db, "data"), {
         ...(selectedOption === "Notices" ? noticeData : eventData),
         fileDownloadURL: downloadUrl,
         // selectedOption: selectedOption,
@@ -354,17 +366,17 @@ function AddDataScreen({ navigation }) {
                 onChangeText={(text) =>
                   setNoticeData({ ...noticeData, noticeData: text })
                 }
-                onFocus={showDatepicker}
+                onFocus={NoticeDatePicker}
               />
             </View>
-            {showDatePicker && (
+            {showNoticeDatePicker && (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={selectedDate}
+                value={noticeDatePicker}
                 mode="datetime"
                 is24Hour={true}
-                display="spinner"
-                onChange={handleDateChange}
+                display="default"
+                onChange={handleNoticeDateChange}
               />
             )}
 
@@ -589,7 +601,9 @@ function AddDataScreen({ navigation }) {
 
         {/* Add Notice Button */}
         <View style={styles.btnpd}>
-          <TouchableOpacity style={styles.btn} onPress={handleAddNotice}
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={handleAddNotice}
             disabled={!isFileUploaded}
           >
             <Text style={styles.btnText}>ADD </Text>
@@ -741,7 +755,6 @@ const styles = StyleSheet.create({
     color: "#212121",
   },
   spinnerText: {
-    
     fontFamily: "Inter400",
     color: "#FFF",
   },
