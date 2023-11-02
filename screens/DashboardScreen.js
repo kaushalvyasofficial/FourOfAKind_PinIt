@@ -293,16 +293,16 @@ const stylesEvent = StyleSheet.create({
 const SearchScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [selectedTag, setSelectedTag] = useState(null);
+  const [selectedTag, setSelectedTag] = useState("data");
 
   // Function to fetch data from Firestore based on search query and selected tag
   const fetchData = async () => {
-    const dataRef = collection(db, selectedTag || "data"); // Replace 'YourCollection' with your Firestore collection name
+    const dataRef = collection(db, selectedTag);
 
     let baseQuery = query(dataRef);
 
     if (searchQuery) {
-      baseQuery = query(dataRef, where("noticeName", ">=", searchQuery));
+      baseQuery = query(dataRef, where(selectedTag, ">=", searchQuery));
     }
 
     const querySnapshot = await getDocs(baseQuery);
@@ -325,7 +325,7 @@ const SearchScreen = () => {
       <View style={stylesSearch.tagsContainer}>
         <TouchableOpacity
           style={stylesSearch.btn}
-          onPress={() => setSelectedTag(null)}
+          onPress={() => setSelectedTag("data")}
         >
           <Text style={stylesSearch.eventbtn}>All</Text>
         </TouchableOpacity>
@@ -337,7 +337,7 @@ const SearchScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={stylesSearch.btn}
-          onPress={() => setSelectedTag("Events")}
+          onPress={() => setSelectedTag("Event")}
         >
           <Text style={stylesSearch.eventbtn}>Events</Text>
         </TouchableOpacity>
