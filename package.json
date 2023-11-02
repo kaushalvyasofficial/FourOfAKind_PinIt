@@ -6,8 +6,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "postinstall": "patch-package"
+    "web": "expo start --web"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
@@ -41,6 +40,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
+  }, 
+  "resolutions": {
+    "@expo/config-plugins": "~7.2.2",
+    "@expo/prebuild-config": "~6.2.4"
   },
   "private": true
 }
