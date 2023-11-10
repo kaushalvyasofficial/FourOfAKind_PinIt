@@ -1,0 +1,16 @@
+diff --git a/node_modules/react-native-date-picker/android/src/main/java/com/henninghall/date_picker/DatePickerModuleImpl.java b/node_modules/react-native-date-picker/android/src/main/java/com/henninghall/date_picker/DatePickerModuleImpl.java
+index c731e66..adcdd9f 100644
+--- a/node_modules/react-native-date-picker/android/src/main/java/com/henninghall/date_picker/DatePickerModuleImpl.java
++++ b/node_modules/react-native-date-picker/android/src/main/java/com/henninghall/date_picker/DatePickerModuleImpl.java
+@@ -20,6 +20,11 @@ public class DatePickerModuleImpl {
+     public static final String NAME = "RNDatePicker";
+     private AlertDialog dialog;
+ 
++            @Override    
++        public boolean canOverrideExistingModule() {        
++        return true;    
++        }  
++
+     DatePickerModuleImpl(Context context) {
+         ApplicationStarter.initialize(context, false); // false = no need to prefetch on time data background tread
+     }
