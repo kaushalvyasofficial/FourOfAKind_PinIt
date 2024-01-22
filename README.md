@@ -23,8 +23,6 @@ Follow these steps to get the PIN-IT App up and running on your device:
 
 `git clone https://github.com/yourusername/pin-it-app.git`
 
-`cd pin-it-app` 
-
 `npm install` 
 
 `npx react-native run-android` 
